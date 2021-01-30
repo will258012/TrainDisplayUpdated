@@ -28,6 +28,8 @@ namespace TrainDisplay.UI
         private GUIStyle style = new GUIStyle();
 
         public string testString = "test";
+        public string next = "";
+        public string forText = "";
 
         private void OnGUI()
         {
@@ -36,8 +38,9 @@ namespace TrainDisplay.UI
             style.fontSize = 20;
             style.normal.textColor = Color.white;
             style.alignment = TextAnchor.UpperCenter;
+            style.wordWrap = true;
 
-            GUI.Label(testRect, testString, style);
+            GUI.Label(testRect, testString + "\nNext: " + next + " For: " + forText, style);
         }
     }
 }

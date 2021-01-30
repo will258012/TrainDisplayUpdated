@@ -6,12 +6,13 @@ namespace TrainDisplay.Utils
 {
     class StationUtils
     {
-        public static readonly TransferManager.TransferReason[] allowedReason =
+        public static readonly TransportInfo.TransportType[] stationTransportType =
         {
-            TransferManager.TransferReason.MetroTrain,
-            TransferManager.TransferReason.PassengerTrain
+            TransportInfo.TransportType.Train,
+            TransportInfo.TransportType.Metro,
+            TransportInfo.TransportType.Monorail
         };
-        public static string GetStopName(ushort stopId, ItemClass.SubService ss)
+        public static string GetStopName(ushort stopId)
         {
             InstanceID id = default;
             id.NetNode = stopId;
@@ -22,28 +23,41 @@ namespace TrainDisplay.Utils
             }
 
             NetManager nm = Singleton<NetManager>.instance;
-            BuildingManager bm = Singleton<BuildingManager>.instance;
             NetNode nn = nm.m_nodes.m_buffer[(int)stopId];
-            ushort buildingId = FindBuilding(nn.m_position, 100f, ItemClass.Service.PublicTransport, ss, allowedReason, Building.Flags.None, Building.Flags.Untouchable);
+            ushort buildingId = FindBuilding(nn.m_position, 100f);
+            return GetBuildingName(buildingId) ?? "[" + stopId + "," + buildingId + "]";
+        }
+
+        public static string GetBuildingName(ushort buildingId)
+        {
             InstanceID bid = default;
             bid.Building = buildingId;
             return Singleton<BuildingManager>.instance.GetBuildingName(buildingId, bid);
         }
 
-        public static string GetStationName(ushort stopId, ItemClass.SubService ss)
+        public static string GetStationName(ushort stopId)
         {
-            return GetStopName(stopId, ss) ?? "(" + stopId + ")";
+            return GetStopName(stopId) ?? "(" + stopId + ")";
         }
 
-        public static ushort FindBuilding(Vector3 pos, float maxDistance, ItemClass.Service service, ItemClass.SubService subService, TransferManager.TransferReason[] allowedTypes, Building.Flags flagsRequired, Building.Flags flagsForbidden)
+        public static ushort FindBuilding(Vector3 pos, float maxDistance)
         {
             BuildingManager bm = Singleton<BuildingManager>.instance;
+            foreach (var tType in stationTransportType)
+            {
+                ushort stationId = bm.FindTransportBuilding(pos, maxDistance, tType);
+                if (stationId != 0)
+                {
+                    return stationId;
+                }
+            }
+            return 0;
             //if (allowedTypes == null || allowedTypes.Length == 0)
             //{
             //    return bm.FindBuilding(pos, maxDistance, service, subService, flagsRequired, flagsForbidden);
             //}
 
-
+            /*
             int num = Mathf.Max((int)(((pos.x - maxDistance) / 64f) + 135f), 0);
             int num2 = Mathf.Max((int)(((pos.z - maxDistance) / 64f) + 135f), 0);
             int num3 = Mathf.Min((int)(((pos.x + maxDistance) / 64f) + 135f), 269);
@@ -78,7 +92,23 @@ namespace TrainDisplay.Utils
                     }
                 }
             }
+            
             return result;
+            */
+        }
+
+        public static string[] stationSuffix = { "駅", "Station" };
+
+        public static string removeStationSuffix(string stationName)
+        {
+            foreach (var suffix in stationSuffix)
+            {
+                if (stationName.EndsWith(suffix))
+                {
+                    return stationName.Remove(stationName.Length - suffix.Length);
+                }
+            }
+            return stationName;
         }
     }
 }
