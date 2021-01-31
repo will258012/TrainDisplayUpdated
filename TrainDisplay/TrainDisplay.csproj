@@ -64,6 +64,9 @@
     <Compile Include="TrainDisplayMod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\DisplayUI.cs" />
+    <Compile Include="Utils\AStringUtils.cs" />
+    <Compile Include="Utils\PositionUtils.cs" />
+    <Compile Include="Utils\LoopCounter.cs" />
     <Compile Include="Utils\Log.cs" />
     <Compile Include="Utils\CodeUtils.cs" />
     <Compile Include="Utils\StationUtils.cs" />

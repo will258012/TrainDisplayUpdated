@@ -3,6 +3,7 @@ using UnityEngine;
 using TrainDisplay.Utils;
 using TrainDisplay.UI;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TrainDisplay
 {
@@ -15,7 +16,7 @@ namespace TrainDisplay
         ushort[] stationIdList;
         string[] stationNameList;
         List<int> terminalList;
-        int nowPos;
+        LoopCounter nowPos;
         int routeStart;
         int routeEnd;
 
@@ -48,6 +49,7 @@ namespace TrainDisplay
             VehicleInfo info = firstVehicle.Info;
 
             if (info.m_vehicleType == VehicleInfo.VehicleType.Train || info.m_vehicleType == VehicleInfo.VehicleType.Metro) {
+                //Log.Message("A");
                 DisplayUI.Instance.testString = "";
                 terminalList.Clear();
 
@@ -56,11 +58,18 @@ namespace TrainDisplay
                 TransportInfo tInfo = line.Info;
                 int stopsNumber = line.CountStops(lineId);
 
+                if (stopsNumber == 0)
+                {
+                    return false;
+                }
+
+                //Log.Message("B");
+
                 stationIdList = new ushort[stopsNumber];
                 stationNameList = new string[stopsNumber];
+                nowPos = new LoopCounter(stopsNumber);
 
-                ushort nextStopId = firstVehicle.m_targetBuilding;
-                ushort nowPosId = TransportLine.GetPrevStop(nextStopId);
+                ushort nowPosId = firstVehicle.m_targetBuilding;
 
 
                 // 駅リストを作成
@@ -74,11 +83,18 @@ namespace TrainDisplay
                     
                     if (nowPosId == stationId)
                     {
-                        nowPos = i;
+                        nowPos.Value = i;
                     }
                 }
 
-                
+                //  Log.Message("C");
+
+                DisplayUI.Instance.next = stationNameList[nowPos.Value];
+                DisplayUI.Instance.prevText = stationNameList[(nowPos - 1).Value];
+
+                //Log.Message("D");
+
+
                 // 終点駅リストを作成
                 for (int i = 0; i < stopsNumber; i++)
                 {
@@ -91,10 +107,14 @@ namespace TrainDisplay
                     }
                 }
 
+                //Log.Message("E");
+
 
                 routeUpdate();
 
-                Log.Message(DisplayUI.Instance.testString);
+                DisplayUI.Instance.lineColor = line.GetColor();
+
+                //Log.Message(DisplayUI.Instance.testString);
                 Log.Message("LineTrainID " + line.m_vehicles);
 
                 return true;
@@ -112,12 +132,12 @@ namespace TrainDisplay
                 routeEnd = 0;
                 return;
             }
-            int tIndex = terminalList.BinarySearch(nowPos);
+            int tIndex = terminalList.BinarySearch(nowPos.Value);
             if (tIndex < 0)
             {
                 tIndex = ~tIndex;
             }
-            Log.Message("TIndex: " + tIndex);
+            // Log.Message("TIndex: " + tIndex);
 
             routeStart = terminalList[(tIndex - 1 + terminalList.Count) % terminalList.Count];
             routeEnd = terminalList[tIndex % terminalList.Count];
@@ -129,15 +149,15 @@ namespace TrainDisplay
         {
             List<int> tmpList = new List<int>();
             tmpList.Add(routeStart);
-            int stationIndex = (routeStart + 1) % stationNameList.Length;
+            LoopCounter stationIndex = new LoopCounter(stationNameList.Length, routeStart + 1);
             while (true)
             {
-                tmpList.Add(stationIndex);
+                tmpList.Add(stationIndex.Value);
                 if (stationIndex == routeEnd)
                 {
                     break;
                 }
-                stationIndex = (stationIndex + 1) % stationNameList.Length;
+                stationIndex++;
             }
             return tmpList.ToArray();
         }
@@ -147,17 +167,12 @@ namespace TrainDisplay
             UpdateRouteIndices();
             DisplayUI.Instance.testString = "";
             var stopIndices = GetStationIndicesOnRoute();
-            bool firstFlag = true;
-            foreach (var stop in stopIndices)
+            var routeStations = new string[stopIndices.Length];
+            for (int i = 0; i < stopIndices.Length; i++)
             {
-                Log.Message("Stop:" + stop);
-                if (!firstFlag)
-                {
-                    DisplayUI.Instance.testString += " => ";
-                }
-                DisplayUI.Instance.testString += stationNameList[stop];
-                firstFlag = false;
+                routeStations[i] = stationNameList[stopIndices[i]];
             }
+            DisplayUI.Instance.routeStations = routeStations;
             DisplayUI.Instance.forText = stationNameList[routeEnd];
         }
 
@@ -168,10 +183,13 @@ namespace TrainDisplay
             ushort nextStop = trainVehicle.m_targetBuilding;
             string targetBuilding = StationUtils.removeStationSuffix(StationUtils.GetStationName(nextStop));
 
-            if (targetBuilding != stationNameList[nowPos])
+            DisplayUI.Instance.stopping = (trainVehicle.m_flags & Vehicle.Flags.Stopped) != 0;
+
+            if (targetBuilding != stationNameList[nowPos.Value])
             {
-                int beforePos = nowPos;
-                nowPos = (nowPos + 1) % stationNameList.Length;
+                int beforePos = nowPos.Value;
+                nowPos++;
+                DisplayUI.Instance.prevText = DisplayUI.Instance.next;
                 DisplayUI.Instance.next = targetBuilding;
 
                 if (beforePos == routeEnd)
