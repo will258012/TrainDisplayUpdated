@@ -15,8 +15,21 @@ namespace TrainDisplay
 
         public string Description
         {
-            get { return "I made this with VS2017"; }
+            get { return "Japanese Style Train Display"; }
         }
+
+        /*
+        public void OnSettingsUI(UIHelperBase helper)
+        {
+            TrainDisplayConfiguration config = Configuration<TrainDisplayConfiguration>.Load();
+
+            helper.AddSlider("Display Width", 128, 2048, 1, config.DisplayWidth, width =>
+            {
+                config.DisplayWidth = (int)width;
+                Configuration<TrainDisplayConfiguration>.Save();
+            });
+        }
+        */
 
         public void OnCreated(ILoading loading)
         {

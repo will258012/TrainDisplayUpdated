@@ -11,10 +11,26 @@ namespace TrainDisplay
 	{
 
 		public static TrainDisplayMain instance;
+	    private static TrainDisplayConfiguration config;
+		public static TrainDisplayConfiguration Config
+        {
+            get
+            {
+				if (config == null)
+                {
+					config = Configuration<TrainDisplayConfiguration>.Load();
+				}
+				return config;
+            }
+        }
 
 		VehicleManager vManager;
 		public static void Initialize(LoadMode mode)
 		{
+			if (!ModUtils.FindFPSMod())
+            {
+				return;
+            }
 			GameObject gameObject = new GameObject();
 			instance = gameObject.AddComponent<TrainDisplayMain>();
 
@@ -22,7 +38,10 @@ namespace TrainDisplay
 
 		public static void Deinitialize()
 		{
-			Destroy(instance);
+			if (instance != null)
+			{
+				Destroy(instance);
+			}
 		}
 
 		void Awake()

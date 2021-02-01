@@ -62,11 +62,18 @@ namespace TrainDisplay.UI
         public string testString = "test";
         public string next = "";
         public string prevText = "";
-        public string forText = "";
         public bool stopping = false;
         public Color lineColor = Color.white;
-        public string[] routeStations = { };
-        public bool Circular => routeStations[0] == routeStations[routeStations.Length - 1];
+
+        public bool circular = false;
+
+        private string[] routeStations = { };
+        private string[] verticalRouteStations = { };
+
+        private Rect[] stationNameRects = { };
+        private Rect[] stationCirclesRects = { };
+        private int[] stationNamePositions = { };
+        private int itemNumber = 0;
 
         void Awake()
         {
@@ -85,12 +92,10 @@ namespace TrainDisplay.UI
             nextHeadStyle.fontSize = (int)(20 * ratio);
             nextHeadStyle.normal.textColor = Color.white;
             nextHeadStyle.alignment = TextAnchor.MiddleLeft;
-            nextHeadStyle.wordWrap = true;
 
             nextStyle.fontSize = (int)(45 * ratio);
             nextStyle.normal.textColor = Color.white;
             nextStyle.alignment = TextAnchor.MiddleCenter;
-            nextStyle.wordWrap = true;
 
             stationNameStyle.fontSize = (int)(20 * ratio);
             stationNameStyle.normal.textColor = Color.black;
@@ -168,6 +173,39 @@ namespace TrainDisplay.UI
             arrowStyle.normal.background = arrowTexture;
         }
 
+        public void UpdateRouteStations(string[] newRouteStations, bool circular)
+        {
+            routeStations = newRouteStations;
+            this.circular = circular;
+
+            verticalRouteStations = new string[routeStations.Length];
+            for (int i = 0; i < routeStations.Length; i++)
+            {
+                verticalRouteStations[i] = AStringUtils.CreateVerticalString(routeStations[i], 4);
+            }
+
+            itemNumber = Math.Min(routeStations.Length, 6);
+            stationNameRects = new Rect[itemNumber];
+            stationCirclesRects = new Rect[itemNumber];
+            stationNamePositions = PositionUtils.positionsJustifyCenter(arrowLineLength, arrowLineLength / 6, itemNumber);
+            for (int i = 0; i < itemNumber; i++)
+            {
+                stationNameRects[i] = new Rect(
+                    (int)(baseX + (26 * ratio)) + stationNamePositions[i],
+                    (int)(baseY + (116 * ratio)),
+                    arrowLineLength / 6,
+                    (int)(94 * ratio)
+                );
+
+                stationCirclesRects[i] = new Rect(
+                    (int)(baseX + (26 * ratio)) + stationNamePositions[i] + (arrowLineLength / 6 / 2 - (int)(13 * ratio)),
+                    (int)(baseY + ((220 + 2) * ratio)),
+                    (int)(26 * ratio),
+                    (int)(26 * ratio)
+                );
+            }
+        }
+
         private void OnGUI()
         {
             //GUI.Box(screenRect, "");
@@ -180,7 +218,7 @@ namespace TrainDisplay.UI
             GUI.Box(bodyLineRect, "", boxStyle);
 
             string shownForText;
-            if (Circular)
+            if (circular)
             {
                 int index = Array.FindIndex(routeStations, (str) => str == prevText);
                 index = ((index / 3) + 1) * 3;
@@ -191,10 +229,10 @@ namespace TrainDisplay.UI
                 shownForText = routeStations[index];
             } else
             {
-                shownForText = forText;
+                shownForText = routeStations[routeStations.Length - 1];
             }
             GUI.Label(bodyForTextRect, shownForText, forStyle);
-            GUI.Label(bodyForSuffixTextRect, Circular ? "方面 " : "ゆき ", forSuffixStyle);
+            GUI.Label(bodyForSuffixTextRect, circular ? "方面 " : "ゆき ", forSuffixStyle);
             GUI.Label(bodyNextHeadTextRect, stopping ? "ただいま" : "次は", nextHeadStyle);
             GUI.Label(bodyNextTextRect, stopping ? prevText : next, nextStyle);
 
@@ -205,33 +243,19 @@ namespace TrainDisplay.UI
             GUI.backgroundColor = lineColor;
             GUI.Box(bodyArrowLineRect, "", arrowRectStyle);
 
-            int itemNumber = Math.Min(routeStations.Length, 6);
-            int startIndex = Circular ? Array.FindIndex(routeStations, (str) => str == prevText) : Math.Min(Array.FindIndex(routeStations, (str) => str == prevText), routeStations.Length - itemNumber);
-            int[] positions = PositionUtils.positionsJustifyCenter(arrowLineLength, arrowLineLength / 6, itemNumber);
+            int startIndex = circular ? Array.FindIndex(routeStations, (str) => str == prevText) : Math.Min(Array.FindIndex(routeStations, (str) => str == prevText), routeStations.Length - itemNumber);
             int nowItemIndex = 0;
             for (int i = 0; i < itemNumber; i++)
             {
-                /*
-                GUI.Box(new Rect(
-                        (int)(baseX + (26 * ratio)) + positions[i],
-                        (int)(baseY + (116 * ratio)),
-                        arrowLineLength / 6,
-                        (int)(90 * ratio)
-                    ), "", boxStyle);
-                */
-                string sta = routeStations[new LoopCounter(Circular ? routeStations.Length - 1 : routeStations.Length, startIndex + i).Value];
+                int routeIndex = new LoopCounter(routeStations.Length, startIndex + i).Value;
+                string sta = routeStations[routeIndex];
                 if (sta == prevText) {
                     nowItemIndex = i;
                 }
 
                 GUI.Label(
-                    new Rect(
-                        (int)(baseX + (26 * ratio)) + positions[i],
-                        (int)(baseY + (116 * ratio)),
-                        arrowLineLength / 6,
-                        (int)(94 * ratio)
-                    ),
-                    AStringUtils.CreateVerticalString(sta, 4),
+                    stationNameRects[i],
+                    verticalRouteStations[routeIndex],
                     stationNameStyle
                 );
             }
@@ -244,22 +268,17 @@ namespace TrainDisplay.UI
                     continue;
                 }
                 GUI.Box(
-                    new Rect(
-                        (int)(baseX + (26 * ratio)) + positions[i] + (arrowLineLength / 6 / 2 - (int)(13 * ratio)),
-                        (int)(baseY + ((220 + 2) * ratio)),
-                        (int)(26 * ratio),
-                        (int)(26 * ratio)
-                    ),
+                    stationCirclesRects[i],
                     "",
                     circleStyle
                 );
             }
-            int circleDiff = positions[1] - positions[0];
+            int circleDiff = stationNamePositions[1] - stationNamePositions[0];
             
             GUI.backgroundColor = Color.white;
             GUI.Box(
                 new Rect(
-                    (int)(baseX + (26 * ratio)) + positions[nowItemIndex] + (arrowLineLength / 6 / 2 - arrowLength / 2) + (stopping ? 0 : (circleDiff / 2)),
+                    (int)(baseX + (26 * ratio)) + stationNamePositions[nowItemIndex] + (arrowLineLength / 6 / 2 - arrowLength / 2) + (stopping ? 0 : (circleDiff / 2)),
                     (int)(baseY + ((220) * ratio)),
                     arrowLength,
                     arrowHeight

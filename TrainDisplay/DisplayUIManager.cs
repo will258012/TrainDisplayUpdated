@@ -15,10 +15,12 @@ namespace TrainDisplay
 
         ushort[] stationIdList;
         string[] stationNameList;
-        List<int> terminalList;
+        List<int> terminalList = new List<int>();
         LoopCounter nowPos;
         int routeStart;
         int routeEnd;
+
+        bool Circular => terminalList.Count == 0;
 
         private static DisplayUIManager instance;
 
@@ -38,7 +40,6 @@ namespace TrainDisplay
         {
             vManager = VehicleManager.instance;
             tManager = TransportManager.instance;
-            terminalList = new List<int>();
         }
         public bool SetTrain(ushort followInstance)
         {
@@ -48,7 +49,7 @@ namespace TrainDisplay
 
             VehicleInfo info = firstVehicle.Info;
 
-            if (info.m_vehicleType == VehicleInfo.VehicleType.Train || info.m_vehicleType == VehicleInfo.VehicleType.Metro) {
+            if (info.m_vehicleType == VehicleInfo.VehicleType.Train || info.m_vehicleType == VehicleInfo.VehicleType.Metro || info.m_vehicleType == VehicleInfo.VehicleType.Monorail) {
                 //Log.Message("A");
                 DisplayUI.Instance.testString = "";
                 terminalList.Clear();
@@ -129,7 +130,7 @@ namespace TrainDisplay
             if (terminalList.Count == 0)
             {
                 routeStart = 0;
-                routeEnd = 0;
+                routeEnd = stationNameList.Length - 1;
                 return;
             }
             int tIndex = terminalList.BinarySearch(nowPos.Value);
@@ -165,15 +166,13 @@ namespace TrainDisplay
         void routeUpdate()
         {
             UpdateRouteIndices();
-            DisplayUI.Instance.testString = "";
             var stopIndices = GetStationIndicesOnRoute();
             var routeStations = new string[stopIndices.Length];
             for (int i = 0; i < stopIndices.Length; i++)
             {
                 routeStations[i] = stationNameList[stopIndices[i]];
             }
-            DisplayUI.Instance.routeStations = routeStations;
-            DisplayUI.Instance.forText = stationNameList[routeEnd];
+            DisplayUI.Instance.UpdateRouteStations(routeStations, Circular);
         }
 
         public void updateNext()
