@@ -97,13 +97,13 @@ namespace TrainDisplay.Utils
             */
         }
 
-        public static string[] stationSuffix = { "駅", "Station" };
+        public static string[] stationSuffix = { "駅", " Station", " Sta.", " Sta" };
 
         public static string removeStationSuffix(string stationName)
         {
             foreach (var suffix in stationSuffix)
             {
-                if (stationName.EndsWith(suffix))
+                if (stationName.ToLower().EndsWith(suffix.ToLower()))
                 {
                     return stationName.Remove(stationName.Length - suffix.Length);
                 }

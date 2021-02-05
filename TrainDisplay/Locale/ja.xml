@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Language UniqueName="ja" ReadableName="日本語" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<Translations>
+		<Translation ID="A_TD_NEXT" String="次は" />
+		<Translation ID="A_TD_NOW_STOPPING_AT" String="ただいま" />
+		<Translation ID="A_TD_FOR" String="ゆき" />
+		<Translation ID="A_TD_FOR_CIRCULAR" String="方面" />
+	</Translations>
+</Language>

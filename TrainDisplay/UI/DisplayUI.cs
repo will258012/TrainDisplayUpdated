@@ -42,17 +42,22 @@ namespace TrainDisplay.UI
 
         private readonly Rect bodyLineRect = new Rect((int)(baseX + 100 * ratio), (int)(baseY + 5 * ratio), (int)(ratio * 40), (int)((screenHeight/3) - 10 * ratio));
         private readonly Rect bodyForTextRect = new Rect(baseX, (int)(baseY + 46 * ratio), (int)(ratio * 100), (int)(24 * ratio));
-        private readonly Rect bodyForSuffixTextRect = new Rect(baseX, (int)(baseY + (46 + 24) * ratio), (int)(ratio * 100), (int)(18 * ratio));
+        private readonly Rect bodyForSuffixTextRect = new Rect(baseX + (int)(ratio * 8), (int)(baseY + (46 + 24) * ratio), (int)(ratio * 84), (int)(18 * ratio));
+        private readonly Rect bodyForTextEngRect = new Rect(baseX, (int)(baseY + (32 + 28) * ratio), (int)(ratio * 100), (int)(24 * ratio));
+        private readonly Rect bodyForSuffixTextEngRect = new Rect(baseX + (int)(ratio * 8), (int)(baseY + (32) * ratio), (int)(ratio * 84), (int)(18 * ratio));
+
         private readonly Rect bodyNextTextRect = new Rect((int)(baseX + 140 * ratio), (int)(baseY + 26 * ratio), (int)(ratio * (512-140)), (int)(70 * ratio));
-        private readonly Rect bodyNextHeadTextRect = new Rect((int)(baseX + (140 + 10) * ratio), baseY, (int)(ratio * (512 - 140 - 20)), (int)(26 * ratio));
+        private readonly Rect bodyNextHeadTextRect = new Rect((int)(baseX + (140 + 10) * ratio), (int)(baseY + 5 * ratio), (int)(ratio * (512 - 140 - 20)), (int)(26 * ratio));
 
         private readonly Rect bodyArrowLineRect = new Rect((int)(baseX + (26 * ratio)), (int)(baseY + (220 * ratio)), arrowLineLengthWithArrow, arrowHeight);
 
         private GUIStyle forStyle = new GUIStyle();
         private GUIStyle forSuffixStyle = new GUIStyle();
+        private GUIStyle forSuffixEngStyle = new GUIStyle();
         private GUIStyle nextStyle = new GUIStyle();
         private GUIStyle nextHeadStyle = new GUIStyle();
         private GUIStyle stationNameStyle = new GUIStyle();
+        private GUIStyle stationNameRotatedStyle = new GUIStyle();
 
         private GUIStyle boxStyle = new GUIStyle();
         private GUIStyle arrowRectStyle = new GUIStyle();
@@ -71,6 +76,9 @@ namespace TrainDisplay.UI
         private string[] verticalRouteStations = { };
 
         private Rect[] stationNameRects = { };
+        private Rect[] stationNameRotatedRects = { };
+        private Vector2[] stationNameRotatedRectPivots = { };
+        private Vector2[] stationNameRotatedRectBottoms = { };
         private Rect[] stationCirclesRects = { };
         private int[] stationNamePositions = { };
         private int itemNumber = 0;
@@ -89,9 +97,14 @@ namespace TrainDisplay.UI
             forSuffixStyle.alignment = TextAnchor.MiddleRight;
             forSuffixStyle.wordWrap = true;
 
+            forSuffixEngStyle.fontSize = (int)(16 * ratio);
+            forSuffixEngStyle.normal.textColor = Color.white;
+            forSuffixEngStyle.alignment = TextAnchor.MiddleLeft;
+            forSuffixEngStyle.wordWrap = true;
+
             nextHeadStyle.fontSize = (int)(20 * ratio);
             nextHeadStyle.normal.textColor = Color.white;
-            nextHeadStyle.alignment = TextAnchor.MiddleLeft;
+            nextHeadStyle.alignment = TextAnchor.UpperLeft;
 
             nextStyle.fontSize = (int)(45 * ratio);
             nextStyle.normal.textColor = Color.white;
@@ -100,6 +113,11 @@ namespace TrainDisplay.UI
             stationNameStyle.fontSize = (int)(20 * ratio);
             stationNameStyle.normal.textColor = Color.black;
             stationNameStyle.alignment = TextAnchor.LowerCenter;
+
+            stationNameRotatedStyle.fontSize = (int)(20 * ratio);
+            stationNameRotatedStyle.normal.textColor = Color.black;
+            stationNameRotatedStyle.alignment = TextAnchor.MiddleLeft;
+            stationNameRotatedStyle.wordWrap = true;
 
             arrowLineTexture = new Texture2D(arrowLineLength, arrowHeight);
             for (int x = 0; x < arrowLineTexture.width; x++)
@@ -186,16 +204,23 @@ namespace TrainDisplay.UI
 
             itemNumber = Math.Min(routeStations.Length, 6);
             stationNameRects = new Rect[itemNumber];
+            stationNameRotatedRects = new Rect[itemNumber];
+            stationNameRotatedRectPivots = new Vector2[itemNumber];
+            stationNameRotatedRectBottoms = new Vector2[itemNumber];
             stationCirclesRects = new Rect[itemNumber];
             stationNamePositions = PositionUtils.positionsJustifyCenter(arrowLineLength, arrowLineLength / 6, itemNumber);
             for (int i = 0; i < itemNumber; i++)
             {
                 stationNameRects[i] = new Rect(
                     (int)(baseX + (26 * ratio)) + stationNamePositions[i],
-                    (int)(baseY + (116 * ratio)),
+                    (int)(baseY + (106 * ratio)),
                     arrowLineLength / 6,
-                    (int)(94 * ratio)
+                    (int)(104 * ratio)
                 );
+
+                stationNameRotatedRects[i] = PositionUtils.GetRotatedRect(stationNameRects[i]);
+                stationNameRotatedRectPivots[i] = new Vector2(stationNameRects[i].x + stationNameRects[i].width / 2, stationNameRects[i].y + stationNameRects[i].height / 2);
+                stationNameRotatedRectBottoms[i] = new Vector2(stationNameRotatedRects[i].x, stationNameRotatedRects[i].y + stationNameRotatedRects[i].height);
 
                 stationCirclesRects[i] = new Rect(
                     (int)(baseX + (26 * ratio)) + stationNamePositions[i] + (arrowLineLength / 6 / 2 - (int)(13 * ratio)),
@@ -231,9 +256,17 @@ namespace TrainDisplay.UI
             {
                 shownForText = routeStations[routeStations.Length - 1];
             }
-            GUI.Label(bodyForTextRect, shownForText, forStyle);
-            GUI.Label(bodyForSuffixTextRect, circular ? "方面 " : "ゆき ", forSuffixStyle);
-            GUI.Label(bodyNextHeadTextRect, stopping ? "ただいま" : "次は", nextHeadStyle);
+            if (TrainDisplayMod.translation.CurrentLanguage._uniqueName == "ja")
+            {
+                GUI.Label(bodyForTextRect, shownForText, forStyle);
+                GUI.Label(bodyForSuffixTextRect, circular ? TrainDisplayMod.translation.GetTranslation("A_TD_FOR_CIRCULAR") : TrainDisplayMod.translation.GetTranslation("A_TD_FOR"), forSuffixStyle);
+            } else
+            {
+                GUI.Label(bodyForTextEngRect, shownForText, forStyle);
+                GUI.Label(bodyForSuffixTextEngRect, circular ? TrainDisplayMod.translation.GetTranslation("A_TD_FOR_CIRCULAR") : TrainDisplayMod.translation.GetTranslation("A_TD_FOR"), forSuffixEngStyle);
+
+            }
+            GUI.Label(bodyNextHeadTextRect, stopping ? TrainDisplayMod.translation.GetTranslation("A_TD_NOW_STOPPING_AT") : TrainDisplayMod.translation.GetTranslation("A_TD_NEXT"), nextHeadStyle);
             GUI.Label(bodyNextTextRect, stopping ? prevText : next, nextStyle);
 
             // ボディ
@@ -253,11 +286,26 @@ namespace TrainDisplay.UI
                     nowItemIndex = i;
                 }
 
-                GUI.Label(
-                    stationNameRects[i],
-                    verticalRouteStations[routeIndex],
-                    stationNameStyle
-                );
+                if (TrainDisplayMod.translation.CurrentLanguage._uniqueName == "ja")
+                {
+                    GUI.Label(
+                        stationNameRects[i],
+                        verticalRouteStations[routeIndex],
+                        stationNameStyle
+                    );
+                } else
+                {
+                    GUIUtility.RotateAroundPivot(-90, stationNameRotatedRectPivots[i]);
+                    // GUIUtility.RotateAroundPivot(10, stationNameRotatedRectBottoms[i]);
+
+                    GUI.Label(
+                        stationNameRotatedRects[i],
+                        routeStations[routeIndex],
+                        stationNameRotatedStyle
+                    );
+
+                    GUI.matrix = Matrix4x4.identity;
+                }
             }
 
             GUI.backgroundColor = Color.white;

@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Language UniqueName="en" ReadableName="English" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<Translations>
+		<Translation ID="A_TD_NEXT" String="Next" />
+		<Translation ID="A_TD_NOW_STOPPING_AT" String="Now stopping at" />
+		<Translation ID="A_TD_FOR" String="For" />
+		<Translation ID="A_TD_FOR_CIRCULAR" String="For" />
+	</Translations>
+</Language>

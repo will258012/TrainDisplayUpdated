@@ -1,12 +1,15 @@
 ﻿using ICities;
 using UnityEngine;
 using ColossalFramework.UI;
+using TrainDisplay.TranslationFramework;
 
 namespace TrainDisplay
 {
 
     public class TrainDisplayMod : IUserMod, ILoadingExtension
     {
+
+        public static Translation translation = new Translation();
 
         public string Name
         {
