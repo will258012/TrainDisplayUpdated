@@ -3,6 +3,7 @@ using ColossalFramework.UI;
 using UnityEngine;
 using TrainDisplay.UI;
 using TrainDisplay.Utils;
+using System;
 
 namespace TrainDisplay
 {
@@ -27,10 +28,6 @@ namespace TrainDisplay
 		VehicleManager vManager;
 		public static void Initialize(LoadMode mode)
 		{
-			if (!ModUtils.FindFPSMod())
-            {
-				return;
-            }
 			GameObject gameObject = new GameObject();
 			instance = gameObject.AddComponent<TrainDisplayMain>();
 
@@ -65,18 +62,21 @@ namespace TrainDisplay
         {
 
 			// Toggle Showing
-			bool newShowing = FPSCamera.FPSCamera.instance.vehicleCamera.following;
-			if (newShowing != showingDisplay)
-            {
-				if (newShowing)
-                {
-					FPSCamera.VehicleCamera vCamera = FPSCamera.FPSCamera.instance.vehicleCamera;
-					followInstance = CodeUtils.ReadPrivate<FPSCamera.VehicleCamera, ushort>(vCamera, "followInstance");
-					newShowing = DisplayUIManager.Instance.SetTrain(followInstance);
+			try
+			{
+				bool newShowing = FPSCamera.FPSCamera.instance.vehicleCamera.following;
+				if (newShowing != showingDisplay)
+				{
+					if (newShowing)
+					{
+						FPSCamera.VehicleCamera vCamera = FPSCamera.FPSCamera.instance.vehicleCamera;
+						followInstance = CodeUtils.ReadPrivate<FPSCamera.VehicleCamera, ushort>(vCamera, "followInstance");
+						newShowing = DisplayUIManager.Instance.SetTrain(followInstance);
+					}
+					showingDisplay = newShowing;
+					displayUi.enabled = newShowing;
 				}
-				showingDisplay = newShowing;
-				displayUi.enabled = newShowing;
-			}
+			} catch (Exception e) { }
 
 			// When showing
 			if (showingDisplay)
