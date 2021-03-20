@@ -14,6 +14,7 @@ namespace TrainDisplay.TranslationFramework
     {
         protected List<Language> _languages = new List<Language>();
         protected Language _currentLanguage = null;
+        protected Language _displayLanguage = null;
         protected bool _languagesLoaded = false;
         protected bool _loadLanguageAutomatically = true;
         private string fallbackLanguage = "en";
@@ -24,6 +25,18 @@ namespace TrainDisplay.TranslationFramework
                     LoadLanguages();
                 }
                 return _currentLanguage;
+            }
+        }
+
+        public Language DisplayLanguage
+        {
+            get
+            {
+                if (_displayLanguage == null)
+                {
+                    LoadLanguages();
+                }
+                return _displayLanguage;
             }
         }
 
@@ -43,6 +56,20 @@ namespace TrainDisplay.TranslationFramework
                                _languages.Find(l => l._uniqueName == fallbackLanguage);
         }
 
+        public void SetDisplayLanguage()
+        {
+            if (_languages == null || _languages.Count == 0 || !LocaleManager.exists)
+            {
+                return;
+            }
+            string readableName = TrainDisplayMain.Config.DisplayLanguage;
+
+
+            _displayLanguage = readableName == "A_TD_SETTINGS_SYSTEM_LANGUAGE"
+                ? _currentLanguage
+                : _languages.Find(l => l._readableName == readableName) ?? _currentLanguage;
+        }
+
 
         /// <summary>
         /// Loads all languages up if not already loaded.
@@ -54,6 +81,7 @@ namespace TrainDisplay.TranslationFramework
                 _languagesLoaded = true;
                 RefreshLanguages();
                 SetCurrentLanguage();
+                SetDisplayLanguage();
             }
         }
 
@@ -180,21 +208,23 @@ namespace TrainDisplay.TranslationFramework
         /// </summary>
         /// <param name="translationId">The ID to return the translation for</param>
         /// <returns>A translation of the translationId</returns>
-        public string GetTranslation(string translationId)
+        public string GetTranslation(string translationId, bool displayLang = false)
         {
             LoadLanguages();
 
+            var lang = displayLang ? _displayLanguage : _currentLanguage;
+
             string translatedText = translationId;
 
-            if (_currentLanguage != null)
+            if (lang != null)
             {
                 if (HasTranslation(translationId))
                 {
-                    translatedText = _currentLanguage._conversionDictionary[translationId];
+                    translatedText = lang._conversionDictionary[translationId];
                 }
                 else
                 {
-                    UnityEngine.Debug.LogWarning("Returned translation for language \"" + _currentLanguage._uniqueName + "\" doesn't contain a suitable translation for \"" + translationId + "\"");
+                    UnityEngine.Debug.LogWarning("Returned translation for language \"" + lang._uniqueName + "\" doesn't contain a suitable translation for \"" + translationId + "\"");
                 }
             }
             else

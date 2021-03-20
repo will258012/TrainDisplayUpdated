@@ -73,6 +73,7 @@ namespace TrainDisplay
 						followInstance = CodeUtils.ReadPrivate<FPSCamera.VehicleCamera, ushort>(vCamera, "followInstance");
 						newShowing = DisplayUIManager.Instance.SetTrain(followInstance);
 					}
+					displayUi.updateWidth();
 					showingDisplay = newShowing;
 					displayUi.enabled = newShowing;
 				}
