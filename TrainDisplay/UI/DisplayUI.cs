@@ -291,6 +291,20 @@ namespace TrainDisplay.UI
             }
         }
 
+        private bool ForTextPositionIsOnTop(bool circular)
+        {
+            switch (TrainDisplayMod.translation.DisplayLanguage._uniqueName)
+            {
+                case "en":
+                    return true;
+                case "ja":
+                    return false;
+                case "zh":
+                    return !circular;
+            }
+            return true;
+        }
+
         private void OnGUI()
         {
             //GUI.Box(screenRect, "");
@@ -316,16 +330,17 @@ namespace TrainDisplay.UI
             {
                 shownForText = routeStations[routeStations.Length - 1];
             }
-            if (TrainDisplayMod.translation.DisplayLanguage._uniqueName == "ja")
-            {
-                GUI.Label(bodyForTextRect, shownForText, forStyle);
-                GUI.Label(bodyForSuffixTextRect, circular ? TrainDisplayMod.translation.GetTranslation("A_TD_FOR_CIRCULAR", true) : TrainDisplayMod.translation.GetTranslation("A_TD_FOR", true), forSuffixStyle);
-            } else
+
+            if (ForTextPositionIsOnTop(circular))
             {
                 GUI.Label(bodyForTextEngRect, shownForText, forStyle);
                 GUI.Label(bodyForSuffixTextEngRect, circular ? TrainDisplayMod.translation.GetTranslation("A_TD_FOR_CIRCULAR", true) : TrainDisplayMod.translation.GetTranslation("A_TD_FOR", true), forSuffixEngStyle);
-
+            } else
+            {
+                GUI.Label(bodyForTextRect, shownForText, forStyle);
+                GUI.Label(bodyForSuffixTextRect, circular ? TrainDisplayMod.translation.GetTranslation("A_TD_FOR_CIRCULAR", true) : TrainDisplayMod.translation.GetTranslation("A_TD_FOR", true), forSuffixStyle);
             }
+            
             GUI.Label(bodyNextHeadTextRect, stopping ? TrainDisplayMod.translation.GetTranslation("A_TD_NOW_STOPPING_AT", true) : TrainDisplayMod.translation.GetTranslation("A_TD_NEXT", true), nextHeadStyle);
             GUI.Label(bodyNextTextRect, stopping ? prevText : next, nextStyle);
 
@@ -346,7 +361,7 @@ namespace TrainDisplay.UI
                     nowItemIndex = i;
                 }
 
-                if (TrainDisplayMod.translation.DisplayLanguage._uniqueName == "ja")
+                if (TrainDisplayMod.translation.DisplayLanguage._uniqueName == "ja" || TrainDisplayMod.translation.DisplayLanguage._uniqueName == "zh")
                 {
                     GUI.Label(
                         stationNameRects[i],
