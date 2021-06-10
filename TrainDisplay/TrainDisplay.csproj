@@ -77,8 +77,10 @@
     <Compile Include="Utils\StationUtils.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Locale\de.xml" />
     <Content Include="Locale\ja.xml" />
     <Content Include="Locale\en.xml" />
+    <Content Include="Locale\zh.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

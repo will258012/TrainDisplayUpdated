@@ -68,6 +68,15 @@ namespace TrainDisplay
                     TrainDisplayMod.translation.SetDisplayLanguage();
                 }
             );
+
+            helper.AddCheckbox(
+                TrainDisplayMod.translation.GetTranslation("A_TD_SETTINGS_TEXT_SHRINKED"),
+                config.IsTextShrinked,
+                shrinked =>
+                {
+                    config.IsTextShrinked = shrinked;
+                }
+            );
         }
 
         public void OnCreated(ILoading loading)

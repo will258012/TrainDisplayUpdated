@@ -47,6 +47,7 @@ namespace TrainDisplay.UI
         private static Rect bodyForSuffixTextEngRect;
 
         private static Rect bodyNextTextRect;
+        private static Vector2 bodyNextTextPivot;
         private static Rect bodyNextHeadTextRect;
 
         private static Rect bodyArrowLineRect;
@@ -130,6 +131,7 @@ namespace TrainDisplay.UI
             bodyForSuffixTextEngRect = new Rect(baseX + (int)(ratio * 8), (int)(baseY + (32) * ratio), (int)(ratio * 84), (int)(18 * ratio));
 
             bodyNextTextRect = new Rect((int)(baseX + 140 * ratio), (int)(baseY + 26 * ratio), (int)(ratio * (512 - 140)), (int)(70 * ratio));
+            bodyNextTextPivot = new Vector2(bodyNextTextRect.x + bodyNextTextRect.width / 2, bodyNextTextRect.y + bodyNextTextRect.height / 2);
             bodyNextHeadTextRect = new Rect((int)(baseX + (140 + 10) * ratio), (int)(baseY + 5 * ratio), (int)(ratio * (512 - 140 - 20)), (int)(26 * ratio));
 
             bodyArrowLineRect = new Rect((int)(baseX + (26 * ratio)), (int)(baseY + (220 * ratio)), arrowLineLengthWithArrow, arrowHeight);
@@ -156,6 +158,7 @@ namespace TrainDisplay.UI
             nextStyle.fontSize = (int)(45 * ratio);
             nextStyle.normal.textColor = Color.white;
             nextStyle.alignment = TextAnchor.MiddleCenter;
+            nextStyle.stretchWidth = true;
 
             stationNameStyle.fontSize = (int)(20 * ratio);
             stationNameStyle.normal.textColor = Color.black;
@@ -342,7 +345,16 @@ namespace TrainDisplay.UI
             }
             
             GUI.Label(bodyNextHeadTextRect, stopping ? TrainDisplayMod.translation.GetTranslation("A_TD_NOW_STOPPING_AT", true) : TrainDisplayMod.translation.GetTranslation("A_TD_NEXT", true), nextHeadStyle);
-            GUI.Label(bodyNextTextRect, stopping ? prevText : next, nextStyle);
+
+            // 次の駅
+            string nextDisplayedText = stopping ? prevText : next;
+            if (TrainDisplayMain.Config.IsTextShrinked)
+            {
+                float scale = Math.Min(1, 8.0f / nextDisplayedText.Length);
+                GUIUtility.ScaleAroundPivot(new Vector2(scale, 1), bodyNextTextPivot);
+            }
+            GUI.Label(bodyNextTextRect, nextDisplayedText, nextStyle);
+            GUI.matrix = Matrix4x4.identity;
 
             // ボディ
             GUI.backgroundColor = Color.white;
