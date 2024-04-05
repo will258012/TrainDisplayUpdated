@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language UniqueName="ko" ReadableName="Korean" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<Translations> <!-- Example  -->
+		<Translation ID="A_TD_NEXT" String="다음역" /> <!-- 다음역 OO.  OO is the station name.-->
+		<Translation ID="A_TD_NOW_STOPPING_AT" String="이번역" /> <!-- 이번역 OO.  OO is the station name.-->
+		<Translation ID="A_TD_FOR" String="방면" /> <!-- OO 방면.  OO is the station name.-->
+		<Translation ID="A_TD_FOR_CIRCULAR" String="방면" /> <!-- OO 방면.  OO is the station name.-->
+    <Translation ID="A_TD_SETTINGS_DISPLAY_WIDTH" String="화면 크기" />
+    <Translation ID="A_TD_SETTINGS_DISPLAY_LANGUAGE" String="표시 언어" />
+    <Translation ID="A_TD_SETTINGS_SYSTEM_LANGUAGE" String="시스템 언어" />
+    <Translation ID="A_TD_SETTINGS_TEXT_SHRINKED" String="다음역 역명이 길 경우 줄여서 표시하기 (베타)" />
+	</Translations>
+</Language>
