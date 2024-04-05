@@ -1,6 +1,0 @@
-[submodule "TrainDisplay/common"]
-	path = TrainDisplay/common
-	url = https://github.com/klyte45/KlyteCommonsIncludable.git
-[submodule "TrainDisplay/Locale"]
-	path = TrainDisplay/Locale
-	url = git@github.com:asmape0104/TrainDisplayLocale.git
