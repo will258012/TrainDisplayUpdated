@@ -16,7 +16,7 @@ namespace TrainDisplay
 
         public string Name
         {
-            get { return "Train Display Mod"; }
+            get { return "Train Display Mod - Updated"; }
         }
 
         public string Description
