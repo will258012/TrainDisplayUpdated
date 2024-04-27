@@ -38,10 +38,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp" />
-    <Reference Include="Assembly-CSharp-firstpass" />
     <Reference Include="ColossalManaged" />
     <Reference Include="CSkyL">
-      <HintPath>..\..\CitiesSkylines-FPSCamera-Continued\FPSCamera\bin\Release\CSkyL.dll</HintPath>
+      <HintPath>..\..\CitiesSkylines-FPSCamera-Continued\CSkyL\bin\Release\CSkyL.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="ICities" />
     <Reference Include="System" />
