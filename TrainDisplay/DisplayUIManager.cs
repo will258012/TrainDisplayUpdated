@@ -44,7 +44,7 @@ namespace TrainDisplay
         public bool SetTrain(ushort followInstance)
         {
             this.followInstance = followInstance;
-            ushort firstVehicleId = vManager.m_vehicles.m_buffer[(int)followInstance].GetFirstVehicle(followInstance);
+            ushort firstVehicleId = vManager.m_vehicles.m_buffer[followInstance].GetFirstVehicle(followInstance);
             Vehicle firstVehicle = vManager.m_vehicles.m_buffer[firstVehicleId];
 
             VehicleInfo info = firstVehicle.Info;
