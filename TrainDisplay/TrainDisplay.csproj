@@ -41,10 +41,7 @@
     <Reference Include="Assembly-CSharp-firstpass" />
     <Reference Include="ColossalManaged" />
     <Reference Include="CSkyL">
-      <HintPath>..\..\CitiesSkylines-FPSCamera-CHS\FPSCamera\bin\Release\CSkyL.dll</HintPath>
-    </Reference>
-    <Reference Include="FPSCamera">
-      <HintPath>..\..\CitiesSkylines-FPSCamera-CHS\FPSCamera\bin\Release\FPSCamera.dll</HintPath>
+      <HintPath>..\..\CitiesSkylines-FPSCamera-Continued\FPSCamera\bin\Release\CSkyL.dll</HintPath>
     </Reference>
     <Reference Include="ICities" />
     <Reference Include="System" />
