@@ -9,6 +9,6 @@
     <Translation ID="A_TD_SETTINGS_DISPLAY_WIDTH" String="显示宽度" />
     <Translation ID="A_TD_SETTINGS_DISPLAY_LANGUAGE" String="显示语言" />
     <Translation ID="A_TD_SETTINGS_SYSTEM_LANGUAGE" String="系统语言" />
-    <Translation ID="A_TD_SETTINGS_TEXT_SHRINKED" String="Shrink next station text when it is long (beta)" />
+    <Translation ID="A_TD_SETTINGS_TEXT_SHRINKED" String="如果下一站文字较长，则缩小该文字（Beta）" />
 	</Translations>
 </Language>
