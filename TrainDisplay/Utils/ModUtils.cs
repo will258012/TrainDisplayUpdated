@@ -12,12 +12,12 @@ namespace TrainDisplay.Utils
 
             foreach (var info in infos)
             {
-                if (info.publishedFileID.AsUInt64 == 650805785 && info.isEnabled)
+                if (info.publishedFileID.AsUInt64 == 3198388677 && info.isEnabled)
                 {
                     return true;
                 }
             }
-            Log.Error("\"First Person Camera: Updated\" not found.");
+            Log.Error("\"First Person Camera - Continued\" not found.");
             return false;
         }
     }
