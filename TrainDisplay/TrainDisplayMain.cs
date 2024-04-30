@@ -1,6 +1,4 @@
-﻿using ICities;
-using System;
-using TrainDisplay.UI;
+﻿using TrainDisplay.UI;
 using TrainDisplay.Utils;
 using UnityEngine;
 
@@ -24,8 +22,7 @@ namespace TrainDisplay
             }
         }
 
-        VehicleManager vManager;
-        public static void Initialize(LoadMode mode)
+        public static void Initialize()
         {
             GameObject gameObject = new GameObject();
             instance = gameObject.AddComponent<TrainDisplayMain>();
@@ -40,10 +37,7 @@ namespace TrainDisplay
             }
         }
 
-        void Awake()
-        {
-            vManager = VehicleManager.instance;
-        }
+        void Awake() { }
 
         public DisplayUI displayUi;
         private bool showingDisplay = false;
@@ -55,33 +49,30 @@ namespace TrainDisplay
         }
 
         //int debugcounter = 0;
-
+        
         void Update()
         {
-            var _ID = CSkyL.ModSupport.FollowVehicleID;
-            var newShowing = _ID != default;
             // Toggle Showing
-            try
-            {
-                if (newShowing != showingDisplay)
-                {
-                    if (newShowing)
-                    {
-                        newShowing = DisplayUIManager.Instance.SetTrain(_ID);
-                        Log.Message($"Start to show display:{_ID}");
-                    }
-                    displayUi.updateWidth();
-                    showingDisplay = newShowing;
-                    displayUi.enabled = newShowing;
-                }
-            }
-            catch (Exception e) { }
+            ushort vehicleID = CSkyL.ModSupport.FollowVehicleID;
+            bool newShowing = vehicleID != default;
 
+            if (newShowing != showingDisplay)
+            {
+                if (newShowing)
+                {
+                    newShowing = DisplayUIManager.Instance.SetTrain(vehicleID);
+                }
+
+                displayUi.updateWidth();
+                showingDisplay = newShowing;
+                displayUi.enabled = newShowing;
+            }
             // When showing
             if (showingDisplay)
             {
                 DisplayUIManager.Instance.updateNext();
             }
+
         }
     }
 }

@@ -1,9 +1,6 @@
-﻿using ICities;
-using UnityEngine;
-using TrainDisplay.Utils;
+﻿using System.Collections.Generic;
 using TrainDisplay.UI;
-using System.Collections.Generic;
-using System.Linq;
+using TrainDisplay.Utils;
 
 namespace TrainDisplay
 {
@@ -12,7 +9,6 @@ namespace TrainDisplay
         VehicleManager vManager;
         TransportManager tManager;
         ushort followInstance;
-
         ushort[] stationIdList;
         string[] stationNameList;
         List<int> terminalList = new List<int>();
@@ -49,14 +45,15 @@ namespace TrainDisplay
 
             VehicleInfo info = firstVehicle.Info;
 
-            if (info.m_vehicleType == VehicleInfo.VehicleType.Train || info.m_vehicleType == VehicleInfo.VehicleType.Metro || info.m_vehicleType == VehicleInfo.VehicleType.Monorail) {
+            if (info.m_vehicleType == VehicleInfo.VehicleType.Train || info.m_vehicleType == VehicleInfo.VehicleType.Metro || info.m_vehicleType == VehicleInfo.VehicleType.Monorail)
+            {
                 //Log.Message("A");
                 DisplayUI.Instance.testString = "";
                 terminalList.Clear();
 
                 ushort lineId = firstVehicle.m_transportLine;
                 TransportLine line = tManager.m_lines.m_buffer[lineId];
-                TransportInfo tInfo = line.Info;
+                //TransportInfo tInfo = line.Info;
                 int stopsNumber = line.CountStops(lineId);
 
                 if (stopsNumber == 0)
@@ -81,7 +78,7 @@ namespace TrainDisplay
                     stationIdList[i] = stationId;
                     stationNameList[i] = StationUtils.removeStationSuffix(stationName);
                     DisplayUI.Instance.testString += stationName + " ";
-                    
+
                     if (nowPosId == stationId)
                     {
                         nowPos.Value = i;
@@ -119,12 +116,13 @@ namespace TrainDisplay
                 Log.Message("LineTrainID " + line.m_vehicles);
 
                 return true;
-            } else
+            }
+            else
             {
                 return false;
             }
         }
-        
+
         public void UpdateRouteIndices()
         {
             if (terminalList.Count == 0)
@@ -144,12 +142,14 @@ namespace TrainDisplay
             routeEnd = terminalList[tIndex % terminalList.Count];
             Log.Message("Start:" + routeStart + ", End:" + routeEnd);
         }
-        
+
 
         public int[] GetStationIndicesOnRoute()
         {
-            List<int> tmpList = new List<int>();
-            tmpList.Add(routeStart);
+            List<int> tmpList = new List<int>
+            {
+                routeStart
+            };
             LoopCounter stationIndex = new LoopCounter(stationNameList.Length, routeStart + 1);
             while (true)
             {
@@ -177,7 +177,7 @@ namespace TrainDisplay
 
         public void updateNext()
         {
-            ushort firstVehicleId = vManager.m_vehicles.m_buffer[(int)followInstance].GetFirstVehicle(followInstance);
+            ushort firstVehicleId = vManager.m_vehicles.m_buffer[followInstance].GetFirstVehicle(followInstance);
             Vehicle trainVehicle = vManager.m_vehicles.m_buffer[firstVehicleId];
             ushort nextStop = trainVehicle.m_targetBuilding;
             string targetBuilding = StationUtils.removeStationSuffix(StationUtils.GetStationName(nextStop));

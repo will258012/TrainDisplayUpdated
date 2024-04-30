@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace TrainDisplay.Utils
+﻿namespace TrainDisplay.Utils
 {
     class LoopCounter
     {
@@ -11,7 +6,8 @@ namespace TrainDisplay.Utils
         private int innerMax;
 
         public int max => innerMax;
-        public int Value {
+        public int Value
+        {
             get
             {
                 return innerValue;

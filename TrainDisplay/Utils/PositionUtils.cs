@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace TrainDisplay.Utils
 {
@@ -27,7 +23,7 @@ namespace TrainDisplay.Utils
 
             for (int i = 0; i < num; i++)
             {
-                result[i] = screenSize * (2*i + 1) / (2 * num) - (itemSize / 2);
+                result[i] = screenSize * (2 * i + 1) / (2 * num) - (itemSize / 2);
             }
 
             return result;

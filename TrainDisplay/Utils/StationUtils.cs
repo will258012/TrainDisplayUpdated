@@ -1,6 +1,5 @@
-﻿using ICities;
+﻿using ColossalFramework;
 using UnityEngine;
-using ColossalFramework;
 
 namespace TrainDisplay.Utils
 {

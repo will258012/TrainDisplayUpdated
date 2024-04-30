@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using ColossalFramework.Plugins;
+﻿using ColossalFramework.Plugins;
 
 namespace TrainDisplay.Utils
 {

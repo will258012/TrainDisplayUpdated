@@ -96,7 +96,7 @@ namespace TrainDisplay.TranslationFramework
 
             if (basePath != "")
             {
-                string languagePath = basePath + System.IO.Path.DirectorySeparatorChar + "Locale";
+                string languagePath = basePath + Path.DirectorySeparatorChar + "Locale";
 
                 if (Directory.Exists(languagePath))
                 {
