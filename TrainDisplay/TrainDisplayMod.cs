@@ -1,10 +1,7 @@
 ﻿using ICities;
-using UnityEngine;
-using ColossalFramework.UI;
-using TrainDisplay.TranslationFramework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using TrainDisplay.TranslationFramework;
 
 namespace TrainDisplay
 {
@@ -25,7 +22,8 @@ namespace TrainDisplay
         }
 
         private static List<string> _displayLanguageOptions = null;
-        private static List<string> DisplayLanguageOptions { 
+        private static List<string> DisplayLanguageOptions
+        {
             get
             {
                 if (_displayLanguageOptions == null)
@@ -34,7 +32,7 @@ namespace TrainDisplay
                     {
                         "A_TD_SETTINGS_SYSTEM_LANGUAGE"
                     };
-                    var languages = TrainDisplayMod.translation.AvailableLanguagesReadable();
+                    var languages = translation.AvailableLanguagesReadable();
                     foreach (var language in languages)
                     {
                         _displayLanguageOptions.Add(language);
@@ -47,10 +45,10 @@ namespace TrainDisplay
         {
             TrainDisplayConfiguration config = Configuration<TrainDisplayConfiguration>.Load();
 
-            helper.AddTextfield(TrainDisplayMod.translation.GetTranslation("A_TD_SETTINGS_DISPLAY_WIDTH"), config.DisplayWidth + "", width =>
+            helper.AddTextfield(translation.GetTranslation("A_TD_SETTINGS_DISPLAY_WIDTH"), config.DisplayWidth + "", width =>
             {
                 int displayWidth;
-                if (!Int32.TryParse(width, out displayWidth))
+                if (!int.TryParse(width, out displayWidth))
                 {
                     displayWidth = 512;
                 }
@@ -59,22 +57,23 @@ namespace TrainDisplay
             });
 
             helper.AddDropdown(
-                TrainDisplayMod.translation.GetTranslation("A_TD_SETTINGS_DISPLAY_LANGUAGE"),
-                DisplayLanguageOptions.Select(s => TrainDisplayMod.translation.GetTranslation(s)).ToArray(),
+                translation.GetTranslation("A_TD_SETTINGS_DISPLAY_LANGUAGE"),
+                DisplayLanguageOptions.Select(s => translation.GetTranslation(s)).ToArray(),
                 DisplayLanguageOptions.IndexOf(config.DisplayLanguage),
                 index =>
                 {
                     config.DisplayLanguage = DisplayLanguageOptions[index];
-                    TrainDisplayMod.translation.SetDisplayLanguage();
+                    translation.SetDisplayLanguage();
                 }
             );
 
             helper.AddCheckbox(
-                TrainDisplayMod.translation.GetTranslation("A_TD_SETTINGS_TEXT_SHRINKED"),
+                translation.GetTranslation("A_TD_SETTINGS_TEXT_SHRINKED"),
                 config.IsTextShrinked,
                 shrinked =>
                 {
                     config.IsTextShrinked = shrinked;
+                    Configuration<TrainDisplayConfiguration>.Save();
                 }
             );
         }
@@ -84,7 +83,7 @@ namespace TrainDisplay
         }
         public void OnLevelLoaded(LoadMode mode)
         {
-            TrainDisplayMain.Initialize(mode);
+            TrainDisplayMain.Initialize();
         }
 
         public void OnLevelUnloading()
