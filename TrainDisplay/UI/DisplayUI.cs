@@ -23,7 +23,7 @@ namespace TrainDisplay.UI
 
         private static int screenWidth = 1;
         private static int screenHeight => screenWidth / 16 * 9;
-        private static int baseX = 0;
+        private static readonly int baseX = 0;
         private static int baseY => Screen.height - screenHeight;
         private static double ratio => screenWidth / 512.0;
 
@@ -36,34 +36,34 @@ namespace TrainDisplay.UI
         private static int arrowLength;
         private static int arrowHeight;
 
-        private static Rect screenRect;
-        private static Rect headerRect;
-        private static Rect bodyRect;
+        //private static IntRect screenRect;
+        private static IntRect headerRect;
+        private static IntRect bodyRect;
 
-        private static Rect bodyLineRect;
-        private static Rect bodyForTextRect;
-        private static Rect bodyForSuffixTextRect;
-        private static Rect bodyForTextEngRect;
-        private static Rect bodyForSuffixTextEngRect;
+        private static IntRect bodyLineRect;
+        private static IntRect bodyForTextRect;
+        private static IntRect bodyForSuffixTextRect;
+        private static IntRect bodyForTextEngRect;
+        private static IntRect bodyForSuffixTextEngRect;
 
-        private static Rect bodyNextTextRect;
+        private static IntRect bodyNextTextRect;
         private static Vector2 bodyNextTextPivot;
-        private static Rect bodyNextHeadTextRect;
+        private static IntRect bodyNextHeadTextRect;
 
-        private static Rect bodyArrowLineRect;
+        private static IntRect bodyArrowLineRect;
 
-        private GUIStyle forStyle = new GUIStyle();
-        private GUIStyle forSuffixStyle = new GUIStyle();
-        private GUIStyle forSuffixEngStyle = new GUIStyle();
-        private GUIStyle nextStyle = new GUIStyle();
-        private GUIStyle nextHeadStyle = new GUIStyle();
-        private GUIStyle stationNameStyle = new GUIStyle();
-        private GUIStyle stationNameRotatedStyle = new GUIStyle();
+        private readonly GUIStyle forStyle = new GUIStyle();
+        private readonly GUIStyle forSuffixStyle = new GUIStyle();
+        private readonly GUIStyle forSuffixEngStyle = new GUIStyle();
+        private readonly GUIStyle nextStyle = new GUIStyle();
+        private readonly GUIStyle nextHeadStyle = new GUIStyle();
+        private readonly GUIStyle stationNameStyle = new GUIStyle();
+        private readonly GUIStyle stationNameRotatedStyle = new GUIStyle();
 
-        private GUIStyle boxStyle = new GUIStyle();
-        private GUIStyle arrowRectStyle = new GUIStyle();
-        private GUIStyle circleStyle = new GUIStyle();
-        private GUIStyle arrowStyle = new GUIStyle();
+        private readonly GUIStyle boxStyle = new GUIStyle();
+        private readonly GUIStyle arrowRectStyle = new GUIStyle();
+        private readonly GUIStyle circleStyle = new GUIStyle();
+        private readonly GUIStyle arrowStyle = new GUIStyle();
 
         public string testString = "test";
         public string next = "";
@@ -76,11 +76,11 @@ namespace TrainDisplay.UI
         private string[] routeStations = { };
         private string[] verticalRouteStations = { };
 
-        private Rect[] stationNameRects = { };
-        private Rect[] stationNameRotatedRects = { };
+        private IntRect[] stationNameRects = { };
+        private IntRect[] stationNameRotatedRects = { };
         private Vector2[] stationNameRotatedRectPivots = { };
         private Vector2[] stationNameRotatedRectBottoms = { };
-        private Rect[] stationCirclesRects = { };
+        private IntRect[] stationCirclesRects = { };
         private int[] stationNamePositions = { };
         private int itemNumber = 0;
 
@@ -120,21 +120,21 @@ namespace TrainDisplay.UI
             arrowLength = (int)((arrowLineLengthWithArrow - arrowLineLength) * 3.2);
             arrowHeight = (int)(30 * ratio);
 
-            screenRect = new Rect(baseX, baseY, screenWidth, screenHeight);
-            headerRect = new Rect(baseX, baseY, screenWidth, screenHeight / 3);
-            bodyRect = new Rect(baseX, baseY + screenHeight / 3, screenWidth, screenHeight / 3 * 2);
+            //screenRect = new IntRect(baseX, baseY, screenWidth, screenHeight);
+            headerRect = new IntRect(baseX, baseY, screenWidth, screenHeight / 3);
+            bodyRect = new IntRect(baseX, baseY + screenHeight / 3, screenWidth, screenHeight / 3 * 2);
 
-            bodyLineRect = new Rect((int)(baseX + 100 * ratio), (int)(baseY + 5 * ratio), (int)(ratio * 40), (int)((screenHeight / 3) - 10 * ratio));
-            bodyForTextRect = new Rect(baseX, (int)(baseY + 46 * ratio), (int)(ratio * 100), (int)(24 * ratio));
-            bodyForSuffixTextRect = new Rect(baseX + (int)(ratio * 8), (int)(baseY + (46 + 24) * ratio), (int)(ratio * 84), (int)(18 * ratio));
-            bodyForTextEngRect = new Rect(baseX, (int)(baseY + (32 + 28) * ratio), (int)(ratio * 100), (int)(24 * ratio));
-            bodyForSuffixTextEngRect = new Rect(baseX + (int)(ratio * 8), (int)(baseY + (32) * ratio), (int)(ratio * 84), (int)(18 * ratio));
+            bodyLineRect = new IntRect(baseX + 100 * ratio, baseY + 5 * ratio, ratio * 40, (screenHeight / 3) - 10 * ratio);
+            bodyForTextRect = new IntRect(baseX, baseY + 46 * ratio, ratio * 100, 24 * ratio);
+            bodyForSuffixTextRect = new IntRect(baseX + (ratio * 8), baseY + (46 + 24) * ratio, ratio * 84, 18 * ratio);
+            bodyForTextEngRect = new IntRect(baseX, baseY + (32 + 28) * ratio, ratio * 100, 24 * ratio);
+            bodyForSuffixTextEngRect = new IntRect(baseX + (ratio * 8), baseY + 32 * ratio, ratio * 84, 18 * ratio);
 
-            bodyNextTextRect = new Rect((int)(baseX + 140 * ratio), (int)(baseY + 26 * ratio), (int)(ratio * (512 - 140)), (int)(70 * ratio));
+            bodyNextTextRect = new IntRect(baseX + 140 * ratio, baseY + 26 * ratio, ratio * (512 - 140), 70 * ratio);
             bodyNextTextPivot = new Vector2(bodyNextTextRect.x + bodyNextTextRect.width / 2, bodyNextTextRect.y + bodyNextTextRect.height / 2);
-            bodyNextHeadTextRect = new Rect((int)(baseX + (140 + 10) * ratio), (int)(baseY + 5 * ratio), (int)(ratio * (512 - 140 - 20)), (int)(26 * ratio));
+            bodyNextHeadTextRect = new IntRect(baseX + (140 + 10) * ratio, baseY + 5 * ratio, ratio * (512 - 140 - 20), 26 * ratio);
 
-            bodyArrowLineRect = new Rect((int)(baseX + (26 * ratio)), (int)(baseY + (220 * ratio)), arrowLineLengthWithArrow, arrowHeight);
+            bodyArrowLineRect = new IntRect(baseX + (26 * ratio), baseY + (220 * ratio), arrowLineLengthWithArrow, arrowHeight);
 
             forStyle.fontSize = (int)(20 * ratio);
             forStyle.normal.textColor = Color.white;
@@ -218,7 +218,7 @@ namespace TrainDisplay.UI
             circleStyle.normal.background = circleTexture;
 
             arrowTexture = new Texture2D(arrowLength, arrowHeight);
-            int maxStartX = (arrowLineLengthWithArrow - arrowLineLength);
+            int maxStartX = arrowLineLengthWithArrow - arrowLineLength;
             int arrowWidth = arrowLength - maxStartX;
             for (int y = 0; y < arrowTexture.height; y++)
             {
@@ -266,30 +266,30 @@ namespace TrainDisplay.UI
             {
                 return;
             }
-            stationNameRects = new Rect[itemNumber];
-            stationNameRotatedRects = new Rect[itemNumber];
+            stationNameRects = new IntRect[itemNumber];
+            stationNameRotatedRects = new IntRect[itemNumber];
             stationNameRotatedRectPivots = new Vector2[itemNumber];
             stationNameRotatedRectBottoms = new Vector2[itemNumber];
-            stationCirclesRects = new Rect[itemNumber];
+            stationCirclesRects = new IntRect[itemNumber];
             stationNamePositions = PositionUtils.positionsJustifyCenter(arrowLineLength, arrowLineLength / 6, itemNumber);
             for (int i = 0; i < itemNumber; i++)
             {
-                stationNameRects[i] = new Rect(
-                    (int)(baseX + (26 * ratio)) + stationNamePositions[i],
-                    (int)(baseY + (106 * ratio)),
+                stationNameRects[i] = new IntRect(
+                    baseX + (26 * ratio) + stationNamePositions[i],
+                    baseY + (106 * ratio),
                     arrowLineLength / 6,
-                    (int)(104 * ratio)
+                    104 * ratio
                 );
 
                 stationNameRotatedRects[i] = PositionUtils.GetRotatedRect(stationNameRects[i]);
                 stationNameRotatedRectPivots[i] = new Vector2(stationNameRects[i].x + stationNameRects[i].width / 2, stationNameRects[i].y + stationNameRects[i].height / 2);
                 stationNameRotatedRectBottoms[i] = new Vector2(stationNameRotatedRects[i].x, stationNameRotatedRects[i].y + stationNameRotatedRects[i].height);
 
-                stationCirclesRects[i] = new Rect(
-                    (int)(baseX + (26 * ratio)) + stationNamePositions[i] + (arrowLineLength / 6 / 2 - (int)(13 * ratio)),
-                    (int)(baseY + ((220 + 2) * ratio)),
-                    (int)(26 * ratio),
-                    (int)(26 * ratio)
+                stationCirclesRects[i] = new IntRect(
+                    baseX + (26 * ratio) + stationNamePositions[i] + (arrowLineLength / 6 / 2 - (13 * ratio)),
+                    baseY + ((220 + 2) * ratio),
+                    26 * ratio,
+                    26 * ratio
                 );
             }
         }
@@ -412,9 +412,9 @@ namespace TrainDisplay.UI
             
             GUI.backgroundColor = Color.white;
             GUI.Box(
-                new Rect(
-                    (int)(baseX + (26 * ratio)) + stationNamePositions[nowItemIndex] + (arrowLineLength / 6 / 2 - arrowLength / 2) + (stopping ? 0 : (circleDiff / 2)),
-                    (int)(baseY + ((220) * ratio)),
+                new IntRect(
+                    baseX + (26 * ratio) + stationNamePositions[nowItemIndex] + (arrowLineLength / 6 / 2 - arrowLength / 2) + (stopping ? 0 : (circleDiff / 2)),
+                    baseY + (220 * ratio),
                     arrowLength,
                     arrowHeight
                 ),
