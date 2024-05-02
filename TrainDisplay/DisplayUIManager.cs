@@ -6,12 +6,12 @@ namespace TrainDisplay
 {
     public class DisplayUIManager
     {
-        VehicleManager vManager;
-        TransportManager tManager;
+        readonly VehicleManager vManager;
+        readonly TransportManager tManager;
         ushort followInstance;
         ushort[] stationIdList;
         string[] stationNameList;
-        List<int> terminalList = new List<int>();
+        readonly List<int> terminalList = new List<int>();
         LoopCounter nowPos;
         int routeStart;
         int routeEnd;

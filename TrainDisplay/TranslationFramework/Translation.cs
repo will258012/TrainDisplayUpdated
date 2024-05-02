@@ -17,7 +17,7 @@ namespace TrainDisplay.TranslationFramework
         protected Language _displayLanguage = null;
         protected bool _languagesLoaded = false;
         protected bool _loadLanguageAutomatically = true;
-        private string fallbackLanguage = "en";
+        private readonly string fallbackLanguage = "en";
         public Language CurrentLanguage {
             get {
                 if (_currentLanguage == null)

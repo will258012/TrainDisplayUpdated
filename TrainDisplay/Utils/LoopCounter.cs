@@ -3,7 +3,7 @@
     class LoopCounter
     {
         private int innerValue;
-        private int innerMax;
+        private readonly int innerMax;
 
         public int max => innerMax;
         public int Value

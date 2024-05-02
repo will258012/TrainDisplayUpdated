@@ -36,7 +36,7 @@ namespace TrainDisplay.Utils
             {
                 return Join("\n", str.ToCharArray());
             }
-            tmpStr = tmpStr + new String('　', str.Length % numPerLine == 0 ? 0 : numPerLine - (str.Length % numPerLine));
+            tmpStr += new String('　', str.Length % numPerLine == 0 ? 0 : numPerLine - (str.Length % numPerLine));
             string result = "";
 
             for (int j = 0; j < numPerLine; j++)

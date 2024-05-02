@@ -47,7 +47,7 @@ namespace TrainDisplay
             displayUi = DisplayUI.Instance;
             displayUi.enabled = false;
         }
-
+        
         //int debugcounter = 0;
         
         void Update()

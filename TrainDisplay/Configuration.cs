@@ -56,10 +56,8 @@ public abstract class Configuration<C> where C : class, new()
 
     private static string GetConfigPath()
     {
-        var configPathAttribute = typeof(C).GetCustomAttributes(typeof(ConfigurationPathAttribute), true)
-            .FirstOrDefault() as ConfigurationPathAttribute;
-
-        if (configPathAttribute != null)
+        if (typeof(C).GetCustomAttributes(typeof(ConfigurationPathAttribute), true)
+            .FirstOrDefault() is ConfigurationPathAttribute configPathAttribute)
         {
             return configPathAttribute.Value;
         }
