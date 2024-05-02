@@ -60,6 +60,7 @@
     <Compile Include="TranslationFramework\Translation.cs" />
     <Compile Include="TranslationFramework\Util.cs" />
     <Compile Include="UI\DisplayUI.cs" />
+    <Compile Include="Utils\IntRect.cs" />
     <Compile Include="Utils\AStringUtils.cs" />
     <Compile Include="Utils\ModUtils.cs" />
     <Compile Include="Utils\PositionUtils.cs" />
