@@ -1,4 +1,6 @@
 ﻿using ColossalFramework;
+using System;
+using System.Linq;
 using UnityEngine;
 
 namespace TrainDisplay.Utils
@@ -22,7 +24,7 @@ namespace TrainDisplay.Utils
             }
 
             NetManager nm = Singleton<NetManager>.instance;
-            NetNode nn = nm.m_nodes.m_buffer[(int)stopId];
+            NetNode nn = nm.m_nodes.m_buffer[stopId];
             ushort buildingId = FindBuilding(nn.m_position, 100f);
             return GetBuildingName(buildingId) ?? "[" + stopId + "," + buildingId + "]";
         }
@@ -96,7 +98,10 @@ namespace TrainDisplay.Utils
             */
         }
 
-        public static string[] stationSuffix = { "駅", " Station", " Sta.", " Sta" };
+        private static string[] stationSuffix => TrainDisplayMain.Config.StationSuffix
+            .Split(new[] { "\",\"" }, StringSplitOptions.None)
+            .Select(suffix => suffix.Trim('"'))
+            .ToArray();
 
         public static string removeStationSuffix(string stationName)
         {

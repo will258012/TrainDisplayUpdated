@@ -45,16 +45,19 @@ namespace TrainDisplay
         {
             TrainDisplayConfiguration config = Configuration<TrainDisplayConfiguration>.Load();
 
-            helper.AddTextfield(translation.GetTranslation("A_TD_SETTINGS_DISPLAY_WIDTH"), config.DisplayWidth + "", width =>
-            {
-                int displayWidth;
-                if (!int.TryParse(width, out displayWidth))
+            helper.AddTextfield(
+                translation.GetTranslation("A_TD_SETTINGS_DISPLAY_WIDTH"),
+                config.DisplayWidth + "",
+                width =>
                 {
-                    displayWidth = 512;
-                }
-                config.DisplayWidth = displayWidth;
-                Configuration<TrainDisplayConfiguration>.Save();
-            });
+                    int displayWidth;
+                    if (!int.TryParse(width, out displayWidth))
+                    {
+                        displayWidth = 512;
+                    }
+                    config.DisplayWidth = displayWidth;
+                    Configuration<TrainDisplayConfiguration>.Save();
+                });
 
             helper.AddDropdown(
                 translation.GetTranslation("A_TD_SETTINGS_DISPLAY_LANGUAGE"),
@@ -64,6 +67,7 @@ namespace TrainDisplay
                 {
                     config.DisplayLanguage = DisplayLanguageOptions[index];
                     translation.SetDisplayLanguage();
+                    Configuration<TrainDisplayConfiguration>.Save();
                 }
             );
 
@@ -76,10 +80,21 @@ namespace TrainDisplay
                     Configuration<TrainDisplayConfiguration>.Save();
                 }
             );
+
+            helper.AddTextfield(
+                translation.GetTranslation("A_TD_SETTINGS_STATION_SUFFIX"),
+                config.StationSuffix + "",
+                suffix =>
+                {
+                    config.StationSuffix = suffix;
+                    Configuration<TrainDisplayConfiguration>.Save();
+                }
+            );
         }
 
         public void OnCreated(ILoading loading)
         {
+
         }
         public void OnLevelLoaded(LoadMode mode)
         {
