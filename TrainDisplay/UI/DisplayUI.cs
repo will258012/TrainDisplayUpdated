@@ -65,7 +65,7 @@ namespace TrainDisplay.UI
         private readonly GUIStyle circleStyle = new GUIStyle();
         private readonly GUIStyle arrowStyle = new GUIStyle();
 
-        public string testString = "test";
+        //public string testString = "test";
         public string next = "";
         public string prevText = "";
         public bool stopping = false;
@@ -365,6 +365,7 @@ namespace TrainDisplay.UI
 
             int startIndex = circular ? Array.FindIndex(routeStations, (str) => str == prevText) : Math.Min(Array.FindIndex(routeStations, (str) => str == prevText), routeStations.Length - itemNumber);
             int nowItemIndex = 0;
+            string displayLanguage = TrainDisplayMod.translation.DisplayLanguage._uniqueName;
             for (int i = 0; i < itemNumber; i++)
             {
                 int routeIndex = new LoopCounter(routeStations.Length, startIndex + i).Value;
@@ -373,7 +374,7 @@ namespace TrainDisplay.UI
                     nowItemIndex = i;
                 }
 
-                if (TrainDisplayMod.translation.DisplayLanguage._uniqueName == "ja" || TrainDisplayMod.translation.DisplayLanguage._uniqueName == "zh")
+                if (displayLanguage == "ja" || displayLanguage == "zh")
                 {
                     GUI.Label(
                         stationNameRects[i],
