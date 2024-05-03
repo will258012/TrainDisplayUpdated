@@ -2,6 +2,7 @@
 using System.IO;
 using System.Xml.Serialization;
 using ColossalFramework.Globalization;
+using Log = TrainDisplay.Utils.Log;
 
 namespace TrainDisplay.TranslationFramework
 {
@@ -115,7 +116,7 @@ namespace TrainDisplay.TranslationFramework
                 }
                 else
                 {
-                    UnityEngine.Debug.LogWarning("Can't load any localisation files");
+                    Log.Warning("Can't load any localisation files");
                 }
             }
         }
@@ -224,13 +225,13 @@ namespace TrainDisplay.TranslationFramework
                 }
                 else
                 {
-                    UnityEngine.Debug.LogWarning("Returned translation for language \"" + lang._uniqueName + "\" doesn't contain a suitable translation for \"" + translationId + "\"");
+                    Log.Warning("Returned translation for language \"" + lang._uniqueName + "\" doesn't contain a suitable translation for \"" + translationId + "\"");
                 }
             }
             else
             {
-                UnityEngine.Debug.LogWarning("Can't get a translation for \"" + translationId + "\" as there is not a language defined");
-                UnityEngine.Debug.LogWarning(Util.AssemblyPath);
+                Log.Warning("Can't get a translation for \"" + translationId + "\" as there is not a language defined");
+                Log.Warning(Util.AssemblyPath);
             }
 
             return translatedText;
