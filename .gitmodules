@@ -1,0 +1,3 @@
+[submodule "TrainDisplay/Locale"]
+	path = TrainDisplay/Locale
+	url = https://github.com/will258012/TrainDisplayLocale
