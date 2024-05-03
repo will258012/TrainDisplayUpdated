@@ -48,7 +48,7 @@ namespace TrainDisplay
             if (info.m_vehicleType == VehicleInfo.VehicleType.Train || info.m_vehicleType == VehicleInfo.VehicleType.Metro || info.m_vehicleType == VehicleInfo.VehicleType.Monorail)
             {
                 //Log.Message("A");
-                DisplayUI.Instance.testString = "";
+                //DisplayUI.Instance.testString = "";
                 terminalList.Clear();
 
                 ushort lineId = firstVehicle.m_transportLine;
@@ -70,32 +70,21 @@ namespace TrainDisplay
                 ushort nowPosId = firstVehicle.m_targetBuilding;
 
 
-                // 駅リストを作成
                 for (int i = 0; i < stopsNumber; i++)
                 {
+                    // 駅リストを作成
                     ushort stationId = line.GetStop(i);
                     string stationName = StationUtils.GetStationName(stationId);
                     stationIdList[i] = stationId;
                     stationNameList[i] = StationUtils.removeStationSuffix(stationName);
-                    DisplayUI.Instance.testString += stationName + " ";
+                    //DisplayUI.Instance.testString += stationName + " ";
 
                     if (nowPosId == stationId)
                     {
                         nowPos.Value = i;
                     }
-                }
 
-                //  Log.Message("C");
-
-                DisplayUI.Instance.next = stationNameList[nowPos.Value];
-                DisplayUI.Instance.prevText = stationNameList[(nowPos - 1).Value];
-
-                //Log.Message("D");
-
-
-                // 終点駅リストを作成
-                for (int i = 0; i < stopsNumber; i++)
-                {
+                    // 終点駅リストを作成
                     int prevIndex = (i - 1 + stopsNumber) % stopsNumber;
                     int nextIndex = (i + 1) % stopsNumber;
 
@@ -105,11 +94,10 @@ namespace TrainDisplay
                     }
                 }
 
-                //Log.Message("E");
-
+                DisplayUI.Instance.next = stationNameList[nowPos.Value];
+                DisplayUI.Instance.prevText = stationNameList[(nowPos - 1).Value];
 
                 routeUpdate();
-
                 DisplayUI.Instance.lineColor = line.GetColor();
 
                 //Log.Message(DisplayUI.Instance.testString);
