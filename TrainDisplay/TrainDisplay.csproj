@@ -62,11 +62,9 @@
     <Compile Include="UI\DisplayUI.cs" />
     <Compile Include="Utils\IntRect.cs" />
     <Compile Include="Utils\AStringUtils.cs" />
-    <Compile Include="Utils\ModUtils.cs" />
     <Compile Include="Utils\PositionUtils.cs" />
     <Compile Include="Utils\LoopCounter.cs" />
     <Compile Include="Utils\Log.cs" />
-    <Compile Include="Utils\CodeUtils.cs" />
     <Compile Include="Utils\StationUtils.cs" />
   </ItemGroup>
   <ItemGroup>

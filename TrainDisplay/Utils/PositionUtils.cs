@@ -16,7 +16,7 @@ namespace TrainDisplay.Utils
 
             return result;
         }
-
+        /*
         public static int[] positionsSpaceAround(int screenSize, int itemSize, int num)
         {
             int[] result = new int[num];
@@ -28,7 +28,7 @@ namespace TrainDisplay.Utils
 
             return result;
         }
-
+        */
         public static Rect GetRotatedRect(Rect beforeRect)
         {
             float x = -beforeRect.height / 2;
