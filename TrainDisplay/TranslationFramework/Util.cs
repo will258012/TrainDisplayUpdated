@@ -1,39 +1,37 @@
-﻿using System;
-using System.Linq;
+﻿using ColossalFramework;
 using ColossalFramework.Plugins;
-using ICities;
+using System;
+using System.Reflection;
+using Log = TrainDisplay.Utils.Log;
 
 namespace TrainDisplay.TranslationFramework
 {
     public static class Util
     {
-        public static string AssemblyPath => PluginInfo.modPath;
-
-        private static PluginManager.PluginInfo PluginInfo
+        internal static string AssemblyPath
         {
             get
             {
-                var pluginManager = PluginManager.instance;
-                var plugins = pluginManager.GetPluginsInfo();
-
-                foreach (var item in plugins)
+                Assembly executingAssembly = Assembly.GetExecutingAssembly();
+                foreach (PluginManager.PluginInfo item in Singleton<PluginManager>.instance.GetPluginsInfo())
                 {
                     try
                     {
-                        var instances = item.GetInstances<IUserMod>();
-                        if (!(instances.FirstOrDefault() is TrainDisplayMod))
+                        foreach (Assembly assembly in item.GetAssemblies())
                         {
-                            continue;
+                            if (assembly == executingAssembly)
+                            {
+                                return item.modPath;
+                            }
                         }
-                        return item;
                     }
-                    catch
+                    catch (Exception ex)
                     {
-
+                        Log.Error("TrainDisplay: " + ex?.ToString() + "exception iterating through plugins");
                     }
                 }
-                throw new Exception("Failed to find TrainDisplayMod assembly!");
 
+                throw new Exception("Failed to find TrainDisplay Mod assembly!");
             }
         }
     }
