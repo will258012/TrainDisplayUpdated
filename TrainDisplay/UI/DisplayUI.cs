@@ -1,6 +1,8 @@
-﻿using UnityEngine;
-using System;
+﻿using System;
+using System.Collections;
+using TrainDisplay.Config;
 using TrainDisplay.Utils;
+using UnityEngine;
 
 namespace TrainDisplay.UI
 {
@@ -23,7 +25,7 @@ namespace TrainDisplay.UI
 
         private static int screenWidth = 1;
         private static int screenHeight => screenWidth / 16 * 9;
-        private static readonly int baseX = 0;
+        private const byte baseX = 0;
         private static int baseY => Screen.height - screenHeight;
         private static double ratio => screenWidth / 512.0;
 
@@ -87,31 +89,15 @@ namespace TrainDisplay.UI
         void Awake()
         {
             boxStyle.normal.background = Texture2D.whiteTexture;
-
-            updateWidth(true);
+            StartCoroutine(UpdateWidth(true));
         }
-
-        public void updateWidth()
+        public IEnumerator UpdateWidth(bool forceUpdate = false)
         {
-            updateWidth(TrainDisplayMain.Config.DisplayWidth);
-        }
-
-        public void updateWidth(bool forceUpdate)
-        {
-            updateWidth(TrainDisplayMain.Config.DisplayWidth, forceUpdate);
-        }
-
-        public void updateWidth(int width)
-        {
-            updateWidth(width, false);
-        }
-
-        public void updateWidth(int width, bool forceUpdate)
-        {
+            var width = TrainDisplayConfig.Instance.DisplayWidth;
             if (screenWidth == width && !forceUpdate)
             {
                 // 変わってなければ何もしない
-                return;
+                yield break;
             }
             screenWidth = width;
 
@@ -244,6 +230,7 @@ namespace TrainDisplay.UI
             arrowStyle.normal.background = arrowTexture;
 
             updateStationInfoPosition();
+            yield break;
         }
 
         public void UpdateRouteStations(string[] newRouteStations, bool circular)
@@ -261,7 +248,8 @@ namespace TrainDisplay.UI
             updateStationInfoPosition();
         }
 
-        public void updateStationInfoPosition() {
+        public void updateStationInfoPosition()
+        {
             if (itemNumber <= 0)
             {
                 return;
@@ -329,7 +317,8 @@ namespace TrainDisplay.UI
                     index = 0;
                 }
                 shownForText = routeStations[index];
-            } else
+            }
+            else
             {
                 shownForText = routeStations[routeStations.Length - 1];
             }
@@ -338,17 +327,18 @@ namespace TrainDisplay.UI
             {
                 GUI.Label(bodyForTextEngRect, shownForText, forStyle);
                 GUI.Label(bodyForSuffixTextEngRect, circular ? TrainDisplayMod.translation.GetTranslation("A_TD_FOR_CIRCULAR", true) : TrainDisplayMod.translation.GetTranslation("A_TD_FOR", true), forSuffixEngStyle);
-            } else
+            }
+            else
             {
                 GUI.Label(bodyForTextRect, shownForText, forStyle);
                 GUI.Label(bodyForSuffixTextRect, circular ? TrainDisplayMod.translation.GetTranslation("A_TD_FOR_CIRCULAR", true) : TrainDisplayMod.translation.GetTranslation("A_TD_FOR", true), forSuffixStyle);
             }
-            
+
             GUI.Label(bodyNextHeadTextRect, stopping ? TrainDisplayMod.translation.GetTranslation("A_TD_NOW_STOPPING_AT", true) : TrainDisplayMod.translation.GetTranslation("A_TD_NEXT", true), nextHeadStyle);
 
             // 次の駅
             string nextDisplayedText = stopping ? prevText : next;
-            if (TrainDisplayMain.Config.IsTextShrinked)
+            if (TrainDisplayConfig.Instance.IsTextShrinked)
             {
                 float scale = Math.Min(1, 8.0f / nextDisplayedText.Length);
                 GUIUtility.ScaleAroundPivot(new Vector2(scale, 1), bodyNextTextPivot);
@@ -370,7 +360,8 @@ namespace TrainDisplay.UI
             {
                 int routeIndex = new LoopCounter(routeStations.Length, startIndex + i).Value;
                 string sta = routeStations[routeIndex];
-                if (sta == prevText) {
+                if (sta == prevText)
+                {
                     nowItemIndex = i;
                 }
 
@@ -381,7 +372,8 @@ namespace TrainDisplay.UI
                         verticalRouteStations[routeIndex],
                         stationNameStyle
                     );
-                } else
+                }
+                else
                 {
                     GUIUtility.RotateAroundPivot(-90, stationNameRotatedRectPivots[i]);
                     // GUIUtility.RotateAroundPivot(10, stationNameRotatedRectBottoms[i]);
@@ -410,7 +402,7 @@ namespace TrainDisplay.UI
                 );
             }
             int circleDiff = stationNamePositions[1] - stationNamePositions[0];
-            
+
             GUI.backgroundColor = Color.white;
             GUI.Box(
                 new IntRect(

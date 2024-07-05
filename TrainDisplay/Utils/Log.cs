@@ -4,7 +4,7 @@ namespace TrainDisplay.Utils
 {
     class Log
     {
-        private static readonly string PREPEND_TAG = "[TrainDisplay]: ";
+        private const string PREPEND_TAG = "[TrainDisplay]: ";
         public static void Message(string s)
         {
             Debug.Log(PREPEND_TAG + s);

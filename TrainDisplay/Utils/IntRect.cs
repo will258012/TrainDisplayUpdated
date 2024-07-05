@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace TrainDisplay.Utils
 {
@@ -27,31 +26,6 @@ namespace TrainDisplay.Utils
         public override string ToString()
         {
             return $"(x: {x}, y: {y}, width: {width}, height: {height})";
-        }
-        public int this[int index]
-        {
-            get
-            {
-                switch (index)
-                {
-                    case 0: return x;
-                    case 1: return y;
-                    case 2: return width;
-                    case 3: return height;
-                    default: throw new IndexOutOfRangeException();
-                }
-            }
-            set
-            {
-                switch (index)
-                {
-                    case 0: x = value; break;
-                    case 1: y = value; break;
-                    case 2: width = value; break;
-                    case 3: height = value; break;
-                    default: throw new IndexOutOfRangeException();
-                }
-            }
         }
 
         public static implicit operator Rect(IntRect intRect)

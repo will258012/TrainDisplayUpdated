@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using ColossalFramework.Globalization;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
-using ColossalFramework.Globalization;
+using TrainDisplay.Config;
 using Log = TrainDisplay.Utils.Log;
 
 namespace TrainDisplay.TranslationFramework
@@ -18,9 +19,11 @@ namespace TrainDisplay.TranslationFramework
         protected Language _displayLanguage = null;
         protected bool _languagesLoaded = false;
         protected bool _loadLanguageAutomatically = true;
-        private readonly string fallbackLanguage = "en";
-        public Language CurrentLanguage {
-            get {
+        private const string fallbackLanguage = "en";
+        public Language CurrentLanguage
+        {
+            get
+            {
                 if (_currentLanguage == null)
                 {
                     LoadLanguages();
@@ -49,7 +52,7 @@ namespace TrainDisplay.TranslationFramework
 
         private void SetCurrentLanguage()
         {
-            if (_languages == null || _languages.Count ==0 || !LocaleManager.exists)
+            if (_languages == null || _languages.Count == 0 || !LocaleManager.exists)
             {
                 return;
             }
@@ -63,7 +66,7 @@ namespace TrainDisplay.TranslationFramework
             {
                 return;
             }
-            string readableName = TrainDisplayMain.Config.DisplayLanguage;
+            string readableName = TrainDisplayConfig.Instance.DisplayLanguage;
 
 
             _displayLanguage = readableName == "A_TD_SETTINGS_SYSTEM_LANGUAGE"

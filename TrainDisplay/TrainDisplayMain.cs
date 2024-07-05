@@ -1,5 +1,4 @@
 ﻿using TrainDisplay.UI;
-using TrainDisplay.Utils;
 using UnityEngine;
 
 namespace TrainDisplay
@@ -9,18 +8,6 @@ namespace TrainDisplay
     {
 
         public static TrainDisplayMain instance;
-        private static TrainDisplayConfiguration config;
-        public static TrainDisplayConfiguration Config
-        {
-            get
-            {
-                if (config == null)
-                {
-                    config = Configuration<TrainDisplayConfiguration>.Load();
-                }
-                return config;
-            }
-        }
 
         public static void Initialize()
         {
@@ -47,32 +34,26 @@ namespace TrainDisplay
             displayUi = DisplayUI.Instance;
             displayUi.enabled = false;
         }
-        
-        //int debugcounter = 0;
-        
+
         void Update()
         {
             // Toggle Showing
             ushort vehicleID = CSkyL.ModSupport.FollowVehicleID;
-            bool newShowing = vehicleID != default;
-
+            //vehicleID != default : check if fpscam is following a vehicle
+            //DisplayUIManager.Instance.SetTrain(vehicleID) : check if it is a train which is need to display
+            bool newShowing = (vehicleID != default) && DisplayUIManager.Instance.SetTrain(vehicleID);
             if (newShowing != showingDisplay)
             {
-                if (newShowing)
-                {
-                    newShowing = DisplayUIManager.Instance.SetTrain(vehicleID);
-                }
-
-                displayUi.updateWidth();
-                showingDisplay = newShowing;
-                displayUi.enabled = newShowing;
+                displayUi.enabled = showingDisplay = newShowing;
+                if (showingDisplay) StartCoroutine(displayUi.UpdateWidth());
             }
-            // When showing
+        }
+        void LateUpdate()
+        {
             if (showingDisplay)
             {
                 DisplayUIManager.Instance.updateNext();
             }
-
         }
     }
 }
