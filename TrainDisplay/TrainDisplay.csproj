@@ -49,8 +49,8 @@
     <Reference Include="UnityEngine" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TrainDisplayConfiguration.cs" />
-    <Compile Include="Configuration.cs" />
+    <Compile Include="Config\ConfigBase.cs" />
+    <Compile Include="Config\TrainDisplayConfig.cs" />
     <Compile Include="DisplayUIManager.cs" />
     <Compile Include="TrainDisplayMain.cs" />
     <Compile Include="TrainDisplayMod.cs" />
@@ -71,6 +71,7 @@
     <Content Include="Locale\de.xml" />
     <Content Include="Locale\ja.xml" />
     <Content Include="Locale\en.xml" />
+    <Content Include="Locale\ko.xml" />
     <Content Include="Locale\zh.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
