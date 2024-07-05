@@ -1,6 +1,7 @@
 ﻿using ColossalFramework;
 using System;
 using System.Linq;
+using TrainDisplay.Config;
 using UnityEngine;
 
 namespace TrainDisplay.Utils
@@ -11,94 +12,89 @@ namespace TrainDisplay.Utils
         {
             TransportInfo.TransportType.Train,
             TransportInfo.TransportType.Metro,
-            TransportInfo.TransportType.Monorail
+            TransportInfo.TransportType.Monorail,
+            TransportInfo.TransportType.Tram,
         };
-        public static string GetStopName(ushort stopId)
+        private static string GetStopName(ushort stopId)
         {
             InstanceID id = default;
             id.NetNode = stopId;
-            string savedName = InstanceManager.instance.GetName(id);
-            if (savedName != null)
+            string savedName = Singleton<InstanceManager>.instance.GetName(id);
+            if (!savedName.IsNullOrWhiteSpace())
             {
                 return savedName;
             }
 
             NetManager nm = Singleton<NetManager>.instance;
             NetNode nn = nm.m_nodes.m_buffer[stopId];
-            ushort buildingId = FindBuilding(nn.m_position, 100f);
-            return GetBuildingName(buildingId) ?? "[" + stopId + "," + buildingId + "]";
+            var pos = nn.m_position;
+            //building
+            ushort buildingId = FindTransportBuilding(pos, 100f);
+            savedName = GetTransportBuildingName(buildingId);
+            if (!savedName.IsNullOrWhiteSpace())
+            {
+                return savedName;
+            }
+            //road 
+            //bool isNum = false; int number = 0;
+            //isNum = Commons.Utils.SegmentUtils.GetBasicAddressStreetAndNumber(pos, pos, out number, out _); 
+            savedName = $"{stopId} {GetStationRoadName(pos)}";
+            if (!savedName.IsNullOrWhiteSpace())
+            {
+                return savedName;
+            }
+            //district
+            savedName = $"{GetStationDistrictName(pos)}";
+            if (!savedName.IsNullOrWhiteSpace())
+            {
+                return savedName;
+            }
+            return $"<Somewhere>[{stopId}]";
         }
 
-        public static string GetBuildingName(ushort buildingId)
+        public static string GetTransportBuildingName(ushort buildingId)
         {
             InstanceID bid = default;
             bid.Building = buildingId;
             return Singleton<BuildingManager>.instance.GetBuildingName(buildingId, bid);
         }
 
-        public static string GetStationName(ushort stopId)
+        public static string GetStationName(ushort stopId) => GetStopName(stopId) ?? "(" + stopId + ")";
+        public static string GetStationRoadName(Vector3 pos)
         {
-            return GetStopName(stopId) ?? "(" + stopId + ")";
+            var segmentid = CSkyL.Game.Map.RayCastRoad(new CSkyL.Transform.Position { x = pos.x, up = pos.y, y = pos.z });
+            var name = CSkyL.Game.Object.Segment.GetName(segmentid);
+            return name;
         }
-
-        public static ushort FindBuilding(Vector3 pos, float maxDistance)
+        public static object GetStationDistrictName(Vector3 pos)
+        {
+            var districtId = CSkyL.Game.Map.RayCastDistrict(new CSkyL.Transform.Position { x = pos.x, up = pos.y, y = pos.z });
+            var name = CSkyL.Game.Object.District.GetName(districtId);
+            return name;
+        }
+        public static ushort FindTransportBuilding(Vector3 pos, float maxDistance)
         {
             BuildingManager bm = Singleton<BuildingManager>.instance;
+
             foreach (var tType in stationTransportType)
             {
-                ushort stationId = bm.FindTransportBuilding(pos, maxDistance, tType);
-                if (stationId != 0)
-                {
-                    return stationId;
-                }
-            }
-            return 0;
-            //if (allowedTypes == null || allowedTypes.Length == 0)
-            //{
-            //    return bm.FindBuilding(pos, maxDistance, service, subService, flagsRequired, flagsForbidden);
-            //}
+                ushort buildingid = bm.FindTransportBuilding(pos, maxDistance, tType);
 
-            /*
-            int num = Mathf.Max((int)(((pos.x - maxDistance) / 64f) + 135f), 0);
-            int num2 = Mathf.Max((int)(((pos.z - maxDistance) / 64f) + 135f), 0);
-            int num3 = Mathf.Min((int)(((pos.x + maxDistance) / 64f) + 135f), 269);
-            int num4 = Mathf.Min((int)(((pos.z + maxDistance) / 64f) + 135f), 269);
-            ushort result = 0;
-            float currentDistance = maxDistance * maxDistance;
-            for (int i = num2; i <= num4; i++)
-            {
-                for (int j = num; j <= num3; j++)
+                if (buildingid != 0)
                 {
-                    ushort buildingId = bm.m_buildingGrid[(i * 270) + j];
-                    //int num7 = 0;
-                    while (buildingId != 0)
+                    if (bm.m_buildings.m_buffer[buildingid].m_parentBuilding != 0)
                     {
-                        BuildingInfo info = bm.m_buildings.m_buffer[buildingId].Info;
-                        //if (!CheckInfoCompatibility(pos, service, subService, allowedTypes, flagsRequired, flagsForbidden, bm, ref result, ref currentDistance, buildingId, info) && info.m_subBuildings?.Length > 0)
-                        //{
-                        //    foreach (BuildingInfo.SubInfo subBuilding in info.m_subBuildings)
-                        //    {
-                        //        if (subBuilding != null && CheckInfoCompatibility(pos, service, subService, allowedTypes, flagsRequired, flagsForbidden, bm, ref result, ref currentDistance, buildingId, subBuilding.m_buildingInfo))
-                        //        {
-                        //            break;
-                        //        }
-                        //    }
-                        //}
-                        buildingId = bm.m_buildings.m_buffer[buildingId].m_nextGridBuilding;
-                        //if (++num7 >= 49152)
-                        //{
-                        //    CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
-                        //    break;
-                        //}
+                        buildingid = Building.FindParentBuilding(buildingid);
                     }
+                    return buildingid;
                 }
             }
-            
-            return result;
-            */
+            return default;
         }
 
-        private static string[] stationSuffix => TrainDisplayMain.Config.StationSuffix
+
+
+        private static string[] stationSuffix => TrainDisplayConfig.Instance.StationSuffix
             .Split(new[] { "\",\"" }, StringSplitOptions.None)
             .Select(suffix => suffix.Trim('"'))
             .ToArray();

@@ -1,6 +1,8 @@
 ﻿using ICities;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using TrainDisplay.Config;
 using TrainDisplay.TranslationFramework;
 
 namespace TrainDisplay
@@ -11,14 +13,15 @@ namespace TrainDisplay
 
         public static Translation translation = new Translation();
 
-        public string Name
+        public string Name => $"Train Display - Updated v{Version}";
+        public string Description => "Japanese Style Train Display";
+        private string Version
         {
-            get { return "Train Display - Updated"; }
-        }
-
-        public string Description
-        {
-            get { return "Japanese Style Train Display"; }
+            get
+            {
+                var assemblyVersion = Assembly.GetExecutingAssembly().GetName().Version;
+                return $"{assemblyVersion.Major}.{assemblyVersion.Minor}.{assemblyVersion.Build}";
+            }
         }
 
         private static List<string> _displayLanguageOptions = null;
@@ -43,20 +46,19 @@ namespace TrainDisplay
         }
         public void OnSettingsUI(UIHelperBase helper)
         {
-            TrainDisplayConfiguration config = Configuration<TrainDisplayConfiguration>.Load();
+            var config = TrainDisplayConfig.Instance;
 
             helper.AddTextfield(
                 translation.GetTranslation("A_TD_SETTINGS_DISPLAY_WIDTH"),
                 config.DisplayWidth + "",
                 width =>
                 {
-                    int displayWidth;
-                    if (!int.TryParse(width, out displayWidth))
+                    if (!int.TryParse(width, out int displayWidth))
                     {
                         displayWidth = 512;
                     }
                     config.DisplayWidth = displayWidth;
-                    Configuration<TrainDisplayConfiguration>.Save();
+                    TrainDisplayConfig.Save();
                 });
 
             helper.AddDropdown(
@@ -67,7 +69,7 @@ namespace TrainDisplay
                 {
                     config.DisplayLanguage = DisplayLanguageOptions[index];
                     translation.SetDisplayLanguage();
-                    Configuration<TrainDisplayConfiguration>.Save();
+                    TrainDisplayConfig.Save();
                 }
             );
 
@@ -77,7 +79,7 @@ namespace TrainDisplay
                 shrinked =>
                 {
                     config.IsTextShrinked = shrinked;
-                    Configuration<TrainDisplayConfiguration>.Save();
+                    TrainDisplayConfig.Save();
                 }
             );
 
@@ -87,9 +89,31 @@ namespace TrainDisplay
                 suffix =>
                 {
                     config.StationSuffix = suffix;
-                    Configuration<TrainDisplayConfiguration>.Save();
+                    TrainDisplayConfig.Save();
                 }
             );
+            helper.AddSpace(10);
+            UIHelperBase group = helper.AddGroup(translation.GetTranslation("A_TD_SETTINGS_DISPLAY_VEHICLE_TYPE"));
+            group.AddCheckbox(translation.GetTranslation("A_TD_SETTINGS_IS_TRAIN"), config.IsTrain, check =>
+            {
+                config.IsTrain = check;
+                TrainDisplayConfig.Save();
+            });
+            group.AddCheckbox(translation.GetTranslation("A_TD_SETTINGS_IS_METRO"), config.IsMetro, check =>
+            {
+                config.IsMetro = check;
+                TrainDisplayConfig.Save();
+            });
+            group.AddCheckbox(translation.GetTranslation("A_TD_SETTINGS_IS_MONORAIL"), config.IsMonorail, check =>
+            {
+                config.IsMonorail = check;
+                TrainDisplayConfig.Save();
+            });
+            group.AddCheckbox(translation.GetTranslation("A_TD_SETTINGS_IS_TRAM"), config.IsTram, check =>
+            {
+                config.IsTram = check;
+                TrainDisplayConfig.Save();
+            });
         }
 
         public void OnCreated(ILoading loading)
