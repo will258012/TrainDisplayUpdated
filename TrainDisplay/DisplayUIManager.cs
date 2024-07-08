@@ -56,7 +56,6 @@ namespace TrainDisplay
                         terminalList.Clear();
 
                         ushort lineId = firstVehicle.m_transportLine;
-                        Log.Message(lineId.ToString());
                         if (lineId == 0)
                         {
                             return false;
@@ -105,7 +104,7 @@ namespace TrainDisplay
 
                         routeUpdate();
                         DisplayUI.Instance.lineColor = line.GetColor();
-                        Log.Message("LineTrainID " + line.m_vehicles);
+                        //Log.Message("LineTrainID " + line.m_vehicles);
 
                         return true;
                     }
@@ -132,7 +131,7 @@ namespace TrainDisplay
 
             routeStart = terminalList[(tIndex - 1 + terminalList.Count) % terminalList.Count];
             routeEnd = terminalList[tIndex % terminalList.Count];
-            Log.Message("Start:" + routeStart + ", End:" + routeEnd);
+            //Log.Message("Start:" + routeStart + ", End:" + routeEnd);
         }
 
 

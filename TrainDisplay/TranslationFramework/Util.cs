@@ -27,7 +27,7 @@ namespace TrainDisplay.TranslationFramework
                     }
                     catch (Exception ex)
                     {
-                        Log.Error("TrainDisplay: " + ex?.ToString() + "exception iterating through plugins");
+                        Log.Error(ex?.ToString() + "exception iterating through plugins");
                     }
                 }
 
