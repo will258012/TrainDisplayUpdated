@@ -13,5 +13,9 @@
         public bool IsMetro { get; set; } = true;
         public bool IsMonorail { get; set; } = true;
         public bool IsTram { get; set; } = true;
+        public bool IsBus { get; set; } = true;
+        public bool IsTrolleybus { get; set; } = true;
+        public bool IsFerry { get; set; } = true;
+        public bool IsBlimp { get; set; } = true;
     }
 }

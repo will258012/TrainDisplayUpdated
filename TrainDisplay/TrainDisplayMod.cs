@@ -114,6 +114,26 @@ namespace TrainDisplay
                 config.IsTram = check;
                 TrainDisplayConfig.Save();
             });
+            group.AddCheckbox(translation.GetTranslation("A_TD_SETTINGS_IS_BUS"), config.IsBus, check =>
+            {
+                config.IsBus = check;
+                TrainDisplayConfig.Save();
+            });
+            group.AddCheckbox(translation.GetTranslation("A_TD_SETTINGS_IS_TROLLEYBUS"), config.IsTrolleybus, check =>
+            {
+                config.IsTrolleybus = check;
+                TrainDisplayConfig.Save();
+            });
+            group.AddCheckbox(translation.GetTranslation("A_TD_SETTINGS_IS_FERRY"), config.IsFerry, check =>
+            {
+                config.IsFerry = check;
+                TrainDisplayConfig.Save();
+            });
+            group.AddCheckbox(translation.GetTranslation("A_TD_SETTINGS_IS_BLIMP"), config.IsBlimp, check =>
+            {
+                config.IsBlimp = check;
+                TrainDisplayConfig.Save();
+            });
         }
 
         public void OnCreated(ILoading loading)

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using CSkyL.Game.Utils;
+using System.Collections.Generic;
 using TrainDisplay.Config;
 using TrainDisplay.UI;
 using TrainDisplay.Utils;
@@ -46,13 +47,17 @@ namespace TrainDisplay
 
             VehicleInfo info = firstVehicle.Info;
 
-            switch (info.m_vehicleType)
+            switch (info.vehicleCategory)
             {
-                case VehicleInfo.VehicleType.Train when TrainDisplayConfig.Instance.IsTrain:
-                case VehicleInfo.VehicleType.Metro when TrainDisplayConfig.Instance.IsMetro:
-                case VehicleInfo.VehicleType.Monorail when TrainDisplayConfig.Instance.IsMonorail:
-                case VehicleInfo.VehicleType.Tram when TrainDisplayConfig.Instance.IsTram:
-                    {
+                case VehicleInfo.VehicleCategory.PassengerTrain when TrainDisplayConfig.Instance.IsTrain:
+                case VehicleInfo.VehicleCategory.MetroTrain when TrainDisplayConfig.Instance.IsMetro:
+                case VehicleInfo.VehicleCategory.Monorail when TrainDisplayConfig.Instance.IsMonorail:
+                case VehicleInfo.VehicleCategory.Tram when TrainDisplayConfig.Instance.IsTram:
+                case VehicleInfo.VehicleCategory.Bus when TrainDisplayConfig.Instance.IsBus:
+                case VehicleInfo.VehicleCategory.Trolleybus when TrainDisplayConfig.Instance.IsTrolleybus:
+                case VehicleInfo.VehicleCategory.PassengerFerry when  TrainDisplayConfig.Instance.IsFerry:
+                case VehicleInfo.VehicleCategory.PassengerBlimp when TrainDisplayConfig.Instance.IsBlimp:
+                {
                         terminalList.Clear();
 
                         ushort lineId = firstVehicle.m_transportLine;
@@ -78,7 +83,7 @@ namespace TrainDisplay
                         for (int i = 0; i < stopsNumber; i++)
                         {
                             ushort stationId = line.GetStop(i);
-                            string stationName = StationUtils.removeStationSuffix(StationUtils.GetStationName(stationId));
+                            string stationName = StationUtils.RemoveStationSuffix(StationUtil.GetStationName(stationId));
                             stationIdList[i] = stationId;
                             stationNameList[i] = stationName;
 
@@ -102,7 +107,7 @@ namespace TrainDisplay
                             }
                         }
 
-                        routeUpdate();
+                        RouteUpdate();
                         DisplayUI.Instance.lineColor = line.GetColor();
                         //Log.Message("LineTrainID " + line.m_vehicles);
 
@@ -154,7 +159,7 @@ namespace TrainDisplay
             return tmpList.ToArray();
         }
 
-        void routeUpdate()
+        public void RouteUpdate()
         {
             UpdateRouteIndices();
             var stopIndices = GetStationIndicesOnRoute();
@@ -166,12 +171,12 @@ namespace TrainDisplay
             DisplayUI.Instance.UpdateRouteStations(routeStations, Circular);
         }
 
-        public void updateNext()
+        public void UpdateNext()
         {
             ushort firstVehicleId = vManager.m_vehicles.m_buffer[followInstance].GetFirstVehicle(followInstance);
             Vehicle trainVehicle = vManager.m_vehicles.m_buffer[firstVehicleId];
             ushort nextStop = trainVehicle.m_targetBuilding;
-            string targetBuilding = StationUtils.removeStationSuffix(StationUtils.GetStationName(nextStop));
+            string targetBuilding = StationUtils.RemoveStationSuffix(StationUtil.GetStationName(nextStop));
 
             DisplayUI.Instance.stopping = (trainVehicle.m_flags & Vehicle.Flags.Stopped) != 0;
 
@@ -184,7 +189,7 @@ namespace TrainDisplay
 
                 if (beforePos == routeEnd)
                 {
-                    routeUpdate();
+                    RouteUpdate();
                 }
             }
         }
