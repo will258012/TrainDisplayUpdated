@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Text;
 
 namespace TrainDisplay.Utils
 {
@@ -13,45 +13,51 @@ namespace TrainDisplay.Utils
 
         public static string Join(string delimiter, char[] c)
         {
-            string result = "";
+            if (c == null || c.Length == 0)
+            {
+                return string.Empty;
+            }
+
+            var result = new StringBuilder();
             for (int i = 0; i < c.Length; i++)
             {
                 if (i != 0)
                 {
-                    result += delimiter;
+                    result.Append(delimiter);
                 }
-                result += c[i];
+                result.Append(c[i]);
             }
-            return result;
+            return result.ToString();
         }
         public static string CreateVerticalString(string str, int numPerLine)
         {
-            string tmpStr = str;
+            var tmpStr = new StringBuilder();
+            tmpStr.Append(str);
             foreach (string before in verticalStringConvertDic.Keys)
             {
-                tmpStr = tmpStr.Replace(before, verticalStringConvertDic[before]);
+                tmpStr.Replace(before, verticalStringConvertDic[before]);
             }
 
             if (str.Length <= numPerLine)
             {
                 return Join("\n", str.ToCharArray());
             }
-            tmpStr += new String('　', str.Length % numPerLine == 0 ? 0 : numPerLine - (str.Length % numPerLine));
-            string result = "";
+            tmpStr.Append('　', str.Length % numPerLine == 0 ? 0 : numPerLine - (str.Length % numPerLine));
+            var result = new StringBuilder();
 
             for (int j = 0; j < numPerLine; j++)
             {
                 if (j != 0)
                 {
-                    result += "\n";
+                    result.Append("\n");
                 }
                 for (int i = 0; i < tmpStr.Length / numPerLine; i++)
                 {
-                    result += tmpStr[(tmpStr.Length / numPerLine - i - 1) * numPerLine + j];
+                    result.Append(tmpStr[(tmpStr.Length / numPerLine - i - 1) * numPerLine + j]);
                 }
             }
 
-            return result;
+            return result.ToString();
         }
     }
 }
