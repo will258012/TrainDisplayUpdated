@@ -259,7 +259,7 @@ namespace TrainDisplay.UI
             stationNameRotatedRectPivots = new Vector2[itemNumber];
             stationNameRotatedRectBottoms = new Vector2[itemNumber];
             stationCirclesRects = new IntRect[itemNumber];
-            stationNamePositions = PositionUtils.positionsJustifyCenter(arrowLineLength, arrowLineLength / 6, itemNumber);
+            stationNamePositions = PositionUtils.PositionsJustifyCenter(arrowLineLength, arrowLineLength / 6, itemNumber);
             for (int i = 0; i < itemNumber; i++)
             {
                 stationNameRects[i] = new IntRect(

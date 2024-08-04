@@ -28,14 +28,8 @@ namespace TrainDisplay.Utils
             return $"(x: {x}, y: {y}, width: {width}, height: {height})";
         }
 
-        public static implicit operator Rect(IntRect intRect)
-        {
-            return new Rect(intRect.x, intRect.y, intRect.width, intRect.height);
-        }
+        public static implicit operator Rect(IntRect intRect) => new Rect(intRect.x, intRect.y, intRect.width, intRect.height);
 
-        public static implicit operator IntRect(Rect rect)
-        {
-            return new IntRect((int)rect.x, (int)rect.y, (int)rect.width, (int)rect.height);
-        }
+        public static implicit operator IntRect(Rect rect) => new IntRect((int)rect.x, (int)rect.y, (int)rect.width, (int)rect.height);
     }
 }

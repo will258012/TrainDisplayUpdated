@@ -8,14 +8,8 @@
         public int max => innerMax;
         public int Value
         {
-            get
-            {
-                return innerValue;
-            }
-            set
-            {
-                innerValue = value >= 0 ? value % max : ((-value / max + 1) * max + value) % max;
-            }
+            get => innerValue;
+            set => innerValue = value >= 0 ? value % max : ((-value / max + 1) * max + value) % max;
         }
 
         public LoopCounter(int max, int start = 0)

@@ -52,7 +52,7 @@ namespace TrainDisplay
         {
             if (showingDisplay)
             {
-                DisplayUIManager.Instance.updateNext();
+                DisplayUIManager.Instance.UpdateNext();
             }
         }
     }
