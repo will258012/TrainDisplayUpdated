@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Linq;
-using TrainDisplay.Config;
+using TrainDisplay.Settings;
 
 namespace TrainDisplay.Utils
 {
-    class StationUtils
+    public class StationUtils
     {
-
-        private static string[] StationSuffix => TrainDisplayConfig.Instance.StationSuffix
+        private static string[] StationSuffix => TrainDisplaySettings.StationSuffix
             .Split(new[] { "\",\"" }, StringSplitOptions.None)
             .Select(suffix => suffix.Trim('"'))
             .ToArray();

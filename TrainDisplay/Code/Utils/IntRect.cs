@@ -23,10 +23,7 @@ namespace TrainDisplay.Utils
             this.width = (int)width;
             this.height = (int)height;
         }
-        public override string ToString()
-        {
-            return $"(x: {x}, y: {y}, width: {width}, height: {height})";
-        }
+        public override string ToString() => $"(x: {x}, y: {y}, width: {width}, height: {height})";
 
         public static implicit operator Rect(IntRect intRect) => new Rect(intRect.x, intRect.y, intRect.width, intRect.height);
 

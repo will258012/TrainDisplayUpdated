@@ -1,6 +1,9 @@
-﻿using System;
+﻿using AlgernonCommons;
+using AlgernonCommons.Translation;
+using ColossalFramework.Globalization;
+using System;
 using System.Collections;
-using TrainDisplay.Config;
+using TrainDisplay.Settings;
 using TrainDisplay.Utils;
 using UnityEngine;
 
@@ -17,7 +20,7 @@ namespace TrainDisplay.UI
             {
                 if (instance == null)
                 {
-                    instance = TrainDisplayMain.instance.gameObject.AddComponent<DisplayUI>();
+                    instance = TrainDisplayMain.Instance.gameObject.AddComponent<DisplayUI>();
                 }
                 return instance;
             }
@@ -68,15 +71,18 @@ namespace TrainDisplay.UI
         private readonly GUIStyle arrowStyle = new GUIStyle();
 
         //public string testString = "test";
-        public string next = "";
-        public string prevText = "";
-        public bool stopping = false;
+        // Name: use for display
+        // ID: use for positioning
+        public string nextStation_Name = "";
+        public ushort nextStation_ID;
+        public string prevStation_Name = "";
+        public ushort prevStation_ID;
+        private string[] RouteStationsName = { };
+        private string[] vertical_RouteStationsName = { };
+        private ushort[] RouteStationsID = { };
+        public bool IsStopping = false;
+        public bool IsCircular = false;
         public Color lineColor = Color.white;
-
-        public bool circular = false;
-
-        private string[] routeStations = { };
-        private string[] verticalRouteStations = { };
 
         private IntRect[] stationNameRects = { };
         private IntRect[] stationNameRotatedRects = { };
@@ -93,10 +99,10 @@ namespace TrainDisplay.UI
         }
         public IEnumerator UpdateWidth(bool forceUpdate = false)
         {
-            var width = TrainDisplayConfig.Instance.DisplayWidth;
+            var width = TrainDisplaySettings.DisplayWidth;
             if (screenWidth == width && !forceUpdate)
             {
-                // 変わってなければ何もしない
+                // If not changed, do nothing
                 yield break;
             }
             screenWidth = width;
@@ -233,18 +239,19 @@ namespace TrainDisplay.UI
             yield break;
         }
 
-        public void UpdateRouteStations(string[] newRouteStations, bool circular)
+        internal void UpdateRouteStations(string[] newRouteStationsName, ushort[] newRouteStationsID, bool IsCircular)
         {
-            routeStations = newRouteStations;
-            this.circular = circular;
+            RouteStationsName = newRouteStationsName;
+            RouteStationsID = newRouteStationsID;
+            this.IsCircular = IsCircular;
 
-            verticalRouteStations = new string[routeStations.Length];
-            for (int i = 0; i < routeStations.Length; i++)
+            vertical_RouteStationsName = new string[RouteStationsName.Length];
+            for (int i = 0; i < RouteStationsName.Length; i++)
             {
-                verticalRouteStations[i] = AStringUtils.CreateVerticalString(routeStations[i], 4);
+                vertical_RouteStationsName[i] = AStringUtils.CreateVerticalString(RouteStationsName[i], 4);
             }
 
-            itemNumber = Math.Min(routeStations.Length, 6);
+            itemNumber = Math.Min(RouteStationsName.Length, 6);
             updateStationInfoPosition();
         }
 
@@ -284,61 +291,118 @@ namespace TrainDisplay.UI
 
         private bool ForTextPositionIsOnTop(bool circular)
         {
-            switch (TrainDisplayMod.translation.DisplayLanguage._uniqueName)
+            switch (Translations.CurrentLanguage)
             {
-                case "en":
+                case "en-EN":
                     return true;
-                case "ja":
+                case "ja-JP":
                     return false;
-                case "zh":
+                case "zh-CN":
                     return !circular;
+                case "default":
+                    switch (LocaleManager.instance.language)
+                    {
+                        case "en":
+                            return true;
+                        case "ja":
+                            return false;
+                        case "zh":
+                            return !circular;
+                    }
+                    break;
             }
             return true;
         }
-
+        private bool showWarning = false;
+        private string warningText;
+        public void ShowWarning(string warningText)
+        {
+            showWarning = true;
+            this.warningText = warningText;
+            Logging.KeyMessage($"Displaying Stopped: {warningText}");
+        }
         private void OnGUI()
         {
             //GUI.Box(screenRect, "");
 
-            // ヘッダー
+            // Header
             GUI.backgroundColor = new Color(0.16f, 0.16f, 0.16f);
             GUI.Box(headerRect, "", boxStyle);
+
+            if (showWarning)
+            {
+                GUI.backgroundColor = Color.white;
+                GUI.Box(bodyRect, "", boxStyle);
+
+                GUIStyle warningBoxStyle = new GUIStyle(GUI.skin.box)
+                {
+                    fontSize = (int)(50 * ratio),
+                };
+                warningBoxStyle.normal.textColor = Color.white;
+                warningBoxStyle.alignment = TextAnchor.UpperLeft;
+
+                GUI.Box(headerRect, Translations.Translate("WARNTITLE"), warningBoxStyle);
+
+                GUIStyle warningLabelStyle = new GUIStyle(GUI.skin.label)
+                {
+                    fontSize = (int)(25 * ratio)
+                };
+                warningLabelStyle.normal.textColor = Color.black;
+                warningLabelStyle.wordWrap = true;
+
+                GUI.Label(bodyRect, string.Format(Translations.Translate("WARNDETAIL"), warningText, "\n"), warningLabelStyle);
+
+                float buttonWidth = 150 * (float)ratio;
+                float buttonHeight = 40 * (float)ratio;
+
+                if (GUI.Button(new Rect(10 * (float)ratio, Screen.height - buttonHeight - 10 * (float)ratio, buttonWidth, buttonHeight), Translations.Translate("IGNORE")))
+                {
+                    showWarning = false;
+                }
+
+                if (GUI.Button(new Rect(20 * (float)ratio + buttonWidth, Screen.height - buttonHeight - 10 * (float)ratio, buttonWidth, buttonHeight), Translations.Translate("HIDE")))
+                {
+                    showWarning = enabled = false;
+                }
+                return;
+            }
 
             GUI.backgroundColor = lineColor;
             GUI.Box(bodyLineRect, "", boxStyle);
 
             string shownForText;
-            if (circular)
+            if (IsCircular)
             {
-                int index = Array.FindIndex(routeStations, (str) => str == prevText);
+                //int index = Array.FindIndex(RouteStationsName, (str) => str == prevText);
+                var index = Array.FindIndex(RouteStationsID, (id) => id == prevStation_ID);
                 index = ((index / 3) + 1) * 3;
-                if (index > routeStations.Length - 3)
+                if (index > RouteStationsName.Length - 3)
                 {
                     index = 0;
                 }
-                shownForText = routeStations[index];
+                shownForText = RouteStationsName[index];
             }
             else
             {
-                shownForText = routeStations[routeStations.Length - 1];
+                shownForText = RouteStationsName[RouteStationsName.Length - 1];
             }
 
-            if (ForTextPositionIsOnTop(circular))
+            if (ForTextPositionIsOnTop(IsCircular))
             {
                 GUI.Label(bodyForTextEngRect, shownForText, forStyle);
-                GUI.Label(bodyForSuffixTextEngRect, circular ? TrainDisplayMod.translation.GetTranslation("A_TD_FOR_CIRCULAR", true) : TrainDisplayMod.translation.GetTranslation("A_TD_FOR", true), forSuffixEngStyle);
+                GUI.Label(bodyForSuffixTextEngRect, IsCircular ? Translations.Translate("FOR_CIRCULAR") : Translations.Translate("FOR"), forSuffixEngStyle);
             }
             else
             {
                 GUI.Label(bodyForTextRect, shownForText, forStyle);
-                GUI.Label(bodyForSuffixTextRect, circular ? TrainDisplayMod.translation.GetTranslation("A_TD_FOR_CIRCULAR", true) : TrainDisplayMod.translation.GetTranslation("A_TD_FOR", true), forSuffixStyle);
+                GUI.Label(bodyForSuffixTextRect, IsCircular ? Translations.Translate("FOR_CIRCULAR") : Translations.Translate("FOR"), forSuffixStyle);
             }
 
-            GUI.Label(bodyNextHeadTextRect, stopping ? TrainDisplayMod.translation.GetTranslation("A_TD_NOW_STOPPING_AT", true) : TrainDisplayMod.translation.GetTranslation("A_TD_NEXT", true), nextHeadStyle);
+            GUI.Label(bodyNextHeadTextRect, IsStopping ? Translations.Translate("NOW_STOPPING_AT") : Translations.Translate("NEXT"), nextHeadStyle);
 
-            // 次の駅
-            string nextDisplayedText = stopping ? prevText : next;
-            if (TrainDisplayConfig.Instance.IsTextShrinked)
+            // Next station
+            string nextDisplayedText = IsStopping ? prevStation_Name : nextStation_Name;
+            if (TrainDisplaySettings.IsTextShrinked)
             {
                 float scale = Math.Min(1, 8.0f / nextDisplayedText.Length);
                 GUIUtility.ScaleAroundPivot(new Vector2(scale, 1), bodyNextTextPivot);
@@ -352,46 +416,67 @@ namespace TrainDisplay.UI
 
             GUI.backgroundColor = lineColor;
             GUI.Box(bodyArrowLineRect, "", arrowRectStyle);
-
-            int startIndex = circular ? Array.FindIndex(routeStations, (str) => str == prevText) : Math.Min(Array.FindIndex(routeStations, (str) => str == prevText), routeStations.Length - itemNumber);
+            var Index2 = Array.FindIndex(RouteStationsID, (id) => id == prevStation_ID);
+            //int startIndex = circular ? Array.FindIndex(RouteStationsName, (str) => str == prevText) : Math.Min(Array.FindIndex(RouteStationsName, (str) => str == prevText), RouteStationsName.Length - itemNumber);
+            int startIndex = IsCircular ? Index2 : Math.Min(Index2, RouteStationsID.Length - itemNumber);
             int nowItemIndex = 0;
-            string displayLanguage = TrainDisplayMod.translation.DisplayLanguage._uniqueName;
+            string displayLanguage = Translations.CurrentLanguage;
+            string gameLanguage = LocaleManager.instance.language;
             for (int i = 0; i < itemNumber; i++)
             {
-                int routeIndex = new LoopCounter(routeStations.Length, startIndex + i).Value;
-                string sta = routeStations[routeIndex];
+                int routeIndex = new LoopCounter(RouteStationsID.Length, startIndex + i).Value;
+
+                var IndexId = RouteStationsID[routeIndex];
+                if (IndexId == prevStation_ID)
+                {
+                    nowItemIndex = i;
+                }
+                /*
+                string sta = RouteStationsName[routeIndex];
                 if (sta == prevText)
                 {
                     nowItemIndex = i;
                 }
-
-                if (displayLanguage == "ja" || displayLanguage == "zh")
+                */
+                switch (displayLanguage)
                 {
-                    GUI.Label(
-                        stationNameRects[i],
-                        verticalRouteStations[routeIndex],
-                        stationNameStyle
-                    );
-                }
-                else
-                {
-                    GUIUtility.RotateAroundPivot(-90, stationNameRotatedRectPivots[i]);
-                    // GUIUtility.RotateAroundPivot(10, stationNameRotatedRectBottoms[i]);
-
-                    GUI.Label(
-                        stationNameRotatedRects[i],
-                        routeStations[routeIndex],
-                        stationNameRotatedStyle
-                    );
-
-                    GUI.matrix = Matrix4x4.identity;
+                    case "ja-JP":
+                    case "zh-CN":
+                        GUI.Label(
+                            stationNameRects[i],
+                            vertical_RouteStationsName[routeIndex],
+                            stationNameStyle
+                        );
+                        break;
+                    case "default":
+                        switch (gameLanguage)
+                        {
+                            case "ja":
+                            case "zh":
+                                GUI.Label(
+                                    stationNameRects[i],
+                                    vertical_RouteStationsName[routeIndex],
+                                    stationNameStyle
+                                );
+                                break;
+                        }
+                        break;
+                    default:
+                        GUIUtility.RotateAroundPivot(-90, stationNameRotatedRectPivots[i]);
+                        GUI.Label(
+                            stationNameRotatedRects[i],
+                            RouteStationsName[routeIndex],
+                            stationNameRotatedStyle
+                        );
+                        GUI.matrix = Matrix4x4.identity;
+                        break;
                 }
             }
 
             GUI.backgroundColor = Color.white;
             for (int i = 0; i < itemNumber; i++)
             {
-                if (stopping && i == nowItemIndex)
+                if (IsStopping && i == nowItemIndex)
                 {
                     continue;
                 }
@@ -406,7 +491,7 @@ namespace TrainDisplay.UI
             GUI.backgroundColor = Color.white;
             GUI.Box(
                 new IntRect(
-                    baseX + (26 * ratio) + stationNamePositions[nowItemIndex] + (arrowLineLength / 6 / 2 - arrowLength / 2) + (stopping ? 0 : (circleDiff / 2)),
+                    baseX + (26 * ratio) + stationNamePositions[nowItemIndex] + (arrowLineLength / 6 / 2 - arrowLength / 2) + (IsStopping ? 0 : (circleDiff / 2)),
                     baseY + (220 * ratio),
                     arrowLength,
                     arrowHeight
@@ -414,8 +499,7 @@ namespace TrainDisplay.UI
                 "",
                 arrowStyle
             );
-
-            //GUI.Label(testRect, testString + "\nNext: " + next + " For: " + forText, style);
         }
     }
 }
+
