@@ -25,6 +25,7 @@ namespace TrainDisplay
         protected override void LoadedActions(LoadMode mode)
         {
             base.LoadedActions(mode);
+            gameObject = new GameObject();
             gameObject.AddComponent<TrainDisplayMain>();
         }
 
