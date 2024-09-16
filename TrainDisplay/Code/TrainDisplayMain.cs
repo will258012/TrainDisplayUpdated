@@ -12,7 +12,6 @@ namespace TrainDisplay
     {
         public static TrainDisplayMain Instance { get; set; }
 
-        private bool IsShowingDisplay = false;
         internal bool HasShownWarning = false;
 
         private void Awake()
@@ -26,23 +25,20 @@ namespace TrainDisplay
         {
             try
             {
-                // Toggle Showing
                 var vehicleId = GetCurrentVehicleID();
-                var status = false;
-                if (vehicleId != default)
-                    // Perform check
-                    status = DisplayUIManager.Instance.SetDisplay(vehicleId);
-
-                if (status != IsShowingDisplay)
+                if (!DisplayUI.Instance.enabled)
                 {
-                    DisplayUI.Instance.enabled = IsShowingDisplay = status;
-                    if (IsShowingDisplay)
+                    if (vehicleId != default && DisplayUIManager.Instance.SetDisplay(vehicleId))
                     {
+                        DisplayUI.Instance.enabled = true;
                         StartCoroutine(DisplayUI.Instance.UpdateWidth());
                     }
-                    else
+                }
+                else
+                {
+                    if (vehicleId == default)
                     {
-                        HasShownWarning = false;
+                        DisplayUI.Instance.enabled = HasShownWarning = false;
                     }
                 }
             }
@@ -55,7 +51,7 @@ namespace TrainDisplay
         {
             try
             {
-                if (IsShowingDisplay)
+                if (DisplayUI.Instance.enabled)
                 {
                     DisplayUIManager.Instance.UpdateNext();
                 }

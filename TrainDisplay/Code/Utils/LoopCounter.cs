@@ -1,121 +1,46 @@
-﻿namespace TrainDisplay.Utils
+﻿using UnityEngine;
+namespace TrainDisplay.Utils
 {
-    class LoopCounter
+    public class LoopCounter
     {
         private int innerValue;
-        private readonly int innerMax;
 
-        public int max => innerMax;
+        public int Max { get; }
         public int Value
         {
             get => innerValue;
-            set => innerValue = value >= 0 ? value % max : ((-value / max + 1) * max + value) % max;
+            set => innerValue = (int)Mathf.Repeat(value, Max);
         }
 
         public LoopCounter(int max, int start = 0)
         {
-            innerMax = max;
+            Max = max;
             Value = start;
         }
 
-        public static LoopCounter operator ++(LoopCounter lc)
+        public static LoopCounter operator ++(LoopCounter lc) => new LoopCounter(lc.Max, lc.Value + 1);
+        public static LoopCounter operator --(LoopCounter lc) => new LoopCounter(lc.Max, lc.Value - 1);
+        public static LoopCounter operator +(LoopCounter lc, int i) => new LoopCounter(lc.Max, lc.Value + i);
+        public static LoopCounter operator -(LoopCounter lc, int i) => new LoopCounter(lc.Max, lc.Value - i);
+        public static bool operator ==(LoopCounter lc, int i) => lc.Value == i;
+        public static bool operator !=(LoopCounter lc, int i) => lc.Value != i;
+        public static bool operator ==(LoopCounter lc1, LoopCounter lc2) => lc1.Value == lc2.Value;
+        public static bool operator !=(LoopCounter lc1, LoopCounter lc2) => lc1.Value != lc2.Value;
+        public override string ToString() => innerValue.ToString();
+        public override bool Equals(object obj)
         {
-            return new LoopCounter(lc.max, lc.Value + 1);
+            if (obj is LoopCounter lc)
+            {
+                return innerValue == lc.innerValue && Max == lc.Max;
+            }
+            return false;
         }
-
-        public static LoopCounter operator --(LoopCounter lc)
+        public override int GetHashCode()
         {
-            return new LoopCounter(lc.max, lc.Value - 1);
-        }
-
-        public static LoopCounter operator +(LoopCounter lc, int i)
-        {
-            return new LoopCounter(lc.max, lc.Value + i);
-        }
-
-        public static LoopCounter operator +(int i, LoopCounter lc)
-        {
-            return lc + i;
-        }
-
-        public static LoopCounter operator -(LoopCounter lc, int i)
-        {
-            return new LoopCounter(lc.max, lc.Value - i);
-        }
-
-        public static bool operator <(LoopCounter lc, int i)
-        {
-            return lc.Value < i;
-        }
-
-        public static bool operator >(LoopCounter lc, int i)
-        {
-            return lc.Value > i;
-        }
-
-        public static bool operator <(LoopCounter lc1, LoopCounter lc2)
-        {
-            return lc1.Value < lc2.Value;
-        }
-
-        public static bool operator >(LoopCounter lc1, LoopCounter lc2)
-        {
-            return lc1.Value > lc2.Value;
-        }
-
-        public static bool operator <=(LoopCounter lc, int i)
-        {
-            return lc.Value <= i;
-        }
-
-        public static bool operator >=(LoopCounter lc, int i)
-        {
-            return lc.Value >= i;
-        }
-
-        public static bool operator <=(LoopCounter lc1, LoopCounter lc2)
-        {
-            return lc1.Value <= lc2.Value;
-        }
-
-        public static bool operator >=(LoopCounter lc1, LoopCounter lc2)
-        {
-            return lc1.Value >= lc2.Value;
-        }
-
-        public static bool operator ==(LoopCounter lc, int i)
-        {
-            return lc.Value == i;
-        }
-
-        public static bool operator !=(LoopCounter lc, int i)
-        {
-            return lc.Value != i;
-        }
-
-        public static bool operator ==(int i, LoopCounter lc)
-        {
-            return lc.Value == i;
-        }
-
-        public static bool operator !=(int i, LoopCounter lc)
-        {
-            return lc.Value != i;
-        }
-
-        public static bool operator ==(LoopCounter lc1, LoopCounter lc2)
-        {
-            return lc1.Value == lc2.Value;
-        }
-
-        public static bool operator !=(LoopCounter lc1, LoopCounter lc2)
-        {
-            return lc1.Value != lc2.Value;
-        }
-
-        public override string ToString()
-        {
-            return innerValue + "";
+            int hashCode = 540335883;
+            hashCode = hashCode * -1521134295 + Max.GetHashCode();
+            hashCode = hashCode * -1521134295 + Value.GetHashCode();
+            return hashCode;
         }
     }
 }
