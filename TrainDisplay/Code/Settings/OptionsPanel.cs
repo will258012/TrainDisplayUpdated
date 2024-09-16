@@ -12,6 +12,7 @@ namespace TrainDisplay.Settings
         private const float LeftMargin = 24f;
         private const float GroupMargin = 40f;
         private const float TitleMargin = 50f;
+        private const float SliderMargin = 60f;
         protected override void Setup()
         {
             var currentY = Margin;
@@ -31,18 +32,9 @@ namespace TrainDisplay.Settings
             loggingCheck.eventCheckChanged += (c, isChecked) => { Logging.DetailLogging = isChecked; };
             currentY += loggingCheck.height + Margin;
 
-            var displayWidth = UITextFields.AddPlainTextfield(this, Translations.Translate("SETTINGS_DISPLAY_WIDTH"));
-            displayWidth.parent.relativePosition = new Vector2(LeftMargin, currentY);
-            displayWidth.text = TrainDisplaySettings.DisplayWidth.ToString() + " ";
-            displayWidth.eventTextChanged += (_, text) =>
-            {
-                if (!int.TryParse(text, out var result))
-                {
-                    result = 512;
-                }
-                TrainDisplaySettings.DisplayWidth = result;
-            };
-            currentY += displayWidth.parent.height + Margin;
+            var displayWidth = UISliders.AddPlainSliderWithIntegerValue(this, LeftMargin, currentY, Translations.Translate("SETTINGS_DISPLAY_WIDTH"), 128f, 1024f, 1f, TrainDisplaySettings.DisplayWidth);
+            displayWidth.eventValueChanged += (_, value) => TrainDisplaySettings.DisplayWidth = (int)value;
+            currentY += displayWidth.height + SliderMargin;
 
             var textShrinked = UICheckBoxes.AddPlainCheckBox(this, LeftMargin, currentY, Translations.Translate("SETTINGS_TEXT_SHRINKED"));
             textShrinked.isChecked = TrainDisplaySettings.IsTextShrinked;
@@ -51,7 +43,9 @@ namespace TrainDisplay.Settings
 
             var stationSuffix = UITextFields.AddPlainTextfield(this, Translations.Translate("SETTINGS_STATION_SUFFIX"));
             stationSuffix.parent.relativePosition = new Vector2(LeftMargin, currentY);
-            stationSuffix.text = TrainDisplaySettings.StationSuffix + " ";
+            stationSuffix.size = new Vector2(headerWidth / 2f, 30f);
+            stationSuffix.textScale = 1.2f;
+            stationSuffix.text = TrainDisplaySettings.StationSuffix;
             stationSuffix.eventTextChanged += (_, text) => TrainDisplaySettings.StationSuffix = text;
             currentY += stationSuffix.parent.height + Margin;
 
