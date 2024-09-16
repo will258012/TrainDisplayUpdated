@@ -26,11 +26,11 @@ namespace TrainDisplay.UI
             }
         }
 
-        private static int screenWidth = 1;
-        private static int screenHeight => screenWidth / 16 * 9;
-        private const byte baseX = 0;
-        private static int baseY => Screen.height - screenHeight;
-        private static double ratio => screenWidth / 512.0;
+        private static float screenWidth = 1f;
+        private static float screenHeight => screenWidth / 16f * 9f;
+        private const float baseX = 0f;
+        private static float baseY => Screen.height - screenHeight;
+        private static float ratio => screenWidth / 512f;
 
         private Texture2D arrowLineTexture;
         private Texture2D arrowTexture;
@@ -42,20 +42,20 @@ namespace TrainDisplay.UI
         private static int arrowHeight;
 
         //private static IntRect screenRect;
-        private static IntRect headerRect;
-        private static IntRect bodyRect;
+        private static Rect headerRect;
+        private static Rect bodyRect;
 
-        private static IntRect bodyLineRect;
-        private static IntRect bodyForTextRect;
-        private static IntRect bodyForSuffixTextRect;
-        private static IntRect bodyForTextEngRect;
-        private static IntRect bodyForSuffixTextEngRect;
+        private static Rect bodyLineRect;
+        private static Rect bodyForTextRect;
+        private static Rect bodyForSuffixTextRect;
+        private static Rect bodyForTextEngRect;
+        private static Rect bodyForSuffixTextEngRect;
 
-        private static IntRect bodyNextTextRect;
+        private static Rect bodyNextTextRect;
         private static Vector2 bodyNextTextPivot;
-        private static IntRect bodyNextHeadTextRect;
+        private static Rect bodyNextHeadTextRect;
 
-        private static IntRect bodyArrowLineRect;
+        private static Rect bodyArrowLineRect;
 
         private readonly GUIStyle forStyle = new GUIStyle();
         private readonly GUIStyle forSuffixStyle = new GUIStyle();
@@ -84,11 +84,11 @@ namespace TrainDisplay.UI
         public bool IsCircular = false;
         public Color lineColor = Color.white;
 
-        private IntRect[] stationNameRects = { };
-        private IntRect[] stationNameRotatedRects = { };
+        private Rect[] stationNameRects = { };
+        private Rect[] stationNameRotatedRects = { };
         private Vector2[] stationNameRotatedRectPivots = { };
         private Vector2[] stationNameRotatedRectBottoms = { };
-        private IntRect[] stationCirclesRects = { };
+        private Rect[] stationCirclesRects = { };
         private int[] stationNamePositions = { };
         private int itemNumber = 0;
 
@@ -99,69 +99,69 @@ namespace TrainDisplay.UI
         }
         public IEnumerator UpdateWidth(bool forceUpdate = false)
         {
-            var width = TrainDisplaySettings.DisplayWidth;
-            if (screenWidth == width && !forceUpdate)
+            var width = (float)TrainDisplaySettings.DisplayWidth;
+            if (Math.Abs(screenWidth - width) < Mathf.Epsilon && !forceUpdate)
             {
                 // If not changed, do nothing
                 yield break;
             }
             screenWidth = width;
 
-            arrowLineLength = (int)(460 * ratio);
-            arrowLineLengthWithArrow = (int)(470 * ratio);
-            arrowLength = (int)((arrowLineLengthWithArrow - arrowLineLength) * 3.2);
-            arrowHeight = (int)(30 * ratio);
+            arrowLineLength = (int)(460f * ratio);
+            arrowLineLengthWithArrow = (int)(470f * ratio);
+            arrowLength = (int)((arrowLineLengthWithArrow - arrowLineLength) * 3.2f);
+            arrowHeight = (int)(30f * ratio);
 
-            //screenRect = new IntRect(baseX, baseY, screenWidth, screenHeight);
-            headerRect = new IntRect(baseX, baseY, screenWidth, screenHeight / 3);
-            bodyRect = new IntRect(baseX, baseY + screenHeight / 3, screenWidth, screenHeight / 3 * 2);
+            headerRect = new Rect(baseX, baseY, screenWidth, screenHeight / 3f);
+            bodyRect = new Rect(baseX, baseY + screenHeight / 3f, screenWidth, screenHeight / 3f * 2f);
 
-            bodyLineRect = new IntRect(baseX + 100 * ratio, baseY + 5 * ratio, ratio * 40, (screenHeight / 3) - 10 * ratio);
-            bodyForTextRect = new IntRect(baseX, baseY + 46 * ratio, ratio * 100, 24 * ratio);
-            bodyForSuffixTextRect = new IntRect(baseX + (ratio * 8), baseY + (46 + 24) * ratio, ratio * 84, 18 * ratio);
-            bodyForTextEngRect = new IntRect(baseX, baseY + (32 + 28) * ratio, ratio * 100, 24 * ratio);
-            bodyForSuffixTextEngRect = new IntRect(baseX + (ratio * 8), baseY + 32 * ratio, ratio * 84, 18 * ratio);
+            bodyLineRect = new Rect(baseX + 100f * ratio, baseY + 5f * ratio, ratio * 40f, (screenHeight / 3f) - 10f * ratio);
+            bodyForTextRect = new Rect(baseX, baseY + 46f * ratio, ratio * 100f, 24f * ratio);
+            bodyForSuffixTextRect = new Rect(baseX + (ratio * 8f), baseY + (46f + 24f) * ratio, ratio * 84f, 18f * ratio);
+            bodyForTextEngRect = new Rect(baseX, baseY + (32f + 28f) * ratio, ratio * 100f, 24f * ratio);
+            bodyForSuffixTextEngRect = new Rect(baseX + (ratio * 8f), baseY + 32f * ratio, ratio * 84f, 18f * ratio);
 
-            bodyNextTextRect = new IntRect(baseX + 140 * ratio, baseY + 26 * ratio, ratio * (512 - 140), 70 * ratio);
-            bodyNextTextPivot = new Vector2(bodyNextTextRect.x + bodyNextTextRect.width / 2, bodyNextTextRect.y + bodyNextTextRect.height / 2);
-            bodyNextHeadTextRect = new IntRect(baseX + (140 + 10) * ratio, baseY + 5 * ratio, ratio * (512 - 140 - 20), 26 * ratio);
+            bodyNextTextRect = new Rect(baseX + 140f * ratio, baseY + 26f * ratio, ratio * (512f - 140f), 70f * ratio);
+            bodyNextTextPivot = new Vector2(bodyNextTextRect.x + bodyNextTextRect.width / 2f, bodyNextTextRect.y + bodyNextTextRect.height / 2f);
+            bodyNextHeadTextRect = new Rect(baseX + (140f + 10f) * ratio, baseY + 5f * ratio, ratio * (512f - 140f - 20f), 26f * ratio);
 
-            bodyArrowLineRect = new IntRect(baseX + (26 * ratio), baseY + (220 * ratio), arrowLineLengthWithArrow, arrowHeight);
+            bodyArrowLineRect = new Rect(baseX + (26f * ratio), baseY + (220f * ratio), arrowLineLengthWithArrow, arrowHeight);
 
-            forStyle.fontSize = (int)(20 * ratio);
+            forStyle.fontSize = (int)(20f * ratio);
             forStyle.normal.textColor = Color.white;
             forStyle.alignment = TextAnchor.MiddleCenter;
             forStyle.wordWrap = true;
 
-            forSuffixStyle.fontSize = (int)(16 * ratio);
+            forSuffixStyle.fontSize = (int)(16f * ratio);
             forSuffixStyle.normal.textColor = Color.white;
             forSuffixStyle.alignment = TextAnchor.MiddleRight;
             forSuffixStyle.wordWrap = true;
 
-            forSuffixEngStyle.fontSize = (int)(16 * ratio);
+            forSuffixEngStyle.fontSize = (int)(16f * ratio);
             forSuffixEngStyle.normal.textColor = Color.white;
             forSuffixEngStyle.alignment = TextAnchor.MiddleLeft;
             forSuffixEngStyle.wordWrap = true;
 
-            nextHeadStyle.fontSize = (int)(20 * ratio);
+            nextHeadStyle.fontSize = (int)(20f * ratio);
             nextHeadStyle.normal.textColor = Color.white;
             nextHeadStyle.alignment = TextAnchor.UpperLeft;
 
-            nextStyle.fontSize = (int)(45 * ratio);
+            nextStyle.fontSize = (int)(45f * ratio);
             nextStyle.normal.textColor = Color.white;
             nextStyle.alignment = TextAnchor.MiddleCenter;
             nextStyle.stretchWidth = true;
 
-            stationNameStyle.fontSize = (int)(20 * ratio);
+            stationNameStyle.fontSize = (int)(20f * ratio);
             stationNameStyle.normal.textColor = Color.black;
             stationNameStyle.alignment = TextAnchor.LowerCenter;
 
-            stationNameRotatedStyle.fontSize = (int)(20 * ratio);
+            stationNameRotatedStyle.fontSize = (int)(20f * ratio);
             stationNameRotatedStyle.normal.textColor = Color.black;
             stationNameRotatedStyle.alignment = TextAnchor.MiddleLeft;
             stationNameRotatedStyle.wordWrap = true;
 
             arrowLineTexture = new Texture2D(arrowLineLength, arrowHeight);
+
             for (int x = 0; x < arrowLineTexture.width; x++)
             {
                 for (int y = 0; y < arrowLineTexture.height; y++)
@@ -180,7 +180,7 @@ namespace TrainDisplay.UI
 
             for (int x = arrowLineTexture.width - 10; x < arrowLineTexture.width; x++)
             {
-                int dHeight = arrowLineTexture.height * (arrowLineTexture.width - x) / 10;
+                int dHeight = (int)(arrowLineTexture.height * (arrowLineTexture.width - x) / 10f);
                 int yStart = (arrowLineTexture.height - dHeight) / 2;
                 for (int j = 0; j < dHeight; j++)
                 {
@@ -191,7 +191,7 @@ namespace TrainDisplay.UI
             arrowRectStyle.normal.background = arrowLineTexture;
 
             circleTexture = new Texture2D(100, 100);
-            int radius = circleTexture.width / 2;
+            float radius = circleTexture.width / 2f;
             for (int x = 0; x < circleTexture.width; x++)
             {
                 for (int y = 0; y < circleTexture.height; y++)
@@ -214,14 +214,14 @@ namespace TrainDisplay.UI
             int arrowWidth = arrowLength - maxStartX;
             for (int y = 0; y < arrowTexture.height; y++)
             {
-                int startX = (int)((1 - Math.Abs(y - arrowTexture.height / 2.0) / (arrowTexture.height / 2.0)) * maxStartX);
+                int startX = (int)((1f - Math.Abs(y - arrowTexture.height / 2f) / (arrowTexture.height / 2f)) * maxStartX);
                 for (int x = 0; x < arrowTexture.width; x++)
                 {
                     if (x < startX || x >= startX + arrowWidth)
                     {
                         arrowTexture.SetPixel(x, y, Color.clear);
                     }
-                    else if (x < startX + arrowWidth * 0.25 || x >= startX + arrowWidth * 0.75)
+                    else if (x < startX + arrowWidth * 0.25f || x >= startX + arrowWidth * 0.75f)
                     {
                         arrowTexture.SetPixel(x, y, Color.white);
                     }
@@ -229,14 +229,13 @@ namespace TrainDisplay.UI
                     {
                         arrowTexture.SetPixel(x, y, Color.red);
                     }
-
                 }
             }
             arrowTexture.Apply();
             arrowStyle.normal.background = arrowTexture;
 
-            updateStationInfoPosition();
-            yield break;
+            UpdateStationInfoPosition();
+            yield return null;
         }
 
         internal void UpdateRouteStations(string[] newRouteStationsName, ushort[] newRouteStationsID, bool IsCircular)
@@ -252,39 +251,44 @@ namespace TrainDisplay.UI
             }
 
             itemNumber = Math.Min(RouteStationsName.Length, 6);
-            updateStationInfoPosition();
+            UpdateStationInfoPosition();
         }
 
-        public void updateStationInfoPosition()
+        public void UpdateStationInfoPosition()
         {
             if (itemNumber <= 0)
-            {
                 return;
-            }
-            stationNameRects = new IntRect[itemNumber];
-            stationNameRotatedRects = new IntRect[itemNumber];
+
+            stationNameRects = new Rect[itemNumber];
+            stationNameRotatedRects = new Rect[itemNumber];
             stationNameRotatedRectPivots = new Vector2[itemNumber];
             stationNameRotatedRectBottoms = new Vector2[itemNumber];
-            stationCirclesRects = new IntRect[itemNumber];
+            stationCirclesRects = new Rect[itemNumber];
             stationNamePositions = PositionUtils.PositionsJustifyCenter(arrowLineLength, arrowLineLength / 6, itemNumber);
+
             for (int i = 0; i < itemNumber; i++)
             {
-                stationNameRects[i] = new IntRect(
-                    baseX + (26 * ratio) + stationNamePositions[i],
-                    baseY + (106 * ratio),
-                    arrowLineLength / 6,
-                    104 * ratio
+                stationNameRects[i] = new Rect(
+                    baseX + (26f * ratio) + stationNamePositions[i],
+                    baseY + (106f * ratio),
+                    arrowLineLength / 6f,
+                    104f * ratio
                 );
 
                 stationNameRotatedRects[i] = PositionUtils.GetRotatedRect(stationNameRects[i]);
-                stationNameRotatedRectPivots[i] = new Vector2(stationNameRects[i].x + stationNameRects[i].width / 2, stationNameRects[i].y + stationNameRects[i].height / 2);
-                stationNameRotatedRectBottoms[i] = new Vector2(stationNameRotatedRects[i].x, stationNameRotatedRects[i].y + stationNameRotatedRects[i].height);
-
-                stationCirclesRects[i] = new IntRect(
-                    baseX + (26 * ratio) + stationNamePositions[i] + (arrowLineLength / 6 / 2 - (13 * ratio)),
-                    baseY + ((220 + 2) * ratio),
-                    26 * ratio,
-                    26 * ratio
+                stationNameRotatedRectPivots[i] = new Vector2(
+                    stationNameRects[i].x + stationNameRects[i].width / 2f,
+                    stationNameRects[i].y + stationNameRects[i].height / 2f
+                );
+                stationNameRotatedRectBottoms[i] = new Vector2(
+                    stationNameRotatedRects[i].x,
+                    stationNameRotatedRects[i].y + stationNameRotatedRects[i].height
+                );
+                stationCirclesRects[i] = new Rect(
+                    baseX + (26f * ratio) + stationNamePositions[i] + (arrowLineLength / 6f / 2f - (13f * ratio)),
+                    baseY + ((220f + 2f) * ratio),
+                    26f * ratio,
+                    26f * ratio
                 );
             }
         }
@@ -352,15 +356,15 @@ namespace TrainDisplay.UI
 
                 GUI.Label(bodyRect, string.Format(Translations.Translate("WARNDETAIL"), warningText, "\n"), warningLabelStyle);
 
-                float buttonWidth = 150 * (float)ratio;
-                float buttonHeight = 40 * (float)ratio;
+                float buttonWidth = 150f * ratio;
+                float buttonHeight = 40f * ratio;
 
-                if (GUI.Button(new Rect(10 * (float)ratio, Screen.height - buttonHeight - 10 * (float)ratio, buttonWidth, buttonHeight), Translations.Translate("IGNORE")))
+                if (GUI.Button(new Rect(10f * ratio, Screen.height - buttonHeight - 10f * ratio, buttonWidth, buttonHeight), Translations.Translate("IGNORE")))
                 {
                     showWarning = false;
                 }
 
-                if (GUI.Button(new Rect(20 * (float)ratio + buttonWidth, Screen.height - buttonHeight - 10 * (float)ratio, buttonWidth, buttonHeight), Translations.Translate("HIDE")))
+                if (GUI.Button(new Rect(20f * ratio + buttonWidth, Screen.height - buttonHeight - 10f * ratio, buttonWidth, buttonHeight), Translations.Translate("HIDE")))
                 {
                     showWarning = enabled = false;
                 }
@@ -462,7 +466,7 @@ namespace TrainDisplay.UI
                         }
                         break;
                     default:
-                        GUIUtility.RotateAroundPivot(-90, stationNameRotatedRectPivots[i]);
+                        GUIUtility.RotateAroundPivot(-90f, stationNameRotatedRectPivots[i]);
                         GUI.Label(
                             stationNameRotatedRects[i],
                             RouteStationsName[routeIndex],
@@ -490,9 +494,9 @@ namespace TrainDisplay.UI
 
             GUI.backgroundColor = Color.white;
             GUI.Box(
-                new IntRect(
-                    baseX + (26 * ratio) + stationNamePositions[nowItemIndex] + (arrowLineLength / 6 / 2 - arrowLength / 2) + (IsStopping ? 0 : (circleDiff / 2)),
-                    baseY + (220 * ratio),
+                new Rect(
+                    baseX + (26f * ratio) + stationNamePositions[nowItemIndex] + (arrowLineLength / 6f / 2f - arrowLength / 2f) + (IsStopping ? 0f : (circleDiff / 2f)),
+                    baseY + (220f * ratio),
                     arrowLength,
                     arrowHeight
                 ),

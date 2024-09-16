@@ -31,8 +31,8 @@ namespace TrainDisplay.Utils
         */
         public static Rect GetRotatedRect(Rect beforeRect)
         {
-            float x = -beforeRect.height / 2;
-            float y = -beforeRect.width / 2;
+            var x = -beforeRect.height / 2;
+            var y = -beforeRect.width / 2;
 
             x += beforeRect.x + (beforeRect.width / 2);
             y += beforeRect.y + (beforeRect.height / 2);
