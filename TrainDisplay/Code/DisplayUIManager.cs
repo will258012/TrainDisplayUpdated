@@ -9,9 +9,7 @@ namespace TrainDisplay
 {
     public class DisplayUIManager
     {
-        readonly VehicleManager vManager;
-        readonly TransportManager tManager;
-        ushort followInstance;
+        ushort followId;
         ushort[] stationIDList;//The internal value should be unique
         string[] stationNameList;
         List<int> terminalList = new List<int>();//Turnback display support
@@ -34,26 +32,18 @@ namespace TrainDisplay
             }
         }
 
-        private DisplayUIManager()
-        {
-            vManager = VehicleManager.instance;
-            tManager = TransportManager.instance;
-        }
-
         /// <summary>
         /// Initializes and sets up the display for the current vehicle instance, including station data and terminal checks.
         /// </summary>
-        /// <param name="followInstance">The instance ID of the vehicle to follow.</param>
+        /// <param name="followId">The instance ID of the vehicle to follow.</param>
         /// <returns>
         /// Returns true if the display setup is successful, otherwise returns false.
         /// </returns>
-        public bool SetDisplay(ushort followInstance)
+        public bool SetDisplay(ushort followId)
         {
-            this.followInstance = followInstance;
-            ushort firstVehicleId = vManager.m_vehicles.m_buffer[followInstance].GetFirstVehicle(followInstance);
-            Vehicle firstVehicle = vManager.m_vehicles.m_buffer[firstVehicleId];
-
-            VehicleInfo info = firstVehicle.Info;
+            this.followId = followId;
+            var firstVehicle = GetVehicle(GetFirstVehicleId());
+            var info = firstVehicle.Info;
 
             switch (info.vehicleCategory)
             {
@@ -73,7 +63,7 @@ namespace TrainDisplay
                         {
                             return false;
                         }
-                        TransportLine line = tManager.m_lines.m_buffer[lineId];
+                        var line = TransportManager.instance.m_lines.m_buffer[lineId];
 
                         int stopsNumber = line.CountStops(lineId);
 
@@ -91,7 +81,7 @@ namespace TrainDisplay
                         for (int i = 0; i < stopsNumber; i++)
                         {
                             ushort stationId = line.GetStop(i);
-                            string stationName = StationUtils.RemoveStationSuffix(FPSCamera::FPSCamera.Utils.StationUtils.GetStationName(stationId));
+                            string stationName = StationUtils.RemoveStationSuffix(FPSCamera.FPSCamera.Utils.StationUtils.GetStationName(stationId, lineId));
                             stationIDList[i] = stationId;
                             stationNameList[i] = stationName;
 
@@ -213,12 +203,11 @@ namespace TrainDisplay
         /// </summary>
         public void UpdateNext()
         {
-            ushort firstVehicleId = vManager.m_vehicles.m_buffer[followInstance].GetFirstVehicle(followInstance);
-            Vehicle trainVehicle = vManager.m_vehicles.m_buffer[firstVehicleId];
-            ushort nextStopId = trainVehicle.m_targetBuilding;
-            string nextStopName = StationUtils.RemoveStationSuffix(FPSCamera::FPSCamera.Utils.StationUtils.GetStationName(nextStopId));
+            var firstVehicle = GetVehicle(GetFirstVehicleId());
+            ushort nextStopId = firstVehicle.m_targetBuilding;
+            string nextStopName = StationUtils.RemoveStationSuffix(FPSCamera.FPSCamera.Utils.StationUtils.GetStationName(nextStopId, firstVehicle.m_transportLine));
 
-            DisplayUI.Instance.IsStopping = (trainVehicle.m_flags & Vehicle.Flags.Stopped) != 0;
+            DisplayUI.Instance.IsStopping = (firstVehicle.m_flags & Vehicle.Flags.Stopped) != 0;
 
             if (nextStopId != stationIDList[nowPos.Value])
             {
@@ -235,5 +224,8 @@ namespace TrainDisplay
                 }
             }
         }
+        private Vehicle GetVehicle() => VehicleManager.instance.m_vehicles.m_buffer[followId];
+        private ushort GetFirstVehicleId() => GetVehicle().GetFirstVehicle(followId);
+        private Vehicle GetVehicle(ushort id) => VehicleManager.instance.m_vehicles.m_buffer[id];
     }
 }

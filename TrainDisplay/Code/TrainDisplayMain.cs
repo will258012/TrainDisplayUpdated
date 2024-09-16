@@ -1,9 +1,9 @@
 ﻿extern alias FPSCamera;
-using FPSCamera::FPSCamera.Cam;
-using Controller = FPSCamera::FPSCamera.Cam.Controller.FPSCamController;
+using AlgernonCommons;
+using FPSCamera.FPSCamera.Cam;
 using TrainDisplay.UI;
 using UnityEngine;
-using AlgernonCommons;
+using Controller = FPSCamera.FPSCamera.Cam.Controller.FPSCamController;
 
 namespace TrainDisplay
 {
@@ -24,35 +24,70 @@ namespace TrainDisplay
 
         private void Update()
         {
-
-            // Toggle Showing
-            var cam = Controller.Instance.FPSCam;
-            // Perform check
-            var status = cam != null && 
-                cam.IsActivated && 
-                cam is VehicleCam vehicle && 
-                vehicle.FollowID != default && 
-                DisplayUIManager.Instance.SetDisplay((ushort) vehicle.FollowID);
-
-            if (status != IsShowingDisplay)
+            try
             {
-                DisplayUI.Instance.enabled = IsShowingDisplay = status;
-                if (IsShowingDisplay)
+                // Toggle Showing
+                var vehicleId = GetCurrentVehicleID();
+                var status = false;
+                if (vehicleId != default)
+                    // Perform check
+                    status = DisplayUIManager.Instance.SetDisplay(vehicleId);
+
+                if (status != IsShowingDisplay)
                 {
-                    StartCoroutine(DisplayUI.Instance.UpdateWidth());
+                    DisplayUI.Instance.enabled = IsShowingDisplay = status;
+                    if (IsShowingDisplay)
+                    {
+                        StartCoroutine(DisplayUI.Instance.UpdateWidth());
+                    }
+                    else
+                    {
+                        HasShownWarning = false;
+                    }
                 }
-                else
-                {
-                    HasShownWarning = false;
-                }
+            }
+            catch (System.Exception e)
+            {
+                Logging.LogException(e);
             }
         }
         private void LateUpdate()
         {
-            if (IsShowingDisplay)
+            try
             {
-                DisplayUIManager.Instance.UpdateNext();
+                if (IsShowingDisplay)
+                {
+                    DisplayUIManager.Instance.UpdateNext();
+                }
             }
+            catch (System.Exception e)
+            {
+                Logging.LogException(e);
+            }
+        }
+        private ushort GetCurrentVehicleID()
+        {
+            var cam = Controller.Instance.FPSCam;
+            if (cam == null || !cam.IsActivated)
+                return default;
+
+            switch (cam)
+            {
+                case CitizenCam citizenCam:
+                    return (ushort)(citizenCam.AnotherCam?.FollowID ?? default);
+
+                case VehicleCam vehicleCam when vehicleCam.FollowID != default:
+                    return (ushort)vehicleCam.FollowID;
+
+                case WalkThruCam walkThruCam:
+                    if (walkThruCam.CurrentCam is VehicleCam)
+                        return (ushort)walkThruCam.FollowID;
+                    else if (walkThruCam.CurrentCam is CitizenCam citizenCam1)
+                        return (ushort)(citizenCam1.AnotherCam?.FollowID ?? default);
+                    break;
+            }
+
+            return default;
         }
     }
 }
