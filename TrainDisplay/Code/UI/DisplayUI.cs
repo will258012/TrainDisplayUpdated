@@ -32,6 +32,9 @@ namespace TrainDisplay.UI
         private static float baseY => Screen.height - screenHeight;
         private static float ratio => screenWidth / 512f;
 
+        private static float warningButtonWidth;
+        private static float warningButtonHeight;
+
         private Texture2D arrowLineTexture;
         private Texture2D arrowTexture;
         private Texture2D circleTexture;
@@ -57,6 +60,9 @@ namespace TrainDisplay.UI
 
         private static Rect bodyArrowLineRect;
 
+        private static Rect warningButtonIgnoreRect;
+        private static Rect warningButtonHideRect;
+
         private readonly GUIStyle forStyle = new GUIStyle();
         private readonly GUIStyle forSuffixStyle = new GUIStyle();
         private readonly GUIStyle forSuffixEngStyle = new GUIStyle();
@@ -69,6 +75,10 @@ namespace TrainDisplay.UI
         private readonly GUIStyle arrowRectStyle = new GUIStyle();
         private readonly GUIStyle circleStyle = new GUIStyle();
         private readonly GUIStyle arrowStyle = new GUIStyle();
+
+        private readonly GUIStyle warningBoxStyle = new GUIStyle();
+        private readonly GUIStyle warningLabelStyle = new GUIStyle();
+
 
         //public string testString = "test";
         // Name: use for display
@@ -112,6 +122,9 @@ namespace TrainDisplay.UI
             arrowLength = (int)((arrowLineLengthWithArrow - arrowLineLength) * 3.2f);
             arrowHeight = (int)(30f * ratio);
 
+            warningButtonWidth = 150f * ratio;
+            warningButtonHeight = 40f * ratio;
+
             headerRect = new Rect(baseX, baseY, screenWidth, screenHeight / 3f);
             bodyRect = new Rect(baseX, baseY + screenHeight / 3f, screenWidth, screenHeight / 3f * 2f);
 
@@ -126,6 +139,9 @@ namespace TrainDisplay.UI
             bodyNextHeadTextRect = new Rect(baseX + (140f + 10f) * ratio, baseY + 5f * ratio, ratio * (512f - 140f - 20f), 26f * ratio);
 
             bodyArrowLineRect = new Rect(baseX + (26f * ratio), baseY + (220f * ratio), arrowLineLengthWithArrow, arrowHeight);
+
+            warningButtonIgnoreRect = new Rect(10f * ratio, Screen.height - warningButtonHeight - 10f * ratio, warningButtonWidth, warningButtonHeight);
+            warningButtonHideRect = new Rect(20f * ratio + warningButtonWidth, Screen.height - warningButtonHeight - 10f * ratio, warningButtonWidth, warningButtonHeight);
 
             forStyle.fontSize = (int)(20f * ratio);
             forStyle.normal.textColor = Color.white;
@@ -161,6 +177,15 @@ namespace TrainDisplay.UI
             stationNameRotatedStyle.wordWrap = true;
 
             arrowLineTexture = new Texture2D(arrowLineLength, arrowHeight);
+
+            warningLabelStyle.fontSize = (int)(25f * ratio);
+            warningLabelStyle.normal.textColor = Color.black;
+            warningLabelStyle.wordWrap = true;
+
+            warningBoxStyle.fontSize = (int)(50f * ratio);
+            warningBoxStyle.normal.textColor = Color.white;
+            warningBoxStyle.alignment = TextAnchor.MiddleLeft;
+
 
             for (int x = 0; x < arrowLineTexture.width; x++)
             {
@@ -327,8 +352,6 @@ namespace TrainDisplay.UI
         }
         private void OnGUI()
         {
-            //GUI.Box(screenRect, "");
-
             // Header
             GUI.backgroundColor = new Color(0.16f, 0.16f, 0.16f);
             GUI.Box(headerRect, "", boxStyle);
@@ -337,34 +360,15 @@ namespace TrainDisplay.UI
             {
                 GUI.backgroundColor = Color.white;
                 GUI.Box(bodyRect, "", boxStyle);
-
-                GUIStyle warningBoxStyle = new GUIStyle(GUI.skin.box)
-                {
-                    fontSize = (int)(50 * ratio),
-                };
-                warningBoxStyle.normal.textColor = Color.white;
-                warningBoxStyle.alignment = TextAnchor.UpperLeft;
-
                 GUI.Box(headerRect, Translations.Translate("WARNTITLE"), warningBoxStyle);
-
-                GUIStyle warningLabelStyle = new GUIStyle(GUI.skin.label)
-                {
-                    fontSize = (int)(25 * ratio)
-                };
-                warningLabelStyle.normal.textColor = Color.black;
-                warningLabelStyle.wordWrap = true;
-
                 GUI.Label(bodyRect, string.Format(Translations.Translate("WARNDETAIL"), warningText, "\n"), warningLabelStyle);
 
-                float buttonWidth = 150f * ratio;
-                float buttonHeight = 40f * ratio;
-
-                if (GUI.Button(new Rect(10f * ratio, Screen.height - buttonHeight - 10f * ratio, buttonWidth, buttonHeight), Translations.Translate("IGNORE")))
+                if (GUI.Button(warningButtonIgnoreRect, Translations.Translate("IGNORE")))
                 {
                     showWarning = false;
                 }
 
-                if (GUI.Button(new Rect(20f * ratio + buttonWidth, Screen.height - buttonHeight - 10f * ratio, buttonWidth, buttonHeight), Translations.Translate("HIDE")))
+                if (GUI.Button(warningButtonHideRect, Translations.Translate("HIDE")))
                 {
                     showWarning = enabled = false;
                 }

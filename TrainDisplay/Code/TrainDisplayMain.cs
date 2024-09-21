@@ -19,26 +19,31 @@ namespace TrainDisplay
             Instance = this;
             DisplayUI.Instance.enabled = false;
             Logging.Message("Now Running");
+            _nextUpdateTime = _nextLateUpdateTime = 0f;
         }
 
         private void Update()
         {
             try
             {
-                var vehicleId = GetCurrentVehicleID();
-                if (!DisplayUI.Instance.enabled)
+                if (Time.time >= _nextUpdateTime)
                 {
-                    if (vehicleId != default && DisplayUIManager.Instance.SetDisplay(vehicleId))
+                    _nextUpdateTime = Time.time + _updateInterval;
+                    var vehicleId = GetCurrentVehicleID();
+                    if (!DisplayUI.Instance.enabled && !HasShownWarning)
                     {
-                        DisplayUI.Instance.enabled = true;
-                        StartCoroutine(DisplayUI.Instance.UpdateWidth());
+                        if (vehicleId != default && DisplayUIManager.Instance.SetDisplay(vehicleId))
+                        {
+                            DisplayUI.Instance.enabled = true;
+                            StartCoroutine(DisplayUI.Instance.UpdateWidth());
+                        }
                     }
-                }
-                else
-                {
-                    if (vehicleId == default)
+                    else
                     {
-                        DisplayUI.Instance.enabled = HasShownWarning = false;
+                        if (vehicleId == default)
+                        {
+                            DisplayUI.Instance.enabled = HasShownWarning = false;
+                        }
                     }
                 }
             }
@@ -47,12 +52,14 @@ namespace TrainDisplay
                 Logging.LogException(e);
             }
         }
+
         private void LateUpdate()
         {
             try
             {
-                if (DisplayUI.Instance.enabled)
+                if (DisplayUI.Instance.enabled && Time.time >= _nextLateUpdateTime)
                 {
+                    _nextLateUpdateTime = Time.time + _updateInterval;
                     DisplayUIManager.Instance.UpdateNext();
                 }
             }
@@ -61,6 +68,7 @@ namespace TrainDisplay
                 Logging.LogException(e);
             }
         }
+
         private ushort GetCurrentVehicleID()
         {
             var cam = Controller.Instance.FPSCam;
@@ -85,5 +93,8 @@ namespace TrainDisplay
 
             return default;
         }
+        private const float _updateInterval = .25f;
+        private float _nextUpdateTime;
+        private float _nextLateUpdateTime;
     }
 }
