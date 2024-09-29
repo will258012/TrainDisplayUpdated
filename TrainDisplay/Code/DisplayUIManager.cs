@@ -9,7 +9,7 @@ namespace TrainDisplay
 {
     public class DisplayUIManager
     {
-        ushort followId;
+        public ushort FollowId { get; private set; }
         ushort[] stationIDList;//The internal value should be unique
         string[] stationNameList;
         List<int> terminalList = new List<int>();//Turnback display support
@@ -41,7 +41,7 @@ namespace TrainDisplay
         /// </returns>
         public bool SetDisplay(ushort followId)
         {
-            this.followId = followId;
+            this.FollowId = followId;
             var firstVehicle = GetVehicle(GetFirstVehicleId());
             var info = firstVehicle.Info;
 
@@ -224,8 +224,8 @@ namespace TrainDisplay
                 }
             }
         }
-        private Vehicle GetVehicle() => VehicleManager.instance.m_vehicles.m_buffer[followId];
-        private ushort GetFirstVehicleId() => GetVehicle().GetFirstVehicle(followId);
+        private Vehicle GetVehicle() => VehicleManager.instance.m_vehicles.m_buffer[FollowId];
+        private ushort GetFirstVehicleId() => GetVehicle().GetFirstVehicle(FollowId);
         private Vehicle GetVehicle(ushort id) => VehicleManager.instance.m_vehicles.m_buffer[id];
     }
 }

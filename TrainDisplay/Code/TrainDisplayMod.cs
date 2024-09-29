@@ -1,6 +1,6 @@
-﻿using AlgernonCommons;
+﻿extern alias FPSCamera;
+using AlgernonCommons;
 using AlgernonCommons.Translation;
-using Epic.OnlineServices.Lobby;
 using ICities;
 using TrainDisplay.Settings;
 using UnityEngine;
@@ -17,7 +17,15 @@ namespace TrainDisplay
     }
     public sealed class TrainDisplayLoading : LoadingBase<OptionsPanel>
     {
-
+        protected override bool CreatedChecksPassed()
+        {
+            if (!AssemblyUtils.IsAssemblyPresent("FPSCamera"))
+            {
+                Logging.Error("FPSCamera not detected");
+                return false;
+            }
+            return true;
+        }
         /// <summary>
         /// Performs any actions upon successful level loading completion.
         /// </summary>

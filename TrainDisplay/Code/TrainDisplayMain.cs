@@ -1,9 +1,8 @@
 ﻿extern alias FPSCamera;
 using AlgernonCommons;
-using FPSCamera.FPSCamera.Cam;
+using FPSCamera.FPSCamera.Utils;
 using TrainDisplay.UI;
 using UnityEngine;
-using Controller = FPSCamera.FPSCamera.Cam.Controller.FPSCamController;
 
 namespace TrainDisplay
 {
@@ -29,17 +28,22 @@ namespace TrainDisplay
                 if (Time.time >= _nextUpdateTime)
                 {
                     _nextUpdateTime = Time.time + _updateInterval;
-                    var vehicleId = GetCurrentVehicleID();
+                    var vehicleId = ModSupport.FollowVehicleID;
                     if (!DisplayUI.Instance.enabled && !HasShownWarning)
                     {
-                        if (vehicleId != default && DisplayUIManager.Instance.SetDisplay(vehicleId))
+                        if (vehicleId != default && vehicleId != DisplayUIManager.Instance.FollowId)
                         {
-                            DisplayUI.Instance.enabled = true;
-                            StartCoroutine(DisplayUI.Instance.UpdateWidth());
+                            DisplayUI.Instance.enabled = DisplayUIManager.Instance.SetDisplay(vehicleId);
+                            if (DisplayUI.Instance.enabled) StartCoroutine(DisplayUI.Instance.UpdateWidth());
                         }
                     }
                     else
                     {
+                        if (vehicleId != DisplayUIManager.Instance.FollowId)
+                        {
+                            DisplayUI.Instance.enabled = DisplayUIManager.Instance.SetDisplay(vehicleId);
+                            HasShownWarning = false;
+                        }
                         if (vehicleId == default)
                         {
                             DisplayUI.Instance.enabled = HasShownWarning = false;
@@ -69,30 +73,6 @@ namespace TrainDisplay
             }
         }
 
-        private ushort GetCurrentVehicleID()
-        {
-            var cam = Controller.Instance.FPSCam;
-            if (cam == null || !cam.IsActivated)
-                return default;
-
-            switch (cam)
-            {
-                case CitizenCam citizenCam:
-                    return (ushort)(citizenCam.AnotherCam?.FollowID ?? default);
-
-                case VehicleCam vehicleCam when vehicleCam.FollowID != default:
-                    return (ushort)vehicleCam.FollowID;
-
-                case WalkThruCam walkThruCam:
-                    if (walkThruCam.CurrentCam is VehicleCam)
-                        return (ushort)walkThruCam.FollowID;
-                    else if (walkThruCam.CurrentCam is CitizenCam citizenCam1)
-                        return (ushort)(citizenCam1.AnotherCam?.FollowID ?? default);
-                    break;
-            }
-
-            return default;
-        }
         private const float _updateInterval = .25f;
         private float _nextUpdateTime;
         private float _nextLateUpdateTime;
