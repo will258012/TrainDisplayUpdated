@@ -320,28 +320,18 @@ namespace TrainDisplay.UI
 
         private bool ForTextPositionIsOnTop(bool circular)
         {
-            switch (Translations.CurrentLanguage)
-            {
-                case "en-EN":
-                    return true;
-                case "ja-JP":
-                    return false;
-                case "zh-CN":
-                    return !circular;
-                case "default":
-                    switch (LocaleManager.instance.language)
-                    {
-                        case "en":
-                            return true;
-                        case "ja":
-                            return false;
-                        case "zh":
-                            return !circular;
-                    }
-                    break;
-            }
+            string modLang = Translations.CurrentLanguage;
+            string gameLang = LocaleManager.instance.language;
+
+            if (modLang == "ja-JP" || modLang == "ko-KR" || gameLang == "ja" || gameLang == "ko")
+                return false;
+
+            if (modLang == "zh-CN" || gameLang == "zh")
+                return !circular;
+
             return true;
         }
+
         private bool showWarning = false;
         private string warningText;
         public void ShowWarning(string warningText)
@@ -382,7 +372,7 @@ namespace TrainDisplay.UI
             if (IsCircular)
             {
                 //int index = Array.FindIndex(RouteStationsName, (str) => str == prevText);
-                var index = Array.FindIndex(RouteStationsID, (id) => id == prevStation_ID);
+                int index = Array.IndexOf(RouteStationsID, prevStation_ID);
                 index = ((index / 3) + 1) * 3;
                 if (index > RouteStationsName.Length - 3)
                 {
@@ -424,10 +414,11 @@ namespace TrainDisplay.UI
 
             GUI.backgroundColor = lineColor;
             GUI.Box(bodyArrowLineRect, "", arrowRectStyle);
-            var Index2 = Array.FindIndex(RouteStationsID, (id) => id == prevStation_ID);
+            var Index2 = Array.IndexOf(RouteStationsID, prevStation_ID);
             //int startIndex = circular ? Array.FindIndex(RouteStationsName, (str) => str == prevText) : Math.Min(Array.FindIndex(RouteStationsName, (str) => str == prevText), RouteStationsName.Length - itemNumber);
             int startIndex = IsCircular ? Index2 : Math.Min(Index2, RouteStationsID.Length - itemNumber);
             int nowItemIndex = 0;
+
             string displayLanguage = Translations.CurrentLanguage;
             string gameLanguage = LocaleManager.instance.language;
             for (int i = 0; i < itemNumber; i++)
@@ -446,38 +437,23 @@ namespace TrainDisplay.UI
                     nowItemIndex = i;
                 }
                 */
-                switch (displayLanguage)
+                bool isCJK =
+                    displayLanguage == "ja-JP" ||
+                    displayLanguage == "zh-CN" ||
+                    displayLanguage == "ko-KR" ||
+                    gameLanguage == "ja" ||
+                    gameLanguage == "zh" ||
+                    gameLanguage == "ko";
+
+                if (isCJK)
                 {
-                    case "ja-JP":
-                    case "zh-CN":
-                        GUI.Label(
-                            stationNameRects[i],
-                            vertical_RouteStationsName[routeIndex],
-                            stationNameStyle
-                        );
-                        break;
-                    case "default":
-                        switch (gameLanguage)
-                        {
-                            case "ja":
-                            case "zh":
-                                GUI.Label(
-                                    stationNameRects[i],
-                                    vertical_RouteStationsName[routeIndex],
-                                    stationNameStyle
-                                );
-                                break;
-                        }
-                        break;
-                    default:
-                        GUIUtility.RotateAroundPivot(-90f, stationNameRotatedRectPivots[i]);
-                        GUI.Label(
-                            stationNameRotatedRects[i],
-                            RouteStationsName[routeIndex],
-                            stationNameRotatedStyle
-                        );
-                        GUI.matrix = Matrix4x4.identity;
-                        break;
+                    GUI.Label(stationNameRects[i], vertical_RouteStationsName[routeIndex], stationNameStyle);
+                }
+                else
+                {
+                    GUIUtility.RotateAroundPivot(-90f, stationNameRotatedRectPivots[i]);
+                    GUI.Label(stationNameRotatedRects[i], RouteStationsName[routeIndex], stationNameRotatedStyle);
+                    GUI.matrix = Matrix4x4.identity;
                 }
             }
 
