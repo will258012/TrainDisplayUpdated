@@ -38,8 +38,8 @@ namespace TrainDisplay.Utils
         public override int GetHashCode()
         {
             int hashCode = 540335883;
-            hashCode = hashCode * -1521134295 + Max.GetHashCode();
-            hashCode = hashCode * -1521134295 + Value.GetHashCode();
+            hashCode = (hashCode * -1521134295) + Max.GetHashCode();
+            hashCode = (hashCode * -1521134295) + Value.GetHashCode();
             return hashCode;
         }
     }

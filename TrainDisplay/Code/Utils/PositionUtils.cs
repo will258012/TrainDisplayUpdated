@@ -6,12 +6,12 @@ namespace TrainDisplay.Utils
     {
         public static int[] PositionsJustifyCenter(int screenSize, int itemSize, int num)
         {
-            int start = (screenSize - itemSize * num) / 2;
+            int start = (screenSize - (itemSize * num)) / 2;
             int[] result = new int[num];
 
             for (int i = 0; i < num; i++)
             {
-                result[i] = start + i * itemSize;
+                result[i] = start + (i * itemSize);
             }
 
             return result;

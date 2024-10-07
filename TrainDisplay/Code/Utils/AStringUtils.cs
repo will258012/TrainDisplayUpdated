@@ -53,7 +53,7 @@ namespace TrainDisplay.Utils
                 }
                 for (int i = 0; i < tmpStr.Length / numPerLine; i++)
                 {
-                    result.Append(tmpStr[(tmpStr.Length / numPerLine - i - 1) * numPerLine + j]);
+                    result.Append(tmpStr[(((tmpStr.Length / numPerLine) - i - 1) * numPerLine) + j]);
                 }
             }
 

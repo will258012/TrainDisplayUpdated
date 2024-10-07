@@ -96,8 +96,6 @@ namespace TrainDisplay.UI
 
         private Rect[] stationNameRects = { };
         private Rect[] stationNameRotatedRects = { };
-        private Vector2[] stationNameRotatedRectPivots = { };
-        private Vector2[] stationNameRotatedRectBottoms = { };
         private Rect[] stationCirclesRects = { };
         private int[] stationNamePositions = { };
         private int itemNumber = 0;
@@ -126,22 +124,22 @@ namespace TrainDisplay.UI
             warningButtonHeight = 40f * ratio;
 
             headerRect = new Rect(baseX, baseY, screenWidth, screenHeight / 3f);
-            bodyRect = new Rect(baseX, baseY + screenHeight / 3f, screenWidth, screenHeight / 3f * 2f);
+            bodyRect = new Rect(baseX, baseY + (screenHeight / 3f), screenWidth, screenHeight / 3f * 2f);
 
-            bodyLineRect = new Rect(baseX + 100f * ratio, baseY + 5f * ratio, ratio * 40f, (screenHeight / 3f) - 10f * ratio);
-            bodyForTextRect = new Rect(baseX, baseY + 46f * ratio, ratio * 100f, 24f * ratio);
-            bodyForSuffixTextRect = new Rect(baseX + (ratio * 8f), baseY + (46f + 24f) * ratio, ratio * 84f, 18f * ratio);
-            bodyForTextEngRect = new Rect(baseX, baseY + (32f + 28f) * ratio, ratio * 100f, 24f * ratio);
-            bodyForSuffixTextEngRect = new Rect(baseX + (ratio * 8f), baseY + 32f * ratio, ratio * 84f, 18f * ratio);
+            bodyLineRect = new Rect(baseX + (100f * ratio), baseY + (5f * ratio), ratio * 40f, (screenHeight / 3f) - (10f * ratio));
+            bodyForTextRect = new Rect(baseX, baseY + (46f * ratio), ratio * 100f, 24f * ratio);
+            bodyForSuffixTextRect = new Rect(baseX + (ratio * 8f), baseY + ((46f + 24f) * ratio), ratio * 84f, 18f * ratio);
+            bodyForTextEngRect = new Rect(baseX, baseY + ((32f + 28f) * ratio), ratio * 100f, 24f * ratio);
+            bodyForSuffixTextEngRect = new Rect(baseX + (ratio * 8f), baseY + (32f * ratio), ratio * 84f, 18f * ratio);
 
-            bodyNextTextRect = new Rect(baseX + 140f * ratio, baseY + 26f * ratio, ratio * (512f - 140f), 70f * ratio);
-            bodyNextTextPivot = new Vector2(bodyNextTextRect.x + bodyNextTextRect.width / 2f, bodyNextTextRect.y + bodyNextTextRect.height / 2f);
-            bodyNextHeadTextRect = new Rect(baseX + (140f + 10f) * ratio, baseY + 5f * ratio, ratio * (512f - 140f - 20f), 26f * ratio);
+            bodyNextTextRect = new Rect(baseX + (140f * ratio), baseY + (26f * ratio), ratio * (512f - 140f), 70f * ratio);
+            bodyNextTextPivot = new Vector2(bodyNextTextRect.x + (bodyNextTextRect.width / 2f), bodyNextTextRect.y + (bodyNextTextRect.height / 2f));
+            bodyNextHeadTextRect = new Rect(baseX + ((140f + 10f) * ratio), baseY + (5f * ratio), ratio * (512f - 140f - 20f), 26f * ratio);
 
             bodyArrowLineRect = new Rect(baseX + (26f * ratio), baseY + (220f * ratio), arrowLineLengthWithArrow, arrowHeight);
 
-            warningButtonIgnoreRect = new Rect(10f * ratio, Screen.height - warningButtonHeight - 10f * ratio, warningButtonWidth, warningButtonHeight);
-            warningButtonHideRect = new Rect(20f * ratio + warningButtonWidth, Screen.height - warningButtonHeight - 10f * ratio, warningButtonWidth, warningButtonHeight);
+            warningButtonIgnoreRect = new Rect(10f * ratio, Screen.height - warningButtonHeight - (10f * ratio), warningButtonWidth, warningButtonHeight);
+            warningButtonHideRect = new Rect((20f * ratio) + warningButtonWidth, Screen.height - warningButtonHeight - (10f * ratio), warningButtonWidth, warningButtonHeight);
 
             forStyle.fontSize = (int)(20f * ratio);
             forStyle.normal.textColor = Color.white;
@@ -221,7 +219,7 @@ namespace TrainDisplay.UI
             {
                 for (int y = 0; y < circleTexture.height; y++)
                 {
-                    if ((x - radius) * (x - radius) + (y - radius) * (y - radius) <= radius * radius)
+                    if (((x - radius) * (x - radius)) + ((y - radius) * (y - radius)) <= radius * radius)
                     {
                         circleTexture.SetPixel(x, y, Color.white);
                     }
@@ -239,14 +237,14 @@ namespace TrainDisplay.UI
             int arrowWidth = arrowLength - maxStartX;
             for (int y = 0; y < arrowTexture.height; y++)
             {
-                int startX = (int)((1f - Math.Abs(y - arrowTexture.height / 2f) / (arrowTexture.height / 2f)) * maxStartX);
+                int startX = (int)((1f - (Math.Abs(y - (arrowTexture.height / 2f)) / (arrowTexture.height / 2f))) * maxStartX);
                 for (int x = 0; x < arrowTexture.width; x++)
                 {
                     if (x < startX || x >= startX + arrowWidth)
                     {
                         arrowTexture.SetPixel(x, y, Color.clear);
                     }
-                    else if (x < startX + arrowWidth * 0.25f || x >= startX + arrowWidth * 0.75f)
+                    else if (x < startX + (arrowWidth * 0.25f) || x >= startX + (arrowWidth * 0.75f))
                     {
                         arrowTexture.SetPixel(x, y, Color.white);
                     }
@@ -286,8 +284,6 @@ namespace TrainDisplay.UI
 
             stationNameRects = new Rect[itemNumber];
             stationNameRotatedRects = new Rect[itemNumber];
-            stationNameRotatedRectPivots = new Vector2[itemNumber];
-            stationNameRotatedRectBottoms = new Vector2[itemNumber];
             stationCirclesRects = new Rect[itemNumber];
             stationNamePositions = PositionUtils.PositionsJustifyCenter(arrowLineLength, arrowLineLength / 6, itemNumber);
 
@@ -299,22 +295,14 @@ namespace TrainDisplay.UI
                     arrowLineLength / 6f,
                     104f * ratio
                 );
-
-                stationNameRotatedRects[i] = PositionUtils.GetRotatedRect(stationNameRects[i]);
-                stationNameRotatedRectPivots[i] = new Vector2(
-                    stationNameRects[i].x + stationNameRects[i].width / 2f,
-                    stationNameRects[i].y + stationNameRects[i].height / 2f
-                );
-                stationNameRotatedRectBottoms[i] = new Vector2(
-                    stationNameRotatedRects[i].x,
-                    stationNameRotatedRects[i].y + stationNameRotatedRects[i].height
-                );
                 stationCirclesRects[i] = new Rect(
-                    baseX + (26f * ratio) + stationNamePositions[i] + (arrowLineLength / 6f / 2f - (13f * ratio)),
+                    baseX + (26f * ratio) + stationNamePositions[i] + ((arrowLineLength / 6f / 2f) - (13f * ratio)),
                     baseY + ((220f + 2f) * ratio),
                     26f * ratio,
                     26f * ratio
                 );
+
+                stationNameRotatedRects[i] = PositionUtils.GetRotatedRect(stationNameRects[i]);
             }
         }
 
@@ -437,22 +425,44 @@ namespace TrainDisplay.UI
                     nowItemIndex = i;
                 }
                 */
-                bool isCJK =
-                    displayLanguage == "ja-JP" ||
-                    displayLanguage == "zh-CN" ||
-                    displayLanguage == "ko-KR" ||
-                    gameLanguage == "ja" ||
-                    gameLanguage == "zh" ||
-                    gameLanguage == "ko";
+                bool isCJK = displayLanguage == "ja-JP" ||
+                            displayLanguage == "zh-CN" ||
+                            displayLanguage == "ko-KR" ||
+                            (displayLanguage == "default" && (
+                            gameLanguage == "ja" ||
+                            gameLanguage == "zh" ||
+                            gameLanguage == "ko"));
 
+                float offsetX = 0;
+                float offsetY = 0;
                 if (isCJK)
                 {
+                    /// TODO: CJK rotate
                     GUI.Label(stationNameRects[i], vertical_RouteStationsName[routeIndex], stationNameStyle);
                 }
                 else
                 {
-                    GUIUtility.RotateAroundPivot(-90f, stationNameRotatedRectPivots[i]);
-                    GUI.Label(stationNameRotatedRects[i], RouteStationsName[routeIndex], stationNameRotatedStyle);
+                    // Not sure how it was achieved, but at least it works for now
+                    if (TrainDisplaySettings.StationNameAngle != -90f && TrainDisplaySettings.StationNameAngle != 90f)
+                    {
+                        float angleRad = TrainDisplaySettings.StationNameAngle * Mathf.Deg2Rad;
+
+                        offsetX = TrainDisplaySettings.StationNameAngle >= 0f ?
+                         (stationNameRotatedRects[i].width / 2f) * (1f - Mathf.Cos(angleRad)) - (stationNameRotatedRects[i].height / 2f) * Mathf.Sin(angleRad) :
+                          (stationNameRotatedRects[i].width / 2f) * (Mathf.Cos(angleRad) - 1f) - (stationNameRotatedRects[i].height / 2f) * Mathf.Sin(angleRad);
+                        offsetY = stationNameRotatedRects[i].height / 2f * Mathf.Cos(angleRad);
+                    }
+
+
+
+                    GUIUtility.RotateAroundPivot(TrainDisplaySettings.StationNameAngle, stationNameRects[i].center);
+                    GUI.Label(new Rect(
+                                       stationNameRotatedRects[i].x + offsetX,//What appears to be the y-axis is actually the x-axis due to the rotation.
+                                       stationNameRotatedRects[i].y + offsetY,
+                                       stationNameRotatedRects[i].width,
+                                       stationNameRotatedRects[i].height),
+                                       RouteStationsName[routeIndex],
+                                       stationNameRotatedStyle);
                     GUI.matrix = Matrix4x4.identity;
                 }
             }
@@ -475,7 +485,7 @@ namespace TrainDisplay.UI
             GUI.backgroundColor = Color.white;
             GUI.Box(
                 new Rect(
-                    baseX + (26f * ratio) + stationNamePositions[nowItemIndex] + (arrowLineLength / 6f / 2f - arrowLength / 2f) + (IsStopping ? 0f : (circleDiff / 2f)),
+                    baseX + (26f * ratio) + stationNamePositions[nowItemIndex] + ((arrowLineLength / 6f / 2f) - (arrowLength / 2f)) + (IsStopping ? 0f : (circleDiff / 2f)),
                     baseY + (220f * ratio),
                     arrowLength,
                     arrowHeight

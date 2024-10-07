@@ -22,6 +22,11 @@ namespace TrainDisplay.Settings
         [XmlIgnore]
         internal static int DisplayWidth = 512;
 
+        [XmlElement("StationNameAngle")]
+        public float XMLStationNameAngle { get => StationNameAngle; set => StationNameAngle = value; }
+        [XmlIgnore]
+        internal static float StationNameAngle = -90f;
+
         [XmlElement("IsTextShrinked")]
         public bool XMLIsTextShrinked { get => IsTextShrinked; set => IsTextShrinked = value; }
         [XmlIgnore]

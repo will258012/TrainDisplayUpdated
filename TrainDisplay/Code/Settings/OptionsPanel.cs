@@ -36,6 +36,10 @@ namespace TrainDisplay.Settings
             displayWidth.eventValueChanged += (_, value) => TrainDisplaySettings.DisplayWidth = (int)value;
             currentY += displayWidth.height + SliderMargin;
 
+            var stationNameAngle = UISliders.AddPlainSliderWithValue(this, LeftMargin, currentY, Translations.Translate("SETTINGS_STATION_NAME_ANGLE"), -90f, 90f, 1f, TrainDisplaySettings.StationNameAngle, new UISliders.SliderValueFormat(valueMultiplier: 1, roundToNearest: 1f, numberFormat: "N0", suffix: "°"));
+            stationNameAngle.eventValueChanged += (_, value) => TrainDisplaySettings.StationNameAngle = value;
+            currentY += stationNameAngle.height + SliderMargin;
+
             var textShrinked = UICheckBoxes.AddPlainCheckBox(this, LeftMargin, currentY, Translations.Translate("SETTINGS_TEXT_SHRINKED"));
             textShrinked.isChecked = TrainDisplaySettings.IsTextShrinked;
             textShrinked.eventCheckChanged += (_, isChecked) => TrainDisplaySettings.IsTextShrinked = isChecked;
