@@ -26,6 +26,19 @@ namespace TrainDisplay.UI
             }
         }
 
+        private bool IsCJK()
+        {
+            string displayLanguage = Translations.CurrentLanguage;
+            string gameLanguage = LocaleManager.instance.language;
+            return displayLanguage == "ja-JP" ||
+                displayLanguage == "zh-CN" ||
+                displayLanguage == "ko-KR" ||
+                (displayLanguage == "default" && (
+                gameLanguage == "ja" ||
+                gameLanguage == "zh" ||
+                gameLanguage == "ko"));
+        }
+
         private static float screenWidth = 1f;
         private static float screenHeight => screenWidth / 16f * 9f;
         private const float baseX = 0f;
@@ -49,10 +62,10 @@ namespace TrainDisplay.UI
         private static Rect bodyRect;
 
         private static Rect bodyLineRect;
-        private static Rect bodyForTextRect;
-        private static Rect bodyForSuffixTextRect;
-        private static Rect bodyForTextEngRect;
-        private static Rect bodyForSuffixTextEngRect;
+        private static Rect CJK_bodyForTextRect;
+        private static Rect CJK_bodyForSuffixTextRect;
+        private static Rect NonCJK_bodyForTextRect;
+        private static Rect NonCJK_bodyForSuffixTextRect;
 
         private static Rect bodyNextTextRect;
         private static Vector2 bodyNextTextPivot;
@@ -64,12 +77,12 @@ namespace TrainDisplay.UI
         private static Rect warningButtonHideRect;
 
         private readonly GUIStyle forStyle = new GUIStyle();
-        private readonly GUIStyle forSuffixStyle = new GUIStyle();
-        private readonly GUIStyle forSuffixEngStyle = new GUIStyle();
+        private readonly GUIStyle CJK_forSuffixStyle = new GUIStyle();
+        private readonly GUIStyle NonCJK_forSuffixStyle = new GUIStyle();
         private readonly GUIStyle nextStyle = new GUIStyle();
         private readonly GUIStyle nextHeadStyle = new GUIStyle();
-        private readonly GUIStyle stationNameStyle = new GUIStyle();
-        private readonly GUIStyle stationNameRotatedStyle = new GUIStyle();
+        private readonly GUIStyle CJK_stationNameStyle = new GUIStyle();
+        private readonly GUIStyle NonCJK_stationNameStyle = new GUIStyle();
 
         private readonly GUIStyle boxStyle = new GUIStyle();
         private readonly GUIStyle arrowRectStyle = new GUIStyle();
@@ -87,18 +100,21 @@ namespace TrainDisplay.UI
         public ushort nextStation_ID;
         public string prevStation_Name = "";
         public ushort prevStation_ID;
-        private string[] RouteStationsName = { };
-        private string[] vertical_RouteStationsName = { };
-        private ushort[] RouteStationsID = { };
+        private string[] RouteStationsName;
+        private string[] vertical_RouteStationsName;
+        private ushort[] RouteStationsID;
         public bool IsStopping = false;
         public bool IsCircular = false;
         public Color lineColor = Color.white;
 
-        private Rect[] stationNameRects = { };
-        private Rect[] stationNameRotatedRects = { };
-        private Rect[] stationCirclesRects = { };
-        private int[] stationNamePositions = { };
+        private Rect[] CJK_stationNameRects;
+        private Vector2[] stationNameCenter;
+        private Rect[] NonCJK_stationNameRects;
+        private Rect[] stationCirclesRects;
+        private int[] stationNamePositions;
         private int itemNumber = 0;
+
+        private Vector2[] StationNameAngleOffsets;
 
         void Awake()
         {
@@ -127,10 +143,10 @@ namespace TrainDisplay.UI
             bodyRect = new Rect(baseX, baseY + (screenHeight / 3f), screenWidth, screenHeight / 3f * 2f);
 
             bodyLineRect = new Rect(baseX + (100f * ratio), baseY + (5f * ratio), ratio * 40f, (screenHeight / 3f) - (10f * ratio));
-            bodyForTextRect = new Rect(baseX, baseY + (46f * ratio), ratio * 100f, 24f * ratio);
-            bodyForSuffixTextRect = new Rect(baseX + (ratio * 8f), baseY + ((46f + 24f) * ratio), ratio * 84f, 18f * ratio);
-            bodyForTextEngRect = new Rect(baseX, baseY + ((32f + 28f) * ratio), ratio * 100f, 24f * ratio);
-            bodyForSuffixTextEngRect = new Rect(baseX + (ratio * 8f), baseY + (32f * ratio), ratio * 84f, 18f * ratio);
+            CJK_bodyForTextRect = new Rect(baseX, baseY + (46f * ratio), ratio * 100f, 24f * ratio);
+            CJK_bodyForSuffixTextRect = new Rect(baseX + (ratio * 8f), baseY + ((46f + 24f) * ratio), ratio * 84f, 18f * ratio);
+            NonCJK_bodyForTextRect = new Rect(baseX, baseY + ((32f + 28f) * ratio), ratio * 100f, 24f * ratio);
+            NonCJK_bodyForSuffixTextRect = new Rect(baseX + (ratio * 8f), baseY + (32f * ratio), ratio * 84f, 18f * ratio);
 
             bodyNextTextRect = new Rect(baseX + (140f * ratio), baseY + (26f * ratio), ratio * (512f - 140f), 70f * ratio);
             bodyNextTextPivot = new Vector2(bodyNextTextRect.x + (bodyNextTextRect.width / 2f), bodyNextTextRect.y + (bodyNextTextRect.height / 2f));
@@ -146,15 +162,15 @@ namespace TrainDisplay.UI
             forStyle.alignment = TextAnchor.MiddleCenter;
             forStyle.wordWrap = true;
 
-            forSuffixStyle.fontSize = (int)(16f * ratio);
-            forSuffixStyle.normal.textColor = Color.white;
-            forSuffixStyle.alignment = TextAnchor.MiddleRight;
-            forSuffixStyle.wordWrap = true;
+            CJK_forSuffixStyle.fontSize = (int)(16f * ratio);
+            CJK_forSuffixStyle.normal.textColor = Color.white;
+            CJK_forSuffixStyle.alignment = TextAnchor.MiddleRight;
+            CJK_forSuffixStyle.wordWrap = true;
 
-            forSuffixEngStyle.fontSize = (int)(16f * ratio);
-            forSuffixEngStyle.normal.textColor = Color.white;
-            forSuffixEngStyle.alignment = TextAnchor.MiddleLeft;
-            forSuffixEngStyle.wordWrap = true;
+            NonCJK_forSuffixStyle.fontSize = (int)(16f * ratio);
+            NonCJK_forSuffixStyle.normal.textColor = Color.white;
+            NonCJK_forSuffixStyle.alignment = TextAnchor.MiddleLeft;
+            NonCJK_forSuffixStyle.wordWrap = true;
 
             nextHeadStyle.fontSize = (int)(20f * ratio);
             nextHeadStyle.normal.textColor = Color.white;
@@ -165,14 +181,14 @@ namespace TrainDisplay.UI
             nextStyle.alignment = TextAnchor.MiddleCenter;
             nextStyle.stretchWidth = true;
 
-            stationNameStyle.fontSize = (int)(20f * ratio);
-            stationNameStyle.normal.textColor = Color.black;
-            stationNameStyle.alignment = TextAnchor.LowerCenter;
+            CJK_stationNameStyle.fontSize = (int)(20f * ratio);
+            CJK_stationNameStyle.normal.textColor = Color.black;
+            CJK_stationNameStyle.alignment = TextAnchor.LowerCenter;
 
-            stationNameRotatedStyle.fontSize = (int)(20f * ratio);
-            stationNameRotatedStyle.normal.textColor = Color.black;
-            stationNameRotatedStyle.alignment = TextAnchor.MiddleLeft;
-            stationNameRotatedStyle.wordWrap = true;
+            NonCJK_stationNameStyle.fontSize = (int)(20f * ratio);
+            NonCJK_stationNameStyle.normal.textColor = Color.black;
+            NonCJK_stationNameStyle.alignment = TextAnchor.MiddleLeft;
+            NonCJK_stationNameStyle.wordWrap = true;
 
             arrowLineTexture = new Texture2D(arrowLineLength, arrowHeight);
 
@@ -282,14 +298,16 @@ namespace TrainDisplay.UI
             if (itemNumber <= 0)
                 return;
 
-            stationNameRects = new Rect[itemNumber];
-            stationNameRotatedRects = new Rect[itemNumber];
+            CJK_stationNameRects = new Rect[itemNumber];
+            NonCJK_stationNameRects = new Rect[itemNumber];
             stationCirclesRects = new Rect[itemNumber];
+            stationNameCenter = new Vector2[itemNumber];
+            StationNameAngleOffsets = new Vector2[itemNumber];
             stationNamePositions = PositionUtils.PositionsJustifyCenter(arrowLineLength, arrowLineLength / 6, itemNumber);
 
             for (int i = 0; i < itemNumber; i++)
             {
-                stationNameRects[i] = new Rect(
+                CJK_stationNameRects[i] = new Rect(
                     baseX + (26f * ratio) + stationNamePositions[i],
                     baseY + (106f * ratio),
                     arrowLineLength / 6f,
@@ -302,7 +320,20 @@ namespace TrainDisplay.UI
                     26f * ratio
                 );
 
-                stationNameRotatedRects[i] = PositionUtils.GetRotatedRect(stationNameRects[i]);
+                NonCJK_stationNameRects[i] = PositionUtils.GetRotatedRect(CJK_stationNameRects[i]);
+
+                stationNameCenter[i] = CJK_stationNameRects[i].center;
+
+                // Calculate offsets for the angle setting
+                // Not sure how it was achieved, but at least it works well
+                if (!IsCJK() && TrainDisplaySettings.StationNameAngle != -90f && TrainDisplaySettings.StationNameAngle != 90f)
+                {
+                    float angleRad = TrainDisplaySettings.StationNameAngle * Mathf.Deg2Rad;
+                    StationNameAngleOffsets[i].x = TrainDisplaySettings.StationNameAngle >= 0f ?
+                             (NonCJK_stationNameRects[i].width / 2f * (1f - Mathf.Cos(angleRad))) - (NonCJK_stationNameRects[i].height / 2f * Mathf.Sin(angleRad)) :
+                              (NonCJK_stationNameRects[i].width / 2f * (Mathf.Cos(angleRad) - 1f)) - (NonCJK_stationNameRects[i].height / 2f * Mathf.Sin(angleRad));
+                    StationNameAngleOffsets[i].y = NonCJK_stationNameRects[i].height / 2f * Mathf.Cos(angleRad);
+                }
             }
         }
 
@@ -311,10 +342,10 @@ namespace TrainDisplay.UI
             string modLang = Translations.CurrentLanguage;
             string gameLang = LocaleManager.instance.language;
 
-            if (modLang == "ja-JP" || modLang == "ko-KR" || gameLang == "ja" || gameLang == "ko")
+            if (modLang == "ja-JP" || modLang == "ko-KR" || (modLang == "default" && (gameLang == "ja" || gameLang == "ko")))
                 return false;
 
-            if (modLang == "zh-CN" || gameLang == "zh")
+            if (modLang == "zh-CN" || (modLang == "default" && gameLang == "zh"))
                 return !circular;
 
             return true;
@@ -375,13 +406,13 @@ namespace TrainDisplay.UI
 
             if (ForTextPositionIsOnTop(IsCircular))
             {
-                GUI.Label(bodyForTextEngRect, shownForText, forStyle);
-                GUI.Label(bodyForSuffixTextEngRect, IsCircular ? Translations.Translate("FOR_CIRCULAR") : Translations.Translate("FOR"), forSuffixEngStyle);
+                GUI.Label(NonCJK_bodyForTextRect, shownForText, forStyle);
+                GUI.Label(NonCJK_bodyForSuffixTextRect, IsCircular ? Translations.Translate("FOR_CIRCULAR") : Translations.Translate("FOR"), NonCJK_forSuffixStyle);
             }
             else
             {
-                GUI.Label(bodyForTextRect, shownForText, forStyle);
-                GUI.Label(bodyForSuffixTextRect, IsCircular ? Translations.Translate("FOR_CIRCULAR") : Translations.Translate("FOR"), forSuffixStyle);
+                GUI.Label(CJK_bodyForTextRect, shownForText, forStyle);
+                GUI.Label(CJK_bodyForSuffixTextRect, IsCircular ? Translations.Translate("FOR_CIRCULAR") : Translations.Translate("FOR"), CJK_forSuffixStyle);
             }
 
             GUI.Label(bodyNextHeadTextRect, IsStopping ? Translations.Translate("NOW_STOPPING_AT") : Translations.Translate("NEXT"), nextHeadStyle);
@@ -407,8 +438,6 @@ namespace TrainDisplay.UI
             int startIndex = IsCircular ? Index2 : Math.Min(Index2, RouteStationsID.Length - itemNumber);
             int nowItemIndex = 0;
 
-            string displayLanguage = Translations.CurrentLanguage;
-            string gameLanguage = LocaleManager.instance.language;
             for (int i = 0; i < itemNumber; i++)
             {
                 int routeIndex = new LoopCounter(RouteStationsID.Length, startIndex + i).Value;
@@ -425,46 +454,24 @@ namespace TrainDisplay.UI
                     nowItemIndex = i;
                 }
                 */
-                bool isCJK = displayLanguage == "ja-JP" ||
-                            displayLanguage == "zh-CN" ||
-                            displayLanguage == "ko-KR" ||
-                            (displayLanguage == "default" && (
-                            gameLanguage == "ja" ||
-                            gameLanguage == "zh" ||
-                            gameLanguage == "ko"));
 
-                float offsetX = 0;
-                float offsetY = 0;
-                if (isCJK)
+                if (IsCJK())
                 {
-                    /// TODO: CJK rotate
-                    GUI.Label(stationNameRects[i], vertical_RouteStationsName[routeIndex], stationNameStyle);
+                    GUI.Label(CJK_stationNameRects[i], vertical_RouteStationsName[routeIndex], CJK_stationNameStyle);
                 }
                 else
                 {
-                    // Not sure how it was achieved, but at least it works for now
-                    if (TrainDisplaySettings.StationNameAngle != -90f && TrainDisplaySettings.StationNameAngle != 90f)
-                    {
-                        float angleRad = TrainDisplaySettings.StationNameAngle * Mathf.Deg2Rad;
-
-                        offsetX = TrainDisplaySettings.StationNameAngle >= 0f ?
-                         (stationNameRotatedRects[i].width / 2f) * (1f - Mathf.Cos(angleRad)) - (stationNameRotatedRects[i].height / 2f) * Mathf.Sin(angleRad) :
-                          (stationNameRotatedRects[i].width / 2f) * (Mathf.Cos(angleRad) - 1f) - (stationNameRotatedRects[i].height / 2f) * Mathf.Sin(angleRad);
-                        offsetY = stationNameRotatedRects[i].height / 2f * Mathf.Cos(angleRad);
-                    }
-
-
-
-                    GUIUtility.RotateAroundPivot(TrainDisplaySettings.StationNameAngle, stationNameRects[i].center);
+                    GUIUtility.RotateAroundPivot(TrainDisplaySettings.StationNameAngle, stationNameCenter[i]);
                     GUI.Label(new Rect(
-                                       stationNameRotatedRects[i].x + offsetX,//What appears to be the y-axis is actually the x-axis due to the rotation.
-                                       stationNameRotatedRects[i].y + offsetY,
-                                       stationNameRotatedRects[i].width,
-                                       stationNameRotatedRects[i].height),
+                                       NonCJK_stationNameRects[i].x + StationNameAngleOffsets[i].x,//What appears to be the y-axis is actually the x-axis due to the rotation.
+                                       NonCJK_stationNameRects[i].y + StationNameAngleOffsets[i].y,
+                                       NonCJK_stationNameRects[i].width,
+                                       NonCJK_stationNameRects[i].height),
                                        RouteStationsName[routeIndex],
-                                       stationNameRotatedStyle);
-                    GUI.matrix = Matrix4x4.identity;
+                                       NonCJK_stationNameStyle);
+
                 }
+                GUI.matrix = Matrix4x4.identity;
             }
 
             GUI.backgroundColor = Color.white;
