@@ -1,5 +1,6 @@
 ﻿extern alias FPSCamera;
 using AlgernonCommons;
+using AlgernonCommons.Notifications;
 using AlgernonCommons.Translation;
 using ICities;
 using TrainDisplay.Settings;
@@ -14,6 +15,20 @@ namespace TrainDisplay
 
         public override void LoadSettings() => TrainDisplaySettings.Load();
         public override void SaveSettings() => TrainDisplaySettings.Save();
+        public override WhatsNewMessage[] WhatsNewMessages => new WhatsNewMessage[]
+      {
+            new WhatsNewMessage
+            {
+                Version = AssemblyUtils.CurrentVersion,
+                MessagesAreKeys = true,
+                Messages = new string[]
+                {
+                   "WHATSNEW_L1",
+                    "WHATSNEW_L2",
+                    "WHATSNEW_L3"
+                }
+            }
+      };
     }
     public sealed class TrainDisplayLoading : LoadingBase<OptionsPanel>
     {
@@ -33,7 +48,7 @@ namespace TrainDisplay
         protected override void LoadedActions(LoadMode mode)
         {
             base.LoadedActions(mode);
-            gameObject = new GameObject();
+            gameObject = new GameObject("TrainDisplay");
             gameObject.AddComponent<TrainDisplayMain>();
         }
 
@@ -46,7 +61,7 @@ namespace TrainDisplay
             Object.Destroy(gameObject);
             base.OnLevelUnloading();
         }
-        private GameObject gameObject = new GameObject();
+        private GameObject gameObject = null;
     }
 
 }
