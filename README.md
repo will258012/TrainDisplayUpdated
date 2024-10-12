@@ -1,9 +1,24 @@
-# Cities: Skylines - Train Display - Updated
+# Cities: Skylines
+# Train Display - Updated
+<img src="banner.jpg" width="750px"/>
 
 > This mod is an updated version for [Train Display Mod](https://steamcommunity.com/sharedfiles/filedetails/?id=2380878816) by Asmape.
 
 ## Please install the prerequisite [First Person Camera - Continued](https://github.com/Will258012/CitiesSkylines-FPSCamera-Continued/releases) before using.
 
-When you following a train, metro, or monorail in the FPSCamera, the mod will draw a display like the LCD in the Japanese train, to show information about the vehicle.
+## Train Display - Not Just Trains! 
 
-> It can also be downloaded on [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3233229958).
+### Supported vehicle types:
+
+- Train
+- Tram
+- Trolleybus
+- Subway
+- Monorail
+- Bus
+- Ferry
+- Blimp
+
+When you follow the supported vehicles mentioned above in the FPS Camera, this mod will draw a display like the LCD in the Japanese train, to show information about the vehicle.
+
+> For more information, please visit [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3233229958). The mod can also be downloaded there.
