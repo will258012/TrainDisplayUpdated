@@ -55,6 +55,7 @@ namespace TrainDisplay
                         {
                             // Disable self, the UI, and reset the warning flag.  
                             enabled = DisplayUI.Instance.enabled = HasShownWarning = false;
+                            DisplayUIManager.Instance.FollowId = default;
                             Logging.Message("TrainDisplayMain is disabled");
                         }
                         // If a new vehicle is being followed,

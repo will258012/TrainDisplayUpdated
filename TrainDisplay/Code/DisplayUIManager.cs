@@ -9,7 +9,7 @@ namespace TrainDisplay
 {
     public class DisplayUIManager
     {
-        public ushort FollowId { get; private set; }
+        public ushort FollowId { get; internal set; }
         ushort[] stationIDList;//The internal value should be unique
         string[] stationNameList;
         List<int> terminalList = new List<int>();//Turnback display support
