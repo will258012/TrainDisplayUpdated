@@ -35,7 +35,7 @@ namespace TrainDisplay
         /// <summary>
         /// Initializes and sets up the display for the current vehicle instance, including station data and terminal checks.
         /// </summary>
-        /// <param name="followId">The instance ID of the vehicle to follow.</param>
+        /// <param name="followId">The vehicle id of the vehicle to follow.</param>
         /// <returns>
         /// Returns true if the display setup is successful, otherwise returns false.
         /// </returns>
@@ -199,7 +199,7 @@ namespace TrainDisplay
         /// <summary>
         /// Updates the display when the vehicle moves to the next station.
         /// This method checks if the vehicle has reached a new station, updates the previous and next station information,
-        /// and triggers a RouteUpdate() if the vehicle has reached the end of the current route.
+        /// and triggers a <see cref="RouteUpdate()"/> if the vehicle has reached the end of the current route.
         /// </summary>
         public void UpdateNext()
         {
