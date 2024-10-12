@@ -5,9 +5,9 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrainDisplay", "TrainDisplay\TrainDisplay.csproj", "{815DA47A-4D95-4717-98A7-C000C53D9DD3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FPSCamera", "..\CitiesSkylines-FPSCamera-Continued\FPSCamera\FPSCamera.csproj", "{A170D33D-AD89-49DE-ADE1-A571AE79DD62}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FPSCamera", "..\FPSCamera-Continued\FPSCamera\FPSCamera.csproj", "{C4CC0B2D-7243-4AF8-A4F3-50098CC18967}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AlgernonCommonsShared", "..\CitiesSkylines-FPSCamera-Continued\AlgernonCommons\AlgernonCommonsShared.shproj", "{25AEF446-6F0D-43A8-BB84-D1306789B68C}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AlgernonCommonsShared", "AlgernonCommons\AlgernonCommonsShared.shproj", "{25AEF446-6F0D-43A8-BB84-D1306789B68C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,10 +19,10 @@ Global
 		{815DA47A-4D95-4717-98A7-C000C53D9DD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{815DA47A-4D95-4717-98A7-C000C53D9DD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{815DA47A-4D95-4717-98A7-C000C53D9DD3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A170D33D-AD89-49DE-ADE1-A571AE79DD62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A170D33D-AD89-49DE-ADE1-A571AE79DD62}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A170D33D-AD89-49DE-ADE1-A571AE79DD62}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A170D33D-AD89-49DE-ADE1-A571AE79DD62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4CC0B2D-7243-4AF8-A4F3-50098CC18967}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4CC0B2D-7243-4AF8-A4F3-50098CC18967}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4CC0B2D-7243-4AF8-A4F3-50098CC18967}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4CC0B2D-7243-4AF8-A4F3-50098CC18967}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -31,8 +31,8 @@ Global
 		SolutionGuid = {1746E6FD-4444-4E3F-93C3-7CDAE44C12DB}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		..\CitiesSkylines-FPSCamera-Continued\AlgernonCommons\AlgernonCommonsShared.projitems*{25aef446-6f0d-43a8-bb84-d1306789b68c}*SharedItemsImports = 13
-		..\CitiesSkylines-FPSCamera-Continued\AlgernonCommons\AlgernonCommonsShared.projitems*{815da47a-4d95-4717-98a7-c000c53d9dd3}*SharedItemsImports = 5
-		..\CitiesSkylines-FPSCamera-Continued\AlgernonCommons\AlgernonCommonsPatchingShared.projitems*{a170d33d-ad89-49de-ade1-a571ae79dd62}*SharedItemsImports = 5
+		AlgernonCommons\AlgernonCommonsShared.projitems*{25aef446-6f0d-43a8-bb84-d1306789b68c}*SharedItemsImports = 13
+		AlgernonCommons\AlgernonCommonsShared.projitems*{815da47a-4d95-4717-98a7-c000c53d9dd3}*SharedItemsImports = 5
+		..\FPSCamera-Continued\AlgernonCommons\AlgernonCommonsPatchingShared.projitems*{c4cc0b2d-7243-4af8-a4f3-50098cc18967}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

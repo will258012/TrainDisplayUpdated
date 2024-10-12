@@ -1,5 +1,4 @@
-﻿extern alias FPSCamera;
-using AlgernonCommons;
+﻿using AlgernonCommons;
 using AlgernonCommons.Notifications;
 using AlgernonCommons.Translation;
 using ICities;

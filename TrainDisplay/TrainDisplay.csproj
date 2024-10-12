@@ -10,12 +10,10 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CitiesSkylines-FPSCamera-Continued\FPSCamera\FPSCamera.csproj">
+    <ProjectReference Include="..\..\FPSCamera-Continued\FPSCamera\FPSCamera.csproj">
       <Private>False</Private>
       <CopyLocalSatelliteAssemblies>False</CopyLocalSatelliteAssemblies>
-      <ExcludeAssets></ExcludeAssets>
       <Aliases>FPSCamera</Aliases>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -96,5 +94,5 @@
       <Private>False</Private>
     </Reference>
   </ItemGroup>
-  <Import Project="..\..\CitiesSkylines-FPSCamera-Continued\AlgernonCommons\AlgernonCommonsShared.projitems" Label="Shared" />
+  <Import Project="..\AlgernonCommons\AlgernonCommonsShared.projitems" Label="Shared" />
 </Project>
