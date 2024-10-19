@@ -48,7 +48,7 @@ namespace TrainDisplay
         {
             base.LoadedActions(mode);
             gameObject = new GameObject("TrainDisplay");
-            gameObject.AddComponent<TrainDisplayMain>();
+            gameObject.AddComponent<DisplayUIManager>();
         }
 
 

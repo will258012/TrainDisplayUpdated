@@ -20,7 +20,7 @@ namespace TrainDisplay.UI
             {
                 if (instance == null)
                 {
-                    instance = TrainDisplayMain.Instance.gameObject.AddComponent<DisplayUI>();
+                    instance = DisplayUIManager.Instance.gameObject.AddComponent<DisplayUI>();
                 }
                 return instance;
             }
