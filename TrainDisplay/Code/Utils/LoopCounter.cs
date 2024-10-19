@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 namespace TrainDisplay.Utils
 {
-    public class LoopCounter
+    public struct LoopCounter
     {
         private int innerValue;
 
@@ -15,7 +15,7 @@ namespace TrainDisplay.Utils
         public LoopCounter(int max, int start = 0)
         {
             Max = max;
-            Value = start;
+            innerValue = (int)Mathf.Repeat(start, max);
         }
 
         public static LoopCounter operator ++(LoopCounter lc) => new LoopCounter(lc.Max, lc.Value + 1);
