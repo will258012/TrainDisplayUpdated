@@ -40,7 +40,7 @@
     <DebugType>embedded</DebugType>
   </PropertyGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="rd /s /q &quot;%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)&quot;&#xD;&#xA;mkdir &quot;%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)&quot;&#xD;&#xA;xcopy /e /y &quot;$(TargetDir)&quot; &quot;%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)&quot;" />
+    <Exec Command="rd /s /q &quot;%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)&quot;&#xD;&#xA;mkdir &quot;%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)&quot;&#xD;&#xA;xcopy /e /y &quot;$(TargetDir)&quot; &quot;%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)&quot;&#xD;&#xA;del /f /s /q &quot;%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)\CitiesHarmony.API.dll&quot;" />
   </Target>
   <ItemGroup>
     <None Update="Translations\de-DE.csv">
