@@ -6,6 +6,7 @@
 "WHATSNEW_L3","Thank you for your use and support!",""
 "NOTE_CLOSE","Close","Notification button text - closes the notification."
 "NOTE_DONTSHOWAGAIN","Don't show again","Notification button text - don't show this notification again."
+"FPSCAMERA_NOT_DETECTED","The mod is automatically disabled because supported First Person Camera - Continued was not detected. Please check the mod status and try again.",""
 "MOD_DESCRIPTION","Japanese Style Train Display",""
 "DETAIL_LOGGING","Enable detailed debugging logging","Option to record more detail in game log"
 "NEXT","Next","Next {0}. ({0} is the station name)"

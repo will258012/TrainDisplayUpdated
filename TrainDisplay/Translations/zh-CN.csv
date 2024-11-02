@@ -6,6 +6,7 @@
 "WHATSNEW_L3","感谢您的使用及支持！",""
 "NOTE_CLOSE","关闭","Notification button text - closes the notification."
 "NOTE_DONTSHOWAGAIN","不再显示","Notification button text - don't show this notification again."
+"FPSCAMERA_NOT_DETECTED","由于未检测到受支持的 First Person Camera - Continued 模组，模组已自动禁用。请检查模组状态并重试。",""
 "MOD_DESCRIPTION","日式列车显示屏",""
 "DETAIL_LOGGING","启用详细的调试日志记录","Option to record more detail in game log"
 "NEXT","下一站",""

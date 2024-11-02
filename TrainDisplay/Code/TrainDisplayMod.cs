@@ -1,6 +1,7 @@
 ﻿using AlgernonCommons;
 using AlgernonCommons.Notifications;
 using AlgernonCommons.Translation;
+using HarmonyLib;
 using ICities;
 using TrainDisplay.Settings;
 using UnityEngine;
@@ -33,13 +34,24 @@ namespace TrainDisplay
     {
         protected override bool CreatedChecksPassed()
         {
-            if (!AssemblyUtils.IsAssemblyPresent("FPSCamera"))
+            if (AccessTools.TypeByName("FPSCamera.Utils.ModSupport, FPSCamera") == null)
             {
-                Logging.Error("FPSCamera not detected");
+                Logging.Error("FPScamera not detected");
+                WasFPSCameraNotFound = true;
                 return false;
             }
             return true;
         }
+        public override void OnLevelLoaded(LoadMode mode)
+        {
+            if (WasFPSCameraNotFound)
+            {
+                var notification = NotificationBase.ShowNotification<ListNotification>();
+                notification.AddParas(Translations.Translate("FPSCAMERA_NOT_DETECTED"));
+            }
+            base.OnLevelLoaded(mode);
+        }
+
         /// <summary>
         /// Performs any actions upon successful level loading completion.
         /// </summary>
@@ -51,16 +63,17 @@ namespace TrainDisplay
             gameObject.AddComponent<DisplayUIManager>();
         }
 
-
         /// <summary>
         /// Called by the game when exiting a level.
         /// </summary>
         public override void OnLevelUnloading()
         {
             Object.Destroy(gameObject);
+            WasFPSCameraNotFound = false;
             base.OnLevelUnloading();
         }
         private GameObject gameObject = null;
+        private bool WasFPSCameraNotFound = false;
     }
 
 }
