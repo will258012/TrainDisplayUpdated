@@ -17,7 +17,7 @@ namespace TrainDisplay
         private void Awake()
         {
             Instance = this;
-            DisplayUI.Instance.enabled = false;
+            DisplayUI.Instance.enabled = enabled = false;
             _nextUpdateTime = 0f;
             FPSCamera.FPSCamera.Cam.Controller.FPSCamController.Instance.OnCameraEnabled += OnCameraEnabled;
             FPSCamera.FPSCamera.Cam.Controller.FPSCamController.Instance.OnCameraDisabled += OnCameraDisabled;
