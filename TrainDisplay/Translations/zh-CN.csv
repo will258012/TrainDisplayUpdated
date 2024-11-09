@@ -26,6 +26,7 @@
 "SETTINGS_IS_TROLLEYBUS","无轨电车",""
 "SETTINGS_IS_FERRY","渡轮",""
 "SETTINGS_IS_BLIMP","飞艇",""
+"SETTINGS_IS_COPTER","直升机",""
 "WARNTITLE","警告",""
 "WARNDETAIL","Train Display 已停止显示：{1}{0}",""
 "WARNTEXT","在此路线上检测到了重复的站名",""

@@ -98,6 +98,10 @@ namespace TrainDisplay.Settings
             blimp.eventCheckChanged += (_, isChecked) => TrainDisplaySettings.IsBlimp = isChecked;
             currentY += blimp.height + Margin;
 
+            var copter = UICheckBoxes.AddPlainCheckBox(this, LeftMargin, currentY, Translations.Translate("SETTINGS_IS_COPTER"));
+            copter.isChecked = TrainDisplaySettings.IsCopter;
+            copter.eventCheckChanged += (_, isChecked) => TrainDisplaySettings.IsCopter = isChecked;
+            currentY += copter.height + Margin;
         }
     }
 }

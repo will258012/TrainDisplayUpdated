@@ -26,6 +26,7 @@
 "SETTINGS_IS_TROLLEYBUS","Trolleybus",""
 "SETTINGS_IS_FERRY","Ferry",""
 "SETTINGS_IS_BLIMP","Blimp",""
+"SETTINGS_IS_COPTER","Helicopter",""
 "WARNTITLE","Warning!",""
 "WARNDETAIL","Train Display has stopped displaying：{1}{0}",""
 "WARNTEXT","Duplicate station names were detected on this route",""

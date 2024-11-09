@@ -77,5 +77,10 @@ namespace TrainDisplay.Settings
         [XmlIgnore]
         internal static bool IsBlimp { get; set; } = true;
 
+        [XmlElement("IsCopter")]
+        public bool XMLIsCopter { get => IsCopter; set => IsCopter = value; }
+        [XmlIgnore]
+        internal static bool IsCopter { get; set; } = true;
+
     }
 }

@@ -120,6 +120,7 @@ namespace TrainDisplay
                 case VehicleInfo.VehicleCategory.Trolleybus when TrainDisplaySettings.IsTrolleybus:
                 case VehicleInfo.VehicleCategory.PassengerFerry when TrainDisplaySettings.IsFerry:
                 case VehicleInfo.VehicleCategory.PassengerBlimp when TrainDisplaySettings.IsBlimp:
+                case VehicleInfo.VehicleCategory.PassengerCopter when TrainDisplaySettings.IsCopter:
                     {
                         _terminalList.Clear();
 
