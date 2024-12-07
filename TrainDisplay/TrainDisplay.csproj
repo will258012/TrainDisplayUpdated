@@ -96,4 +96,5 @@
     </Reference>
   </ItemGroup>
   <Import Project="..\AlgernonCommons\AlgernonCommonsShared.projitems" Label="Shared" />
+  <Import Project="..\..\FPSCamera-Continued\FPSCamera.API\FPSCamera.API.projitems" Label="Shared" />
 </Project>

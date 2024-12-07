@@ -1,7 +1,6 @@
 ﻿using AlgernonCommons;
 using AlgernonCommons.Notifications;
 using AlgernonCommons.Translation;
-using HarmonyLib;
 using ICities;
 using TrainDisplay.Settings;
 using UnityEngine;
@@ -32,23 +31,10 @@ namespace TrainDisplay
     }
     public sealed class TrainDisplayLoading : LoadingBase<OptionsPanel>
     {
-        protected override bool CreatedChecksPassed()
-        {
-            if (AccessTools.TypeByName("FPSCamera.Utils.ModSupport, FPSCamera") == null)
-            {
-                Logging.Error("FPScamera not detected");
-                WasFPSCameraNotFound = true;
-                return false;
-            }
-            return true;
-        }
+        protected override bool CreatedChecksPassed() => FPSCameraAPI.Detector.CheckFPSCamera();
         public override void OnLevelLoaded(LoadMode mode)
         {
-            if (WasFPSCameraNotFound)
-            {
-                var notification = NotificationBase.ShowNotification<ListNotification>();
-                notification.AddParas(Translations.Translate("FPSCAMERA_NOT_DETECTED"));
-            }
+            FPSCameraAPI.Detector.ShowNotificationWhenFPSCameraIsNotDetected();
             base.OnLevelLoaded(mode);
         }
 

@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FPSCamera", "..\FPSCamera-C
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AlgernonCommonsShared", "AlgernonCommons\AlgernonCommonsShared.shproj", "{25AEF446-6F0D-43A8-BB84-D1306789B68C}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "FPSCamera.API", "..\FPSCamera-Continued\FPSCamera.API\FPSCamera.API.shproj", "{DC080F92-7978-49CC-9E30-A4CF55909535}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,7 +34,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		AlgernonCommons\AlgernonCommonsShared.projitems*{25aef446-6f0d-43a8-bb84-d1306789b68c}*SharedItemsImports = 13
+		..\FPSCamera-Continued\FPSCamera.API\FPSCamera.API.projitems*{815da47a-4d95-4717-98a7-c000c53d9dd3}*SharedItemsImports = 5
 		AlgernonCommons\AlgernonCommonsShared.projitems*{815da47a-4d95-4717-98a7-c000c53d9dd3}*SharedItemsImports = 5
 		..\FPSCamera-Continued\AlgernonCommons\AlgernonCommonsPatchingShared.projitems*{c4cc0b2d-7243-4af8-a4f3-50098cc18967}*SharedItemsImports = 5
+		..\FPSCamera-Continued\FPSCamera.API\FPSCamera.API.projitems*{dc080f92-7978-49cc-9e30-a4cf55909535}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal
