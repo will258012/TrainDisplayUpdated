@@ -42,7 +42,7 @@ namespace TrainDisplay.Utils
             {
                 return Join("\n", str.ToCharArray());
             }
-            //tmpStr.Append('　', str.Length % numPerLine == 0 ? 0 : numPerLine - (str.Length % numPerLine));
+            tmpStr.Append('　', str.Length % numPerLine == 0 ? 0 : numPerLine - (str.Length % numPerLine));
             var result = new StringBuilder();
 
             for (int j = 0; j < numPerLine; j++)
