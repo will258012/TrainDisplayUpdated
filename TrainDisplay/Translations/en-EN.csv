@@ -6,7 +6,6 @@
 "WHATSNEW_L3","Thank you for your use and support!",""
 "NOTE_CLOSE","Close","Notification button text - closes the notification."
 "NOTE_DONTSHOWAGAIN","Don't show again","Notification button text - don't show this notification again."
-"FPSCAMERA_NOT_DETECTED","The mod is automatically disabled because supported First Person Camera - Continued was not detected. Please check the mod status and try again.",""
 "MOD_DESCRIPTION","Japanese Style Train Display",""
 "DETAIL_LOGGING","Enable detailed debugging logging","Option to record more detail in game log"
 "NEXT","Next","Next {0}. ({0} is the station name)"
@@ -17,6 +16,8 @@
 "SETTINGS_STATION_NAME_ANGLE","Station name rotated angle (beta) (Effective in non-CJK)"
 "SETTINGS_TEXT_SHRINKED","Shrink next station text when it is long (beta)",""
 "SETTINGS_STATION_SUFFIX","Station suffix",""
+"SETTINGS_STATION_SUFFIX_TOOLTIP","If the station name has these suffixes, they will be removed from the display"
+SETTINGS_RESETSUFFIX,Reset station suffix
 "SETTINGS_DISPLAY_VEHICLE_TYPE","Display vehicle types",""
 "SETTINGS_IS_TRAIN","Train",""
 "SETTINGS_IS_METRO","Metro",""

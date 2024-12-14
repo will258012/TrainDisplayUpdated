@@ -3,12 +3,12 @@ using System.Text;
 
 namespace TrainDisplay.Utils
 {
-    class AStringUtils
+    public class AStringUtils
     {
-
         private static readonly Dictionary<string, string> verticalStringConvertDic = new Dictionary<string, string>
         {
-            {"ー", "｜" }
+            {"ー","｜"},
+            {" ","　"}
         };
 
         public static string Join(string delimiter, char[] c)
@@ -42,7 +42,7 @@ namespace TrainDisplay.Utils
             {
                 return Join("\n", str.ToCharArray());
             }
-            tmpStr.Append('　', str.Length % numPerLine == 0 ? 0 : numPerLine - (str.Length % numPerLine));
+            //tmpStr.Append('　', str.Length % numPerLine == 0 ? 0 : numPerLine - (str.Length % numPerLine));
             var result = new StringBuilder();
 
             for (int j = 0; j < numPerLine; j++)

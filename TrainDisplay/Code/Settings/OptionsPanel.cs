@@ -46,13 +46,21 @@ namespace TrainDisplay.Settings
             currentY += textShrinked.height + Margin;
 
             var stationSuffix = UITextFields.AddPlainTextfield(this, Translations.Translate("SETTINGS_STATION_SUFFIX"));
+            stationSuffix.parent.tooltip = Translations.Translate("SETTINGS_STATION_SUFFIX_TOOLTIP");
             stationSuffix.parent.relativePosition = new Vector2(LeftMargin, currentY);
             stationSuffix.size = new Vector2(headerWidth / 2f, 30f);
             stationSuffix.textScale = 1.2f;
             stationSuffix.text = TrainDisplaySettings.StationSuffix;
             stationSuffix.eventTextChanged += (_, text) => TrainDisplaySettings.StationSuffix = text;
-            currentY += stationSuffix.parent.height + Margin;
 
+            var stationSuffixReset = UIButtons.AddButton(this, LeftMargin + stationSuffix.width + LeftMargin, currentY + stationSuffix.parent.height / 2f - Margin, Translations.Translate("SETTINGS_RESETSUFFIX"));
+            stationSuffixReset.eventClicked += (_, m) => 
+            { 
+                TrainDisplaySettings.StationSuffix = @"""駅"",""站"","" Station"","" Sta."","" Sta""";
+                TrainDisplaySettings.Save();
+                OptionsPanelManager<OptionsPanel>.LocaleChanged();
+            };
+            currentY += stationSuffix.parent.height + Margin;
 
             UISpacers.AddTitleSpacer(this, LeftMargin, currentY, headerWidth, Translations.Translate("SETTINGS_DISPLAY_VEHICLE_TYPE"));
             currentY += TitleMargin;

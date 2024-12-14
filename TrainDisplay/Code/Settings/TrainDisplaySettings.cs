@@ -35,7 +35,7 @@ namespace TrainDisplay.Settings
         [XmlElement("StationSuffix")]
         public string XMLStationSuffix { get => StationSuffix; set => StationSuffix = value; }
         [XmlIgnore]
-        internal static string StationSuffix = "\"駅\",\"站\",\" Station\",\" Sta.\",\" Sta\"";
+        internal static string StationSuffix = @"""駅"",""站"","" Station"","" Sta."","" Sta""";
 
         [XmlElement("IsTrain")]
         public bool XMLIsTrain { get => IsTrain; set => IsTrain = value; }

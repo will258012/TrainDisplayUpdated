@@ -1,5 +1,6 @@
 ﻿using AlgernonCommons;
 using AlgernonCommons.Translation;
+using AlgernonCommons.UI;
 using ColossalFramework.Globalization;
 using System;
 using System.Collections;
@@ -403,16 +404,32 @@ namespace TrainDisplay.UI
             {
                 shownForText = RouteStationsName[RouteStationsName.Length - 1];
             }
+            if (TrainDisplaySettings.IsTextShrinked)
+            {
+                float scale = Math.Min(1, 8.0f / shownForText.Length);
+                Vector2 pivot = ForTextPositionIsOnTop(IsCircular)
+                    ? new Vector2(NonCJK_bodyForTextRect.center.x, NonCJK_bodyForTextRect.center.y)
+                    : new Vector2(CJK_bodyForTextRect.center.x, CJK_bodyForTextRect.center.y);
+                GUIUtility.ScaleAroundPivot(new Vector2(scale, scale), pivot);
+            }
 
             if (ForTextPositionIsOnTop(IsCircular))
             {
                 GUI.Label(NonCJK_bodyForTextRect, shownForText, forStyle);
-                GUI.Label(NonCJK_bodyForSuffixTextRect, IsCircular ? Translations.Translate("FOR_CIRCULAR") : Translations.Translate("FOR"), NonCJK_forSuffixStyle);
+                GUI.matrix = Matrix4x4.identity;
+
+                GUI.Label(NonCJK_bodyForSuffixTextRect,
+                          IsCircular ? Translations.Translate("FOR_CIRCULAR") : Translations.Translate("FOR"),
+                          NonCJK_forSuffixStyle);
             }
             else
             {
                 GUI.Label(CJK_bodyForTextRect, shownForText, forStyle);
-                GUI.Label(CJK_bodyForSuffixTextRect, IsCircular ? Translations.Translate("FOR_CIRCULAR") : Translations.Translate("FOR"), CJK_forSuffixStyle);
+                GUI.matrix = Matrix4x4.identity;
+
+                GUI.Label(CJK_bodyForSuffixTextRect,
+                          IsCircular ? Translations.Translate("FOR_CIRCULAR") : Translations.Translate("FOR"),
+                          CJK_forSuffixStyle);
             }
 
             GUI.Label(bodyNextHeadTextRect, IsStopping ? Translations.Translate("NOW_STOPPING_AT") : Translations.Translate("NEXT"), nextHeadStyle);
@@ -421,8 +438,8 @@ namespace TrainDisplay.UI
             string nextDisplayedText = IsStopping ? prevStation_Name : nextStation_Name;
             if (TrainDisplaySettings.IsTextShrinked)
             {
-                float scale = Math.Min(1, 8.0f / nextDisplayedText.Length);
-                GUIUtility.ScaleAroundPivot(new Vector2(scale, 1), bodyNextTextPivot);
+                float scale = Math.Min(1f, 8.0f / nextDisplayedText.Length);
+                GUIUtility.ScaleAroundPivot(new Vector2(scale, scale), bodyNextTextPivot);
             }
             GUI.Label(bodyNextTextRect, nextDisplayedText, nextStyle);
             GUI.matrix = Matrix4x4.identity;

@@ -28,38 +28,26 @@ namespace TrainDisplay
                 }
             }
       };
+        public override void OnEnabled()
+        {
+            base.OnEnabled();
+            FPSCameraAPI.Helper.CheckFPSCamera();
+        }
     }
     public sealed class TrainDisplayLoading : LoadingBase<OptionsPanel>
     {
-        protected override bool CreatedChecksPassed() => FPSCameraAPI.Detector.CheckFPSCamera();
-        public override void OnLevelLoaded(LoadMode mode)
-        {
-            FPSCameraAPI.Detector.ShowNotificationWhenFPSCameraIsNotDetected();
-            base.OnLevelLoaded(mode);
-        }
-
-        /// <summary>
-        /// Performs any actions upon successful level loading completion.
-        /// </summary>
-        /// <param name="mode">Loading mode (e.g. game, editor, scenario, etc.).</param>
+        protected override bool CreatedChecksPassed() => FPSCameraAPI.Helper.IsFPSCameraInstalledAndEnabled;
         protected override void LoadedActions(LoadMode mode)
         {
             base.LoadedActions(mode);
             gameObject = new GameObject("TrainDisplay");
             gameObject.AddComponent<DisplayUIManager>();
         }
-
-        /// <summary>
-        /// Called by the game when exiting a level.
-        /// </summary>
         public override void OnLevelUnloading()
         {
             Object.Destroy(gameObject);
-            WasFPSCameraNotFound = false;
             base.OnLevelUnloading();
         }
         private GameObject gameObject = null;
-        private bool WasFPSCameraNotFound = false;
     }
-
 }
