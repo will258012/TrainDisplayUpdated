@@ -1,0 +1,4 @@
+files:
+  - source: TrainDisplay/Translations/en-EN.csv
+    translation: /**/TrainDisplay/Translations/%locale%.csv
+    scheme: 'identifier,source_or_translation,context'
