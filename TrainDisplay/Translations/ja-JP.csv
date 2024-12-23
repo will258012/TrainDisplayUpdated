@@ -11,7 +11,7 @@
 "NEXT","次は","Next {0}. ({0} is the station name)"
 "NOW_STOPPING_AT","ただいま","Now stopping at {0}. ({0} is the station name)"
 "FOR","ゆき","For {0}. ({0} is the station name)"
-"FOR_CIRCULAR","ゆき","For {0}. ({0} is the station name)"
+"FOR_CIRCULAR","方面","For {0}. ({0} is the station name)"
 "SETTINGS_DISPLAY_WIDTH","画面横幅",""
 "SETTINGS_STATION_NAME_ANGLE","Station name rotated angle (beta) (Effective in non-CJK)",""
 "SETTINGS_TEXT_SHRINKED","次の駅の表示で長い駅名のとき横幅を縮める (beta)",""
