@@ -11,7 +11,7 @@
 "NEXT","下一站","Next {0}. ({0} is the station name)"
 "NOW_STOPPING_AT","现在停靠","Now stopping at {0}. ({0} is the station name)"
 "FOR","开往","For {0}. ({0} is the station name)"
-"FOR_CIRCULAR","开往","For {0}. ({0} is the station name)"
+"FOR_CIRCULAR","方向","For {0}. ({0} is the station name)"
 "SETTINGS_DISPLAY_WIDTH","显示宽度",""
 "SETTINGS_STATION_NAME_ANGLE","站名旋转角度 (beta) (仅在非中日韩语言下生效)",""
 "SETTINGS_TEXT_SHRINKED","如果下一站文字较长，则缩小该文字 (beta)",""
