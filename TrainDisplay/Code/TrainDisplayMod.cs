@@ -3,6 +3,7 @@ using AlgernonCommons.Notifications;
 using AlgernonCommons.Translation;
 using ICities;
 using TrainDisplay.Settings;
+using TrainDisplay.UI;
 using UnityEngine;
 namespace TrainDisplay
 {
@@ -41,7 +42,9 @@ namespace TrainDisplay
         {
             base.LoadedActions(mode);
             gameObject = new GameObject("TrainDisplay");
+            gameObject.AddComponent<DisplayUI>();
             gameObject.AddComponent<DisplayUIManager>();
+
         }
         public override void OnLevelUnloading()
         {
