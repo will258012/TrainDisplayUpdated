@@ -23,6 +23,11 @@ namespace TrainDisplay.UI
             Logging.Message("DisplayUI is disabled");
         }
         public static int MaxStationNum { get; set; } = 6;
+
+        public static float Width { get; set; } = 512f;
+        private float _cachedWidth;
+        public static float Height => Width / 16f * 9f;
+        public static float Ratio => Width / 512f;
         public static Vector2 Position { get; set; } = new Vector2(0f, Screen.height - Height);
         public bool IsStopping { get; set; } = false;
         public bool IsCircular { get; set; } = false;
@@ -40,10 +45,6 @@ namespace TrainDisplay.UI
                 gameLanguage == "ko"));
         }
 
-        private static float Width = TrainDisplaySettings.DisplayWidth;
-        internal static float Height => Width / 16f * 9f;
-        private static float Ratio => Width / 512f;
-
         private float warningButtonWidth;
         private float warningButtonHeight;
 
@@ -56,7 +57,6 @@ namespace TrainDisplay.UI
         private int arrowLength;
         private int arrowHeight;
 
-        //private static IntRect screenRect;
         private Rect headerRect;
         private Rect bodyRect;
 
@@ -123,16 +123,10 @@ namespace TrainDisplay.UI
             boxStyle.normal.background = Texture2D.whiteTexture;
             UpdateLayout(true);
         }
-        public void UpdateLayout(bool forceUpdate = false)
+        public void UpdateLayout(bool force = false)
         {
-            var width = (float)TrainDisplaySettings.DisplayWidth;
-            if (Math.Abs(Width - width) < Mathf.Epsilon && !forceUpdate)
-            {
-                // If not changed, do nothing
+            if (!force && (Position.sqrMagnitude <= Mathf.Epsilon || Mathf.Abs(Width - _cachedWidth) <= Mathf.Epsilon))
                 return;
-            }
-            Width = width;
-
             arrowLineLength = (int)(460f * Ratio);
             arrowLineLengthWithArrow = (int)(470f * Ratio);
             arrowLength = (int)((arrowLineLengthWithArrow - arrowLineLength) * 3.2f);
@@ -532,7 +526,7 @@ namespace TrainDisplay.UI
             if (isDragging && currentEvent.type == EventType.MouseDrag)
             {
                 Position = currentEvent.mousePosition - dragOffset;
-                UpdateLayout(true);
+                UpdateLayout();
                 currentEvent.Use();
             }
 

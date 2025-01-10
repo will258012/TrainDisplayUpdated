@@ -20,26 +20,25 @@ namespace TrainDisplay.Settings
 
         internal static void ResetToDefaults()
         {
-            DisplayWidth = 512;
+            DisplayUI.Width = 512f;
             StationNameAngle = -90f;
             DisplayUI.Position = new Vector2(0f, Screen.height - DisplayUI.Height);
             DisplayUI.MaxStationNum = 6;
             StationSuffix = @"""駅"",""站"","" Station"","" Sta."","" Sta""";
-            StationSuffixWhiteList = @"""Railway Station"",""地铁站"",""火车站"",""汽车站"",""总站""";
+            StationSuffixWhiteList = 
+                @"""Train Station"",""Railway Station"",""Bus Station"",""Subway Station"",""Metro Station"",""Transit Station"",""地铁站"",""火车站"",""汽车站"",""轻轨站"",""高铁站"",""总站""";
             IsTextShrinked = IsTrain = IsMetro = IsMonorail = IsTram = IsBus = IsTrolleybus = IsFerry = IsBlimp = IsCopter = true;
         }
+        [XmlElement("DisplayPos")]
+        public Vector2 XMLDisplayPos { get => DisplayUI.Position; set => DisplayUI.Position = value; }
+
         [XmlElement("DisplayWidth")]
-        public int XMLDisplayWidth { get => DisplayWidth; set => DisplayWidth = value; }
-        [XmlIgnore]
-        internal static int DisplayWidth = 512;
+        public float XMLDisplayWidth { get => DisplayUI.Width; set => DisplayUI.Width = value; }
 
         [XmlElement("StationNameAngle")]
         public float XMLStationNameAngle { get => StationNameAngle; set => StationNameAngle = value; }
         [XmlIgnore]
         internal static float StationNameAngle = -90f;
-
-        [XmlElement("DisplayPos")]
-        public Vector2 XMLDisplayPos { get => DisplayUI.Position; set => DisplayUI.Position = value; }
 
         [XmlElement("MaxStationNum")]
         public int XMLMaxStationNum { get => DisplayUI.MaxStationNum; set => DisplayUI.MaxStationNum = value; }
@@ -53,11 +52,12 @@ namespace TrainDisplay.Settings
         public string XMLStationSuffix { get => StationSuffix; set => StationSuffix = value; }
         [XmlIgnore]
         internal static string StationSuffix = @"""駅"",""站"","" Station"","" Sta."","" Sta""";
-
         [XmlElement("StationSuffixWhiteList")]
         public string XMLStationSuffixWhiteList { get => StationSuffixWhiteList; set => StationSuffixWhiteList = value; }
+
         [XmlIgnore]
-        internal static string StationSuffixWhiteList = @"""Railway Station"",""地铁站"",""火车站"",""汽车站"",""总站""";
+        internal static string StationSuffixWhiteList =
+            @"""Train Station"",""Railway Station"",""Bus Station"",""Subway Station"",""Metro Station"",""Transit Station"",""地铁站"",""火车站"",""汽车站"",""轻轨站"",""高铁站"",""总站""";
 
         [XmlElement("IsTrain")]
         public bool XMLIsTrain { get => IsTrain; set => IsTrain = value; }

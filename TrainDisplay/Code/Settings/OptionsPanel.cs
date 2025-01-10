@@ -47,8 +47,8 @@ namespace TrainDisplay.Settings
             loggingCheck.eventCheckChanged += (_, isChecked) => Logging.DetailLogging = isChecked;
             currentY += loggingCheck.height + Margin;
 
-            var displayWidth = UISliders.AddPlainSliderWithIntegerValue(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_DISPLAY_WIDTH"), 128f, 1024f, 1f, TrainDisplaySettings.DisplayWidth);
-            displayWidth.eventValueChanged += (_, value) => TrainDisplaySettings.DisplayWidth = (int)value;
+            var displayWidth = UISliders.AddPlainSliderWithIntegerValue(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_DISPLAY_WIDTH"), 128f, 1024f, 1f, DisplayUI.Width);
+            displayWidth.eventValueChanged += (_, value) => DisplayUI.Width = (int)value;
             currentY += displayWidth.height + SliderMargin;
 
             var stationNameAngle = UISliders.AddPlainSliderWithValue(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_STATION_NAME_ANGLE"), -90f, 90f, 1f, TrainDisplaySettings.StationNameAngle, new UISliders.SliderValueFormat(valueMultiplier: 1, roundToNearest: 1f, numberFormat: "N0", suffix: "°"));
