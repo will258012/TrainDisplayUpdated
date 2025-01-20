@@ -1,6 +1,8 @@
 ﻿using AlgernonCommons;
 using AlgernonCommons.Translation;
 using AlgernonCommons.UI;
+using ColossalFramework.UI;
+using TrainDisplay.UI;
 using UnityEngine;
 
 namespace TrainDisplay.Settings
@@ -18,7 +20,20 @@ namespace TrainDisplay.Settings
             var currentY = Margin;
             var headerWidth = OptionsPanelManager<OptionsPanel>.PanelWidth - (Margin * 2f);
 
-            var languageDropDown = UIDropDowns.AddPlainDropDown(this, LeftMargin, currentY, Translations.Translate("LANGUAGE_CHOICE"), Translations.LanguageList, Translations.Index);
+            //Add Scrollbar. 
+            var scrollPanel = AddUIComponent<UIScrollablePanel>();
+            scrollPanel.relativePosition = new Vector2(0, Margin);
+            scrollPanel.autoSize = false;
+            scrollPanel.autoLayout = false;
+            scrollPanel.width = width - 15f;
+            scrollPanel.height = height - 15f;
+            scrollPanel.clipChildren = true;
+            scrollPanel.builtinKeyNavigation = true;
+            scrollPanel.scrollWheelDirection = UIOrientation.Vertical;
+            scrollPanel.eventVisibilityChanged += (_, isShow) => { if (isShow) scrollPanel.Reset(); };
+            UIScrollbars.AddScrollbar(this, scrollPanel);
+
+            var languageDropDown = UIDropDowns.AddPlainDropDown(scrollPanel, LeftMargin, currentY, Translations.Translate("LANGUAGE_CHOICE"), Translations.LanguageList, Translations.Index);
             languageDropDown.eventSelectedIndexChanged += (control, index) =>
             {
                 Translations.Index = index;
@@ -27,89 +42,147 @@ namespace TrainDisplay.Settings
             languageDropDown.parent.relativePosition = new Vector2(LeftMargin, currentY);
             currentY += languageDropDown.parent.height + Margin;
 
-            var loggingCheck = UICheckBoxes.AddPlainCheckBox(this, LeftMargin, currentY, Translations.Translate("DETAIL_LOGGING"));
+            var loggingCheck = UICheckBoxes.AddPlainCheckBox(scrollPanel, LeftMargin, currentY, Translations.Translate("DETAIL_LOGGING"));
             loggingCheck.isChecked = Logging.DetailLogging;
-            loggingCheck.eventCheckChanged += (c, isChecked) => { Logging.DetailLogging = isChecked; };
+            loggingCheck.eventCheckChanged += (_, isChecked) => Logging.DetailLogging = isChecked;
             currentY += loggingCheck.height + Margin;
+            #region Display
+            UISpacers.AddTitleSpacer(scrollPanel, LeftMargin, currentY, headerWidth, Translations.Translate("SETTINGS_GROUPNAME_DISPLAY"));
+            currentY += TitleMargin;
 
-            var displayWidth = UISliders.AddPlainSliderWithIntegerValue(this, LeftMargin, currentY, Translations.Translate("SETTINGS_DISPLAY_WIDTH"), 128f, 1024f, 1f, TrainDisplaySettings.DisplayWidth);
-            displayWidth.eventValueChanged += (_, value) => TrainDisplaySettings.DisplayWidth = (int)value;
+            var displayWidth = UISliders.AddPlainSliderWithIntegerValue(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_DISPLAY_WIDTH"), 128f, 1024f, 1f, DisplayUI.Width);
+            displayWidth.eventValueChanged += (_, value) => DisplayUI.Width = (int)value;
             currentY += displayWidth.height + SliderMargin;
 
-            var stationNameAngle = UISliders.AddPlainSliderWithValue(this, LeftMargin, currentY, Translations.Translate("SETTINGS_STATION_NAME_ANGLE"), -90f, 90f, 1f, TrainDisplaySettings.StationNameAngle, new UISliders.SliderValueFormat(valueMultiplier: 1, roundToNearest: 1f, numberFormat: "N0", suffix: "°"));
+            string[] displayLineDirItems = {
+            Translations.Translate("SETTINGS_DISPLAY_ROWDIR_L2R"),
+            Translations.Translate("SETTINGS_DISPLAY_ROWDIR_R2L")
+            };
+            var displayRowDir = UIDropDowns.AddPlainDropDown(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_DISPLAY_ROWDIR"), displayLineDirItems, (int)TrainDisplaySettings.DisplayRowDirection);
+            displayRowDir.eventSelectedIndexChanged += (_, index) => TrainDisplaySettings.DisplayRowDirection = (TrainDisplaySettings.DisplayRowDirections)index;
+            displayRowDir.parent.relativePosition = new Vector2(LeftMargin, currentY);
+            currentY += displayRowDir.parent.height + LeftMargin;
+
+            var stationNameAngle = UISliders.AddPlainSliderWithValue(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_STATION_NAME_ANGLE"), -90f, 90f, 1f, TrainDisplaySettings.StationNameAngle, new UISliders.SliderValueFormat(valueMultiplier: 1, roundToNearest: 1f, numberFormat: "N0", suffix: "°"));
             stationNameAngle.eventValueChanged += (_, value) => TrainDisplaySettings.StationNameAngle = value;
             currentY += stationNameAngle.height + SliderMargin;
 
-            var textShrinked = UICheckBoxes.AddPlainCheckBox(this, LeftMargin, currentY, Translations.Translate("SETTINGS_TEXT_SHRINKED"));
+            var maxItem = UISliders.AddPlainSliderWithIntegerValue(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_MAXSTATIONNUM"), 2, 10, 1, DisplayUI.MaxStationNum);
+            maxItem.eventValueChanged += (_, value) => DisplayUI.MaxStationNum = (int)value;
+            currentY += maxItem.height + SliderMargin;
+
+            var textShrinked = UICheckBoxes.AddPlainCheckBox(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_TEXT_SHRINKED"));
             textShrinked.isChecked = TrainDisplaySettings.IsTextShrinked;
             textShrinked.eventCheckChanged += (_, isChecked) => TrainDisplaySettings.IsTextShrinked = isChecked;
             currentY += textShrinked.height + Margin;
 
-            var stationSuffix = UITextFields.AddPlainTextfield(this, Translations.Translate("SETTINGS_STATION_SUFFIX"));
+            var stationSuffix = UITextFields.AddPlainTextfield(scrollPanel, Translations.Translate("SETTINGS_STATION_SUFFIX"));
             stationSuffix.parent.tooltip = Translations.Translate("SETTINGS_STATION_SUFFIX_TOOLTIP");
             stationSuffix.parent.relativePosition = new Vector2(LeftMargin, currentY);
-            stationSuffix.size = new Vector2(headerWidth / 2f, 30f);
+            stationSuffix.size = new Vector2(600f, 30f);
             stationSuffix.textScale = 1.2f;
             stationSuffix.text = TrainDisplaySettings.StationSuffix;
-            stationSuffix.eventTextChanged += (_, text) => TrainDisplaySettings.StationSuffix = text;
-
-            var stationSuffixReset = UIButtons.AddButton(this, LeftMargin + stationSuffix.width + LeftMargin, currentY + stationSuffix.parent.height / 2f - Margin, Translations.Translate("SETTINGS_RESETSUFFIX"));
-            stationSuffixReset.eventClicked += (_, m) => 
-            { 
-                TrainDisplaySettings.StationSuffix = @"""駅"",""站"","" Station"","" Sta."","" Sta""";
-                TrainDisplaySettings.Save();
-                OptionsPanelManager<OptionsPanel>.LocaleChanged();
-            };
+            stationSuffix.eventTextChanged += (_, text)
+                => TrainDisplaySettings.StationSuffix = text.Replace("“", "\"")
+                                                    .Replace("”", "\"")
+                                                    .Replace("，", ",");//Replace Chinese punctuation with English 
             currentY += stationSuffix.parent.height + Margin;
 
-            UISpacers.AddTitleSpacer(this, LeftMargin, currentY, headerWidth, Translations.Translate("SETTINGS_DISPLAY_VEHICLE_TYPE"));
+            var stationSuffixWhiteList = UITextFields.AddPlainTextfield(scrollPanel, Translations.Translate("SETTINGS_STATION_SUFFIX_WHITELIST"));
+            stationSuffixWhiteList.parent.tooltip = Translations.Translate("SETTINGS_STATION_SUFFIX_WHITELISTTOOLTIP");
+            stationSuffixWhiteList.parent.relativePosition = new Vector2(LeftMargin, currentY);
+            stationSuffixWhiteList.size = new Vector2(600f, 30f);
+            stationSuffixWhiteList.textScale = 1.2f;
+            stationSuffixWhiteList.text = TrainDisplaySettings.StationSuffixWhiteList;
+            stationSuffixWhiteList.eventTextChanged += (_, text)
+                => TrainDisplaySettings.StationSuffixWhiteList = text.Replace("“", "\"")
+                                                                    .Replace("”", "\"")
+                                                                    .Replace("，", ",");
+            currentY += stationSuffixWhiteList.parent.height + Margin;
+            #endregion
+            #region Vehicle Types
+            UISpacers.AddTitleSpacer(scrollPanel, LeftMargin, currentY, headerWidth, Translations.Translate("SETTINGS_DISPLAY_VEHICLE_TYPE"));
             currentY += TitleMargin;
 
-
-            var train = UICheckBoxes.AddPlainCheckBox(this, LeftMargin, currentY, Translations.Translate("SETTINGS_IS_TRAIN"));
+            var train = UICheckBoxes.AddPlainCheckBox(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_IS_TRAIN"));
             train.isChecked = TrainDisplaySettings.IsTrain;
             train.eventCheckChanged += (_, isChecked) => TrainDisplaySettings.IsTrain = isChecked;
             currentY += train.height + Margin;
 
-            var metro = UICheckBoxes.AddPlainCheckBox(this, LeftMargin, currentY, Translations.Translate("SETTINGS_IS_METRO"));
+            var metro = UICheckBoxes.AddPlainCheckBox(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_IS_METRO"));
             metro.isChecked = TrainDisplaySettings.IsMetro;
             metro.eventCheckChanged += (_, isChecked) => TrainDisplaySettings.IsMetro = isChecked;
             currentY += metro.height + Margin;
 
-            var monorail = UICheckBoxes.AddPlainCheckBox(this, LeftMargin, currentY, Translations.Translate("SETTINGS_IS_MONORAIL"));
+            var monorail = UICheckBoxes.AddPlainCheckBox(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_IS_MONORAIL"));
             monorail.isChecked = TrainDisplaySettings.IsMonorail;
             monorail.eventCheckChanged += (_, isChecked) => TrainDisplaySettings.IsMonorail = isChecked;
             currentY += monorail.height + Margin;
 
-            var tram = UICheckBoxes.AddPlainCheckBox(this, LeftMargin, currentY, Translations.Translate("SETTINGS_IS_TRAM"));
+            var tram = UICheckBoxes.AddPlainCheckBox(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_IS_TRAM"));
             tram.isChecked = TrainDisplaySettings.IsTram;
             tram.eventCheckChanged += (_, isChecked) => TrainDisplaySettings.IsTram = isChecked;
             currentY += tram.height + Margin;
 
-            var bus = UICheckBoxes.AddPlainCheckBox(this, LeftMargin, currentY, Translations.Translate("SETTINGS_IS_BUS"));
+            var bus = UICheckBoxes.AddPlainCheckBox(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_IS_BUS"));
             bus.isChecked = TrainDisplaySettings.IsBus;
             bus.eventCheckChanged += (_, isChecked) => TrainDisplaySettings.IsBus = isChecked;
             currentY += bus.height + Margin;
 
-            var trolleybus = UICheckBoxes.AddPlainCheckBox(this, LeftMargin, currentY, Translations.Translate("SETTINGS_IS_TROLLEYBUS"));
+            var trolleybus = UICheckBoxes.AddPlainCheckBox(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_IS_TROLLEYBUS"));
             trolleybus.isChecked = TrainDisplaySettings.IsTrolleybus;
             trolleybus.eventCheckChanged += (_, isChecked) => TrainDisplaySettings.IsTrolleybus = isChecked;
             currentY += trolleybus.height + Margin;
 
-            var ferry = UICheckBoxes.AddPlainCheckBox(this, LeftMargin, currentY, Translations.Translate("SETTINGS_IS_FERRY"));
+            var ferry = UICheckBoxes.AddPlainCheckBox(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_IS_FERRY"));
             ferry.isChecked = TrainDisplaySettings.IsFerry;
             ferry.eventCheckChanged += (_, isChecked) => TrainDisplaySettings.IsFerry = isChecked;
             currentY += ferry.height + Margin;
 
-            var blimp = UICheckBoxes.AddPlainCheckBox(this, LeftMargin, currentY, Translations.Translate("SETTINGS_IS_BLIMP"));
+            var blimp = UICheckBoxes.AddPlainCheckBox(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_IS_BLIMP"));
             blimp.isChecked = TrainDisplaySettings.IsBlimp;
             blimp.eventCheckChanged += (_, isChecked) => TrainDisplaySettings.IsBlimp = isChecked;
             currentY += blimp.height + Margin;
 
-            var copter = UICheckBoxes.AddPlainCheckBox(this, LeftMargin, currentY, Translations.Translate("SETTINGS_IS_COPTER"));
+            var copter = UICheckBoxes.AddPlainCheckBox(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_IS_COPTER"));
             copter.isChecked = TrainDisplaySettings.IsCopter;
             copter.eventCheckChanged += (_, isChecked) => TrainDisplaySettings.IsCopter = isChecked;
             currentY += copter.height + Margin;
+            #endregion
+            #region TTS
+            UISpacers.AddTitleSpacer(scrollPanel, LeftMargin, currentY, headerWidth, "TTS");
+            currentY += TitleMargin;
+
+            var enableTTS = UICheckBoxes.AddPlainCheckBox(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_TTS"));
+            enableTTS.isChecked = TrainDisplaySettings.TTS;
+            enableTTS.eventCheckChanged += (_, isChecked) => TrainDisplaySettings.TTS = isChecked;
+            currentY += enableTTS.height + Margin;
+
+            var TTSNextStation = UITextFields.AddPlainTextfield(scrollPanel, Translations.Translate("SETTINGS_TTS_NEXTSTATION"));
+            TTSNextStation.parent.relativePosition = new Vector2(LeftMargin, currentY);
+            TTSNextStation.size = new Vector2(600f, 30f);
+            TTSNextStation.textScale = 1.2f;
+            TTSNextStation.text = TrainDisplaySettings.TTSNextStation;
+            TTSNextStation.eventTextChanged += (_, text) => TrainDisplaySettings.TTSNextStation = text;
+            currentY += TTSNextStation.parent.height + Margin;
+
+
+            var TTSArriving = UITextFields.AddPlainTextfield(scrollPanel, Translations.Translate("SETTINGS_TTS_ARRIVING"));
+            TTSArriving.parent.relativePosition = new Vector2(LeftMargin, currentY);
+            TTSArriving.size = new Vector2(600f, 30f);
+            TTSArriving.textScale = 1.2f;
+            TTSArriving.text = TrainDisplaySettings.TTSArriving;
+            TTSArriving.eventTextChanged += (_, text) => TrainDisplaySettings.TTSArriving = text;
+            currentY += TTSArriving.parent.height + Margin;
+            #endregion
+            var reset = UIButtons.AddButton(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_RESETBTN"), 200f, 40f);
+            reset.eventClicked += (c, _) => ResetSettings();
+        }
+        private void ResetSettings()
+        {
+            TrainDisplaySettings.ResetToDefaults();
+            TrainDisplaySettings.Save();
+            OptionsPanelManager<OptionsPanel>.LocaleChanged();
         }
     }
 }

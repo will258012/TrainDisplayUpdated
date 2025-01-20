@@ -1,5 +1,6 @@
 ﻿extern alias FPSCamera;
 using AlgernonCommons;
+using AlgernonCommons.Notifications;
 using AlgernonCommons.Translation;
 using ColossalFramework;
 using System.Collections.Generic;
@@ -18,7 +19,6 @@ namespace TrainDisplay
         {
             Instance = this;
             DisplayUI.Instance.enabled = enabled = false;
-            _nextUpdateTime = 0f;
             FPSCamera.FPSCamera.Cam.Controller.FPSCamController.Instance.OnCameraEnabled += OnCameraEnabled;
             FPSCamera.FPSCamera.Cam.Controller.FPSCamController.Instance.OnCameraDisabled += OnCameraDisabled;
         }
@@ -26,7 +26,6 @@ namespace TrainDisplay
         {
             FPSCamera.FPSCamera.Cam.Controller.FPSCamController.Instance.OnCameraEnabled -= OnCameraEnabled;
             FPSCamera.FPSCamera.Cam.Controller.FPSCamController.Instance.OnCameraDisabled -= OnCameraDisabled;
-            Destroy(DisplayUI.Instance);
         }
         private void Update()
         {
@@ -49,10 +48,6 @@ namespace TrainDisplay
                         {
                             // Enable the UI and update the display if a new vehicle is being followed.
                             DisplayUI.Instance.enabled = SetDisplay(vehicleId);
-
-                            // If the UI is enabled, start a coroutine to update the display width.
-                            if (DisplayUI.Instance.enabled)
-                                StartCoroutine(DisplayUI.Instance.UpdateWidth());
                         }
                     }
                     else
@@ -72,7 +67,6 @@ namespace TrainDisplay
                                 // Otherwise, Update the display with the new vehicle ID and reset the warning flag.
                                 DisplayUI.Instance.enabled = SetDisplay(vehicleId);
                             }
-                            _hasShownWarning = false;
                         }
                         UpdateNext();
                     }
@@ -80,7 +74,14 @@ namespace TrainDisplay
             }
             catch (System.Exception e)
             {
-                Logging.LogException(e);
+
+                var notification = NotificationBase.ShowNotification<ListNotification>();
+                notification.AddParas(Translations.Translate("ERROR"));
+                notification.AddSpacer();
+                notification.AddParas(e.ToString());
+
+                Logging.LogException(e, "Train Display is disabled due to some issues");
+                enabled = DisplayUI.Instance.enabled = _hasShownWarning = false;
             }
         }
         private void OnCameraEnabled()
@@ -93,6 +94,7 @@ namespace TrainDisplay
             // Disable self, the UI, and reset the warning flag.  
             enabled = DisplayUI.Instance.enabled = _hasShownWarning = false;
             FollowId = default;
+            TTSUtils.Stop();
             Logging.Message("FPSCamera disabled, DisplayUIManager is disabled");
         }
 
@@ -105,10 +107,12 @@ namespace TrainDisplay
         /// </returns>
         public bool SetDisplay(ushort followId)
         {
+            Logging.Message("Setting display");
             if (followId == default) return false;
             FollowId = followId;
             var firstVehicle = GetVehicle(GetFirstVehicleId());
             var info = firstVehicle.Info;
+
 
             switch (info.vehicleCategory)
             {
@@ -122,13 +126,10 @@ namespace TrainDisplay
                 case VehicleInfo.VehicleCategory.PassengerBlimp when TrainDisplaySettings.IsBlimp:
                 case VehicleInfo.VehicleCategory.PassengerCopter when TrainDisplaySettings.IsCopter:
                     {
-                        _terminalList.Clear();
+
 
                         ushort lineId = firstVehicle.m_transportLine;
-                        if (lineId == 0)
-                        {
-                            return false;
-                        }
+                        if (lineId == 0) return false;
                         var line = TransportManager.instance.m_lines.m_buffer[lineId];
 
                         int stopsNumber = line.CountStops(lineId);
@@ -163,27 +164,34 @@ namespace TrainDisplay
                         DisplayUI.Instance.prevStation_ID = _stationIDList[(_nowPos - 1).Value];
 
                         if (!_hasShownWarning)
+                        {
+                            _terminalList.Clear();
+                            var counter = new LoopCounter(stopsNumber);
                             for (int i = 0; i < stopsNumber; i++)
                             {
-                                int prevIndex = (i - 1 + stopsNumber) % stopsNumber;
-                                int nextIndex = (i + 1) % stopsNumber;
+                                int prevIndex = (counter - 1).Value;
+                                int nextIndex = (counter + 1).Value;
 
-                                if (_stationNameList[prevIndex] == _stationNameList[nextIndex])
+                                var pos1 = NetManager.instance.m_nodes.m_buffer[_stationIDList[prevIndex]].m_position;
+                                var pos2 = NetManager.instance.m_nodes.m_buffer[_stationIDList[nextIndex]].m_position;
+
+                                if (Vector3.Distance(pos1, pos2) <= 50f)
                                 {
                                     _terminalList.Add(i);
                                 }
-
+                                counter++;
                             }
+                        }
 
                         RouteUpdate();
-                        DisplayUI.Instance.lineColor = line.GetColor();
+                        DisplayUI.Instance.LineColor = line.GetColor();
 
-                        //Prevent display issues caused by duplicate station names
+                        //Prevent display issues caused by more than 2 terminal stations
                         if (_terminalList.Count > 2 && !_hasShownWarning)
                         {
                             _hasShownWarning = true;
                             DisplayUI.Instance.ShowWarning(Translations.Translate("WARNTEXT"));
-                            _terminalList.Clear();//disable turnback support
+                            _terminalList.Clear();//disable terminal stations display support
                         }
                         return true;
                     }
@@ -204,16 +212,21 @@ namespace TrainDisplay
                 _routeEnd = _stationIDList.Length - 1;
                 return;
             }
+
             int tIndex = _terminalList.BinarySearch(_nowPos.Value);
             if (tIndex < 0)
             {
                 tIndex = ~tIndex;
             }
 
-            _routeStart = _terminalList[(tIndex - 1 + _terminalList.Count) % _terminalList.Count];
-            _routeEnd = _terminalList[tIndex % _terminalList.Count];
+            LoopCounter loopCounterStart = new LoopCounter(_terminalList.Count, tIndex - 1);
+            LoopCounter loopCounterEnd = new LoopCounter(_terminalList.Count, tIndex);
+
+            _routeStart = _terminalList[loopCounterStart.Value];
+            _routeEnd = _terminalList[loopCounterEnd.Value];
             //Log.Message("Start:" + routeStart + ", End:" + routeEnd);
         }
+
 
         /// <summary>
         /// Retrieves the indices of the stations in stationNameList that the vehicle will pass by in the current route segment.
@@ -257,7 +270,8 @@ namespace TrainDisplay
                 routeStationsName[i] = _stationNameList[stopIndices[i]];
                 routeStationsId[i] = _stationIDList[stopIndices[i]];
             }
-            DisplayUI.Instance.UpdateRouteStations(routeStationsName, routeStationsId, IsCircular);
+            DisplayUI.Instance.IsCircular = IsCircular;
+            DisplayUI.Instance.UpdateRouteStations(routeStationsName, routeStationsId);
         }
 
         /// <summary>
@@ -275,18 +289,25 @@ namespace TrainDisplay
 
             if (nextStopId != _stationIDList[_nowPos.Value])
             {
+                _hasSpokenNextStation = false;
                 var prevPos = _nowPos.Value;
                 _nowPos++;
                 DisplayUI.Instance.prevStation_Name = DisplayUI.Instance.nextStation_Name;
                 DisplayUI.Instance.prevStation_ID = DisplayUI.Instance.nextStation_ID;
                 DisplayUI.Instance.nextStation_Name = nextStopName;
                 DisplayUI.Instance.nextStation_ID = nextStopId;
-
+                TTSUtils.Speak(string.Format(TrainDisplaySettings.TTSArriving, DisplayUI.Instance.prevStation_Name));
                 if (prevPos == _routeEnd)
                 {
                     RouteUpdate();
                 }
             }
+            else if (!DisplayUI.Instance.IsStopping && !_hasSpokenNextStation)
+            {
+                TTSUtils.Speak(string.Format(TrainDisplaySettings.TTSNextStation, DisplayUI.Instance.nextStation_Name));
+                _hasSpokenNextStation = true;
+            }
+
         }
         private Vehicle GetVehicle() => VehicleManager.instance.m_vehicles.m_buffer[FollowId];
         private ushort GetFirstVehicleId() => GetVehicle().GetFirstVehicle(FollowId);
@@ -294,7 +315,7 @@ namespace TrainDisplay
         private bool IsCircular => _terminalList.Count == 0;
 
         private const float _updateInterval = .25f;
-        private float _nextUpdateTime;
+        private float _nextUpdateTime = default;
         private ushort[] _stationIDList; //The internal value should be unique
         private string[] _stationNameList;
         private List<int> _terminalList = new List<int>();//Turnback display support
@@ -302,5 +323,6 @@ namespace TrainDisplay
         private int _routeStart;
         private int _routeEnd;
         private bool _hasShownWarning = false;
+        private bool _hasSpokenNextStation = false;
     }
 }

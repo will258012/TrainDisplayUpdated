@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text;
+using TrainDisplay.Settings;
 
 namespace TrainDisplay.Utils
 {
@@ -53,7 +54,14 @@ namespace TrainDisplay.Utils
                 }
                 for (int i = 0; i < tmpStr.Length / numPerLine; i++)
                 {
-                    result.Append(tmpStr[(((tmpStr.Length / numPerLine) - i - 1) * numPerLine) + j]);
+                    if (TrainDisplaySettings.DisplayRowDirection == TrainDisplaySettings.DisplayRowDirections.R2L)
+                    {
+                        result.Append(tmpStr[(((tmpStr.Length / numPerLine) - i - 1) * numPerLine) + j]);
+                    }
+                    else
+                    {
+                        result.Append(tmpStr[(i * numPerLine) + j]);
+                    }
                 }
             }
 
