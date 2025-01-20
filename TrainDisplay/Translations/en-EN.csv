@@ -13,15 +13,19 @@ ERROR,Oops! Something went wrong:
 "NOW_STOPPING_AT","Now stopping at","Now stopping at {0}. ({0} is the station name)"
 "FOR","For","For {0}. ({0} is the station name)"
 "FOR_CIRCULAR","For","For {0}. ({0} is the station name)"
+SETTINGS_GROUPNAME_DISPLAY,Display Related Options
 "SETTINGS_DISPLAY_WIDTH","Display width",""
-"SETTINGS_STATION_NAME_ANGLE","Station name rotated angle (beta) (Effective in non-CJK)"
+SETTINGS_DISPLAY_ROWDIR,Display row direction (Effective in CJK)
+SETTINGS_DISPLAY_ROWDIR_L2R,From left to right
+SETTINGS_DISPLAY_ROWDIR_R2L,From right to left
+"SETTINGS_STATION_NAME_ANGLE","Station name rotated angle (Effective in non-CJK)"
 SETTINGS_MAXSTATIONNUM,Maximum number of display stations
 "SETTINGS_TEXT_SHRINKED","Shrink next station text when it is long",""
 "SETTINGS_STATION_SUFFIX","Station suffixes to remove",""
 "SETTINGS_STATION_SUFFIX_TOOLTIP","If the station name end with these suffixes, they will be removed from the display"
 SETTINGS_STATION_SUFFIX_WHITELIST,Whitelist of station name suffixes
 "SETTINGS_STATION_SUFFIX_WHITELISTTOOLTIP","These won't be removed from station names, even if they are in the list of suffixes to remove."
-"SETTINGS_DISPLAY_VEHICLE_TYPE","Display vehicle types",""
+"SETTINGS_DISPLAY_VEHICLE_TYPE","Display Vehicle Types",""
 "SETTINGS_IS_TRAIN","Train",""
 "SETTINGS_IS_METRO","Metro",""
 "SETTINGS_IS_MONORAIL","Monorail",""
@@ -31,6 +35,9 @@ SETTINGS_STATION_SUFFIX_WHITELIST,Whitelist of station name suffixes
 "SETTINGS_IS_FERRY","Ferry",""
 "SETTINGS_IS_BLIMP","Blimp",""
 "SETTINGS_IS_COPTER","Helicopter",""
+SETTINGS_TTS,Enable TTS
+SETTINGS_TTS_NEXTSTATION,Annunciation format on next station
+SETTINGS_TTS_ARRIVING,Annunciation format when arriving at station
 "WARNTITLE","Warning!",""
 "WARNDETAIL","Train Display has stopped displaying：{1}{0}",""
 "WARNTEXT","Failed to detect the start and terminal stations",""

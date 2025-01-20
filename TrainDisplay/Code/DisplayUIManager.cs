@@ -94,6 +94,7 @@ namespace TrainDisplay
             // Disable self, the UI, and reset the warning flag.  
             enabled = DisplayUI.Instance.enabled = _hasShownWarning = false;
             FollowId = default;
+            TTSUtils.Stop();
             Logging.Message("FPSCamera disabled, DisplayUIManager is disabled");
         }
 
@@ -288,18 +289,25 @@ namespace TrainDisplay
 
             if (nextStopId != _stationIDList[_nowPos.Value])
             {
+                _hasSpokenNextStation = false;
                 var prevPos = _nowPos.Value;
                 _nowPos++;
                 DisplayUI.Instance.prevStation_Name = DisplayUI.Instance.nextStation_Name;
                 DisplayUI.Instance.prevStation_ID = DisplayUI.Instance.nextStation_ID;
                 DisplayUI.Instance.nextStation_Name = nextStopName;
                 DisplayUI.Instance.nextStation_ID = nextStopId;
-
+                TTSUtils.Speak(string.Format(TrainDisplaySettings.TTSArriving, DisplayUI.Instance.prevStation_Name));
                 if (prevPos == _routeEnd)
                 {
                     RouteUpdate();
                 }
             }
+            else if (!DisplayUI.Instance.IsStopping && !_hasSpokenNextStation)
+            {
+                TTSUtils.Speak(string.Format(TrainDisplaySettings.TTSNextStation, DisplayUI.Instance.nextStation_Name));
+                _hasSpokenNextStation = true;
+            }
+
         }
         private Vehicle GetVehicle() => VehicleManager.instance.m_vehicles.m_buffer[FollowId];
         private ushort GetFirstVehicleId() => GetVehicle().GetFirstVehicle(FollowId);
@@ -315,5 +323,6 @@ namespace TrainDisplay
         private int _routeStart;
         private int _routeEnd;
         private bool _hasShownWarning = false;
+        private bool _hasSpokenNextStation = false;
     }
 }

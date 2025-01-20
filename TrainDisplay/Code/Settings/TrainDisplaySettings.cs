@@ -21,19 +21,33 @@ namespace TrainDisplay.Settings
         internal static void ResetToDefaults()
         {
             DisplayUI.Width = 512f;
+            DisplayRowDirection = DisplayRowDirections.L2R;
             StationNameAngle = -90f;
             DisplayUI.Position = new Vector2(0f, Screen.height - DisplayUI.Height);
             DisplayUI.MaxStationNum = 6;
             StationSuffix = @"""駅"",""站"","" Station"","" Sta."","" Sta""";
-            StationSuffixWhiteList = 
+            StationSuffixWhiteList =
                 @"""Train Station"",""Railway Station"",""Bus Station"",""Subway Station"",""Metro Station"",""Transit Station"",""地铁站"",""火车站"",""汽车站"",""轻轨站"",""高铁站"",""总站""";
             IsTextShrinked = IsTrain = IsMetro = IsMonorail = IsTram = IsBus = IsTrolleybus = IsFerry = IsBlimp = IsCopter = true;
+            TTS = false;
+            TTSNextStation = "Next station: {0}";
+            TTSArriving = "We are now arriving at: {0}";
         }
+        #region Display
         [XmlElement("DisplayPos")]
         public Vector2 XMLDisplayPos { get => DisplayUI.Position; set => DisplayUI.Position = value; }
 
         [XmlElement("DisplayWidth")]
         public float XMLDisplayWidth { get => DisplayUI.Width; set => DisplayUI.Width = value; }
+        public enum DisplayRowDirections
+        {
+            L2R,
+            R2L
+        }
+        [XmlElement("DisplayRowDirection")]
+        public DisplayRowDirections XMLDisplayRowDirection { get => DisplayRowDirection; set => DisplayRowDirection = value; }
+        [XmlIgnore]
+        internal static DisplayRowDirections DisplayRowDirection = DisplayRowDirections.L2R;
 
         [XmlElement("StationNameAngle")]
         public float XMLStationNameAngle { get => StationNameAngle; set => StationNameAngle = value; }
@@ -58,7 +72,8 @@ namespace TrainDisplay.Settings
         [XmlIgnore]
         internal static string StationSuffixWhiteList =
             @"""Train Station"",""Railway Station"",""Bus Station"",""Subway Station"",""Metro Station"",""Transit Station"",""地铁站"",""火车站"",""汽车站"",""轻轨站"",""高铁站"",""总站""";
-
+        #endregion
+        #region Vehicle Types
         [XmlElement("IsTrain")]
         public bool XMLIsTrain { get => IsTrain; set => IsTrain = value; }
         [XmlIgnore]
@@ -87,22 +102,38 @@ namespace TrainDisplay.Settings
         [XmlElement("IsTrolleybus")]
         public bool XMLIsTrolleybus { get => IsTrolleybus; set => IsTrolleybus = value; }
         [XmlIgnore]
-        internal static bool IsTrolleybus { get; set; } = true;
+        internal static bool IsTrolleybus = true;
 
         [XmlElement("IsFerry")]
         public bool XMLIsFerry { get => IsFerry; set => IsFerry = value; }
         [XmlIgnore]
-        internal static bool IsFerry { get; set; } = true;
+        internal static bool IsFerry = true;
 
         [XmlElement("IsBlimp")]
         public bool XMLIsBlimp { get => IsBlimp; set => IsBlimp = value; }
         [XmlIgnore]
-        internal static bool IsBlimp { get; set; } = true;
+        internal static bool IsBlimp = true;
 
         [XmlElement("IsCopter")]
         public bool XMLIsCopter { get => IsCopter; set => IsCopter = value; }
         [XmlIgnore]
-        internal static bool IsCopter { get; set; } = true;
+        internal static bool IsCopter = true;
+        #endregion
+        #region TTS
+        [XmlElement("TTS")]
+        public bool XMLTTS { get => TTS; set => TTS = value; }
+        [XmlIgnore]
+        internal static bool TTS = false;
 
+        [XmlElement("TTSNextStation")]
+        public string XMLTTSNextStation { get => TTSNextStation; set => TTSNextStation = value; }
+        [XmlIgnore]
+        internal static string TTSNextStation = "Next station: {0}";
+
+        [XmlElement("TTSArriving")]
+        public string XMLTTSArriving { get => TTSArriving; set => TTSArriving = value; }
+        [XmlIgnore]
+        internal static string TTSArriving = "We are now arriving at: {0}";
+        #endregion
     }
 }

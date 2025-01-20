@@ -18,8 +18,8 @@ namespace TrainDisplay.Utils
         public static string RemoveStationSuffix(string stationName)
         {
             if (string.IsNullOrEmpty(TrainDisplaySettings.StationSuffix) ||
-                (!string.IsNullOrEmpty(TrainDisplaySettings.StationSuffixWhiteList) 
-                && StationSuffixWhiteList.Any(whiteListSuffix =>stationName.EndsWith(whiteListSuffix, StringComparison.OrdinalIgnoreCase))))
+                (!string.IsNullOrEmpty(TrainDisplaySettings.StationSuffixWhiteList)
+                && StationSuffixWhiteList.Any(whiteListSuffix => stationName.EndsWith(whiteListSuffix, StringComparison.OrdinalIgnoreCase))))
             {
                 return stationName;
             }
