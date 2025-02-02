@@ -60,12 +60,11 @@
     <Target Name="DeployToModDirectory" AfterTargets="Build">
 
 	    <ItemGroup>
-		    <TranslationsCore Include="../AlgernonCommons/Translations/*.csv" />
+			<TranslationsCore Include="../AlgernonCommons/Translations/*.csv" />
 		    <SourceDir Include="$(TargetDir)\**\*.*" />
-			<SourceDir Without="@(SourceDir->'CitiesHarmony.API.dll')" />
 	    </ItemGroup>
 	    <PropertyGroup>
-		    <DeployDir>$(LOCALAPPDATA)/Colossal Order/Cities_Skylines/Addons/Mods/$(SolutionName)/</DeployDir>
+		    <DeployDir>$(LOCALAPPDATA)/Colossal Order/Cities_Skylines/Addons/Mods/$(ProjectName)/</DeployDir>
 	    </PropertyGroup>
 
 	    <Copy SourceFiles="@(SourceDir)" DestinationFolder="$(DeployDir)\%(RecursiveDir)" SkipUnchangedFiles="true" />
