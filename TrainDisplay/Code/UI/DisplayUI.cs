@@ -1,4 +1,4 @@
-﻿using AlgernonCommons;
+﻿ using AlgernonCommons;
 using AlgernonCommons.Translation;
 using ColossalFramework.Globalization;
 using System;
@@ -20,6 +20,7 @@ namespace TrainDisplay.UI
 
         private void OnDisable()
         {
+            isShowingWarning = false;
             Logging.Message("DisplayUI is disabled");
         }
         public static int MaxStationNum { get; set; } = 6;
@@ -37,7 +38,7 @@ namespace TrainDisplay.UI
             string displayLanguage = Translations.CurrentLanguage;
             string gameLanguage = LocaleManager.instance.language;
             return displayLanguage == "ja-JP" ||
-                displayLanguage == "zh-CN" ||
+                displayLanguage.Contains("zh") ||
                 displayLanguage == "ko-KR" ||
                 (displayLanguage == "default" && (
                 gameLanguage == "ja" ||
@@ -111,7 +112,7 @@ namespace TrainDisplay.UI
 
         private Vector2 StationNameAngleOffset;
 
-        private bool showWarning = false;
+        private bool isShowingWarning = false;
         private string warningText;
 
         private bool isDragging;
@@ -127,6 +128,7 @@ namespace TrainDisplay.UI
         {
             if (!force && (Position.sqrMagnitude <= Mathf.Epsilon || Mathf.Abs(Width - _cachedWidth) <= Mathf.Epsilon))
                 return;
+            _cachedWidth = Width;
             arrowLineLength = (int)(460f * Ratio);
             arrowLineLengthWithArrow = (int)(470f * Ratio);
             arrowLength = (int)((arrowLineLengthWithArrow - arrowLineLength) * 3.2f);
@@ -150,8 +152,8 @@ namespace TrainDisplay.UI
 
             bodyArrowLineRect = new Rect(Position.x + (26f * Ratio), Position.y + (220f * Ratio), arrowLineLengthWithArrow, arrowHeight);
 
-            warningButtonIgnoreRect = new Rect(10f * Ratio, Screen.height - warningButtonHeight - (10f * Ratio), warningButtonWidth, warningButtonHeight);
-            warningButtonHideRect = new Rect((20f * Ratio) + warningButtonWidth, Screen.height - warningButtonHeight - (10f * Ratio), warningButtonWidth, warningButtonHeight);
+            warningButtonIgnoreRect = new Rect(Position.x + (10f * Ratio), Position.y + Height - (10f * Ratio) - warningButtonHeight, warningButtonWidth, warningButtonHeight);
+            warningButtonHideRect = new Rect(Position.x + (20f * Ratio) + warningButtonWidth, Position.y + Height - (10f * Ratio) - warningButtonHeight, warningButtonWidth, warningButtonHeight);
 
             forStyle.fontSize = (int)(20f * Ratio);
             forStyle.normal.textColor = Color.white;
@@ -338,7 +340,7 @@ namespace TrainDisplay.UI
             if (modLang == "ja-JP" || modLang == "ko-KR" || (modLang == "default" && (gameLang == "ja" || gameLang == "ko")))
                 return false;
 
-            if (modLang == "zh-CN" || (modLang == "default" && gameLang == "zh"))
+            if (modLang.Contains("zh") || (modLang == "default" && gameLang == "zh"))
                 return !circular;
 
             return true;
@@ -347,18 +349,17 @@ namespace TrainDisplay.UI
 
         public void ShowWarning(string warningText)
         {
-            showWarning = true;
+            isShowingWarning = true;
             this.warningText = warningText;
             Logging.Error($"Displaying Stopped: {warningText}");
         }
         private void OnGUI()
         {
-            HandleDragEvents();
             // Header
             GUI.backgroundColor = new Color(0.16f, 0.16f, 0.16f);
             GUI.Box(headerRect, "", boxStyle);
 
-            if (showWarning)
+            if (isShowingWarning)
             {
                 GUI.backgroundColor = Color.white;
                 GUI.Box(bodyRect, "", boxStyle);
@@ -367,15 +368,16 @@ namespace TrainDisplay.UI
 
                 if (GUI.Button(warningButtonIgnoreRect, Translations.Translate("IGNORE")))
                 {
-                    showWarning = false;
+                    isShowingWarning = false;
                 }
 
                 if (GUI.Button(warningButtonHideRect, Translations.Translate("HIDE")))
                 {
-                    showWarning = enabled = false;
+                    enabled = false;
                 }
                 return;
             }
+            else HandleDragEvents();
 
             GUI.backgroundColor = LineColor;
             GUI.Box(bodyLineRect, "", boxStyle);
@@ -514,26 +516,26 @@ namespace TrainDisplay.UI
         {
             var currentEvent = Event.current;
 
-            if (currentEvent.type == EventType.MouseDown &&
+            if (currentEvent.type == EventType.MouseDown && 
                 (bodyRect.Contains(currentEvent.mousePosition) || headerRect.Contains(currentEvent.mousePosition)))
             {
                 isDragging = true;
-
                 dragOffset = currentEvent.mousePosition - Position;
                 currentEvent.Use();
             }
-
-            if (isDragging && currentEvent.type == EventType.MouseDrag)
+            if (isDragging)
             {
-                Position = currentEvent.mousePosition - dragOffset;
-                UpdateLayout();
-                currentEvent.Use();
-            }
-
-            if (currentEvent.type == EventType.MouseUp)
-            {
-                isDragging = false;
-                TrainDisplaySettings.Save();
+                if (currentEvent.type == EventType.MouseUp)
+                {
+                    isDragging = false;
+                    TrainDisplaySettings.Save();
+                }
+                else if (currentEvent.type == EventType.MouseDrag)
+                {
+                    Position = currentEvent.mousePosition - dragOffset;
+                    UpdateLayout(true);
+                    currentEvent.Use();
+                }
             }
         }
 

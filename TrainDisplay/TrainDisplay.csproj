@@ -52,48 +52,25 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebugType>none</DebugType>
   </PropertyGroup>
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="rd /s /q &quot;%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)&quot;&#xD;&#xA;mkdir &quot;%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)&quot;&#xD;&#xA;xcopy /e /y &quot;$(TargetDir)&quot; &quot;%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)&quot;&#xD;&#xA;del /f /s /q &quot;%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)\CitiesHarmony.API.dll&quot;" />
-  </Target>
   <ItemGroup>
     <None Update="Translations\*.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Reference Update="System">
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Update="System.Core">
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Update="System.Data">
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Update="System.Drawing">
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Update="System.Runtime.Serialization">
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Update="System.Xml">
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Update="System.Xml.Linq">
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
+    <Target Name="DeployToModDirectory" AfterTargets="Build">
+
+	    <ItemGroup>
+		    <TranslationsCore Include="../AlgernonCommons/Translations/*.csv" />
+		    <SourceDir Include="$(TargetDir)\**\*.*" />
+			<SourceDir Without="@(SourceDir->'CitiesHarmony.API.dll')" />
+	    </ItemGroup>
+	    <PropertyGroup>
+		    <DeployDir>$(LOCALAPPDATA)/Colossal Order/Cities_Skylines/Addons/Mods/$(SolutionName)/</DeployDir>
+	    </PropertyGroup>
+
+	    <Copy SourceFiles="@(SourceDir)" DestinationFolder="$(DeployDir)\%(RecursiveDir)" SkipUnchangedFiles="true" />
+		<Delete Files="$(DeployDir)\CitiesHarmony.API.dll" />
+	    <Copy SourceFiles="@(TranslationsCore)" DestinationFolder="$(DeployDir)/Translations/Core" SkipUnchangedFiles="true" />
+    </Target>
   <Import Project="..\AlgernonCommons\AlgernonCommonsShared.projitems" Label="Shared" />
 </Project>
