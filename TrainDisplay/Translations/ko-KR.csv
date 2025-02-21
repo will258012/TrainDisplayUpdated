@@ -32,7 +32,7 @@
 "SETTINGS_IS_COPTER","헬리콥터",""
 "SETTINGS_TTS","Enable TTS",""
 "SETTINGS_TTS_NEXTSTATION","Annunciation format on next station",""
-"SETTINGS_TTS_ARRIVING","Annunciation format when arriving at station",""
+"SETTINGS_TTS_ARRIVING","이번역의 안내방송",""
 "WARNTITLE","경고!",""
 "WARNDETAIL","Train Display has stopped displaying：{1}{0}",""
 "WARNTEXT","시착역과 종착역을 감지하지 못하였습니다",""
