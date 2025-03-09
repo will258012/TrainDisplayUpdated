@@ -11,7 +11,7 @@
 "SETTINGS_GROUPNAME_DISPLAY","Display Related Options",""
 "SETTINGS_DISPLAY_WIDTH","Anzeige-Breite",""
 "SETTINGS_DISPLAY_ROWDIR","Display row direction (Effective in CJK)",""
-"SETTINGS_DISPLAY_ROWDIR_L2R","From left to right",""
+"SETTINGS_DISPLAY_ROWDIR_L2R","Von links nach rechts",""
 "SETTINGS_DISPLAY_ROWDIR_R2L","From right to left",""
 "SETTINGS_STATION_NAME_ANGLE","Station name rotated angle (Effective in non-CJK)",""
 "SETTINGS_MAXSTATIONNUM","Maximum number of display stations",""
