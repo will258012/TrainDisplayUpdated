@@ -99,6 +99,7 @@ namespace TrainDisplay.UI
         public ushort nextStation_ID;
         public string prevStation_Name = "";
         public ushort prevStation_ID;
+        public string ForDisplayedText { get; private set; }
         private string[] RouteStationsName;
         private string[] vertical_RouteStationsName;
         private ushort[] RouteStationsID;
@@ -382,7 +383,6 @@ namespace TrainDisplay.UI
             GUI.backgroundColor = LineColor;
             GUI.Box(bodyLineRect, "", boxStyle);
 
-            string shownForText;
             if (IsCircular)
             {
                 //int index = Array.FindIndex(RouteStationsName, (str) => str == prevText);
@@ -392,15 +392,15 @@ namespace TrainDisplay.UI
                 {
                     index = 0;
                 }
-                shownForText = RouteStationsName[index];
+                ForDisplayedText = RouteStationsName[index];
             }
             else
             {
-                shownForText = RouteStationsName[RouteStationsName.Length - 1];
+                ForDisplayedText = RouteStationsName[RouteStationsName.Length - 1];
             }
             if (TrainDisplaySettings.IsTextShrinked)
             {
-                float scale = Math.Min(1, 8.0f / shownForText.Length);
+                float scale = Math.Min(1, 8.0f / ForDisplayedText.Length);
                 Vector2 pivot = ForTextPositionIsOnTop(IsCircular)
                     ? new Vector2(NonCJK_bodyForTextRect.center.x, NonCJK_bodyForTextRect.center.y)
                     : new Vector2(CJK_bodyForTextRect.center.x, CJK_bodyForTextRect.center.y);
@@ -409,7 +409,7 @@ namespace TrainDisplay.UI
 
             if (ForTextPositionIsOnTop(IsCircular))
             {
-                GUI.Label(NonCJK_bodyForTextRect, shownForText, forStyle);
+                GUI.Label(NonCJK_bodyForTextRect, ForDisplayedText, forStyle);
                 GUI.matrix = Matrix4x4.identity;
 
                 GUI.Label(NonCJK_bodyForSuffixTextRect,
@@ -418,7 +418,7 @@ namespace TrainDisplay.UI
             }
             else
             {
-                GUI.Label(CJK_bodyForTextRect, shownForText, forStyle);
+                GUI.Label(CJK_bodyForTextRect, ForDisplayedText, forStyle);
                 GUI.matrix = Matrix4x4.identity;
 
                 GUI.Label(CJK_bodyForSuffixTextRect,

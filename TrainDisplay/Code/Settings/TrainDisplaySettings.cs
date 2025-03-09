@@ -1,8 +1,12 @@
-﻿using AlgernonCommons.XML;
+﻿using AlgernonCommons;
+using AlgernonCommons.Notifications;
+using AlgernonCommons.Translation;
+using AlgernonCommons.XML;
 using ColossalFramework.IO;
 using System.IO;
 using System.Xml.Serialization;
 using TrainDisplay.UI;
+using TrainDisplay.Utils;
 using UnityEngine;
 
 namespace TrainDisplay.Settings
@@ -20,6 +24,10 @@ namespace TrainDisplay.Settings
 
         internal static void ResetToDefaults()
         {
+            Translations.CurrentLanguage = "default";
+            Logging.DetailLogging = false;
+            WhatsNew.LastNotifiedVersionString = "0.0";
+
             DisplayUI.Width = 512f;
             DisplayRowDirection = DisplayRowDirections.L2R;
             StationNameAngle = -90f;
@@ -29,8 +37,10 @@ namespace TrainDisplay.Settings
             StationSuffixWhiteList =
                 @"""Train Station"",""Railway Station"",""Bus Station"",""Subway Station"",""Metro Station"",""Transit Station"",""地铁站"",""火车站"",""汽车站"",""轻轨站"",""高铁站"",""总站""";
             IsTextShrinked = IsTrain = IsMetro = IsMonorail = IsTram = IsBus = IsTrolleybus = IsFerry = IsBlimp = IsCopter = true;
+
             TTS = false;
-            TTSNextStation = "Next station: {0}";
+            TTSHelper.Instance.VoiceIndex = default;
+            TTSDeparting = "This train is bound for: {1}. Next station: {0}";
             TTSArriving = "We are now arriving at: {0}";
         }
         #region Display
@@ -124,12 +134,12 @@ namespace TrainDisplay.Settings
         public bool XMLTTS { get => TTS; set => TTS = value; }
         [XmlIgnore]
         internal static bool TTS = false;
-
-        [XmlElement("TTSNextStation")]
-        public string XMLTTSNextStation { get => TTSNextStation; set => TTSNextStation = value; }
+        [XmlElement("TTSVoiceName")]
+        public string XMLTTSVoiceName { get => TTSHelper.Instance.VoiceName; set => TTSHelper.Instance.VoiceName = value; }
+        [XmlElement("TTSDeparting")]
+        public string XMLTTSDeparting { get => TTSDeparting; set => TTSDeparting = value; }
         [XmlIgnore]
-        internal static string TTSNextStation = "Next station: {0}";
-
+        internal static string TTSDeparting = "This train is bound for: {1}. Next station: {0}";
         [XmlElement("TTSArriving")]
         public string XMLTTSArriving { get => TTSArriving; set => TTSArriving = value; }
         [XmlIgnore]
