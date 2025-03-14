@@ -93,7 +93,7 @@ namespace TrainDisplay
             // Disable self, the UI, and reset the warning flag.  
             enabled = DisplayUI.Instance.enabled = hasShownWarning = false;
             FollowId = default;
-            TTSUtils.Stop();
+            TTSHelper.Instance.Stop();
             Logging.Message("FPSCamera disabled, DisplayUIManager is disabled");
         }
 
@@ -162,6 +162,7 @@ namespace TrainDisplay
                         DisplayUI.Instance.prevStation_Name = stationNameList[(nowPos - 1).Value];
                         DisplayUI.Instance.prevStation_ID = stationIDList[(nowPos - 1).Value];
                         DisplayUI.Instance.LineColor = line.GetColor();
+                        lineName = TransportManager.instance.GetLineName(lineId);
 
                         terminalList.Clear();
                         if (!hasShownWarning)
@@ -288,23 +289,23 @@ namespace TrainDisplay
 
             if (nextStopId != stationIDList[nowPos.Value])
             {
-                hasSpokenNextStation = false;
+                hasSpokenDepart = false;
                 var prevPos = nowPos.Value;
                 nowPos++;
                 DisplayUI.Instance.prevStation_Name = DisplayUI.Instance.nextStation_Name;
                 DisplayUI.Instance.prevStation_ID = DisplayUI.Instance.nextStation_ID;
                 DisplayUI.Instance.nextStation_Name = nextStopName;
                 DisplayUI.Instance.nextStation_ID = nextStopId;
-                TTSUtils.Speak(string.Format(TrainDisplaySettings.TTSArriving, DisplayUI.Instance.prevStation_Name));
+                TTSHelper.Instance.Speak(string.Format(TrainDisplaySettings.TTSArriving, DisplayUI.Instance.prevStation_Name, DisplayUI.Instance.ForDisplayedText, lineName));
                 if (prevPos == routeEnd)
                 {
                     RouteUpdate();
                 }
             }
-            else if (!DisplayUI.Instance.IsStopping && !hasSpokenNextStation)
+            else if (!DisplayUI.Instance.IsStopping && !hasSpokenDepart)
             {
-                TTSUtils.Speak(string.Format(TrainDisplaySettings.TTSNextStation, DisplayUI.Instance.nextStation_Name));
-                hasSpokenNextStation = true;
+                TTSHelper.Instance.Speak(string.Format(TrainDisplaySettings.TTSDeparting, DisplayUI.Instance.nextStation_Name, DisplayUI.Instance.ForDisplayedText, lineName));
+                hasSpokenDepart = true;
             }
 
         }
@@ -322,6 +323,7 @@ namespace TrainDisplay
         private int routeStart;
         private int routeEnd;
         private bool hasShownWarning = false;
-        private bool hasSpokenNextStation = false;
+        private bool hasSpokenDepart = false;
+        private string lineName;
     }
 }

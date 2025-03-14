@@ -2,7 +2,9 @@
 using AlgernonCommons.Translation;
 using AlgernonCommons.UI;
 using ColossalFramework.UI;
+using System;
 using TrainDisplay.UI;
+using TrainDisplay.Utils;
 using UnityEngine;
 
 namespace TrainDisplay.Settings
@@ -152,29 +154,45 @@ namespace TrainDisplay.Settings
             #region TTS
             UISpacers.AddTitleSpacer(scrollPanel, LeftMargin, currentY, headerWidth, "TTS");
             currentY += TitleMargin;
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            {
+                var enableTTS = UICheckBoxes.AddPlainCheckBox(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_TTS"));
+                enableTTS.tooltip = Translations.Translate("SETTINGS_TTS_TOOLTIP");
+                enableTTS.isChecked = TrainDisplaySettings.TTS;
+                enableTTS.eventCheckChanged += (_, isChecked) => TrainDisplaySettings.TTS = isChecked;
+                currentY += enableTTS.height + Margin;
 
-            var enableTTS = UICheckBoxes.AddPlainCheckBox(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_TTS"));
-            enableTTS.isChecked = TrainDisplaySettings.TTS;
-            enableTTS.eventCheckChanged += (_, isChecked) => TrainDisplaySettings.TTS = isChecked;
-            currentY += enableTTS.height + Margin;
+                var voicesDropDown = UIDropDowns.AddPlainDropDown(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_TTS_VOICECHOICE"), TTSHelper.Instance.VoiceNames, TTSHelper.Instance.VoiceIndex);
+                voicesDropDown.eventSelectedIndexChanged += (control, index) => TTSHelper.Instance.VoiceIndex = index;
+                voicesDropDown.parent.relativePosition = new Vector2(LeftMargin, currentY);
+                currentY += voicesDropDown.parent.height + Margin;
 
-            var TTSNextStation = UITextFields.AddPlainTextfield(scrollPanel, Translations.Translate("SETTINGS_TTS_NEXTSTATION"));
-            TTSNextStation.parent.relativePosition = new Vector2(LeftMargin, currentY);
-            TTSNextStation.size = new Vector2(600f, 30f);
-            TTSNextStation.textScale = 1.2f;
-            TTSNextStation.text = TrainDisplaySettings.TTSNextStation;
-            TTSNextStation.eventTextChanged += (_, text) => TrainDisplaySettings.TTSNextStation = text;
-            currentY += TTSNextStation.parent.height + Margin;
+                var TTSDeparting = UITextFields.AddPlainTextfield(scrollPanel, Translations.Translate("SETTINGS_TTS_DEPARTING"));
+                TTSDeparting.parent.relativePosition = new Vector2(LeftMargin, currentY);
+                TTSDeparting.tooltip = Translations.Translate("SETTINGS_TTS_FORMATTOOLTIP");
+                TTSDeparting.size = new Vector2(600f, 30f);
+                TTSDeparting.textScale = 1.2f;
+                TTSDeparting.text = TrainDisplaySettings.TTSDeparting;
+                TTSDeparting.eventTextChanged += (_, text) => TrainDisplaySettings.TTSDeparting = text;
+                currentY += TTSDeparting.parent.height + Margin;
 
-
-            var TTSArriving = UITextFields.AddPlainTextfield(scrollPanel, Translations.Translate("SETTINGS_TTS_ARRIVING"));
-            TTSArriving.parent.relativePosition = new Vector2(LeftMargin, currentY);
-            TTSArriving.size = new Vector2(600f, 30f);
-            TTSArriving.textScale = 1.2f;
-            TTSArriving.text = TrainDisplaySettings.TTSArriving;
-            TTSArriving.eventTextChanged += (_, text) => TrainDisplaySettings.TTSArriving = text;
-            currentY += TTSArriving.parent.height + Margin;
+                var TTSArriving = UITextFields.AddPlainTextfield(scrollPanel, Translations.Translate("SETTINGS_TTS_ARRIVING"));
+                TTSArriving.parent.relativePosition = new Vector2(LeftMargin, currentY);
+                TTSArriving.tooltip = Translations.Translate("SETTINGS_TTS_FORMATTOOLTIP");
+                TTSArriving.size = new Vector2(600f, 30f);
+                TTSArriving.textScale = 1.2f;
+                TTSArriving.text = TrainDisplaySettings.TTSArriving;
+                TTSArriving.eventTextChanged += (_, text) => TrainDisplaySettings.TTSArriving = text;
+                currentY += TTSArriving.parent.height + Margin;
+            }
+            else
+            {
+                var TTSNotAvailable = UISpacers.AddTitle(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_TTS_NOTAVAILABLE"));
+                TrainDisplaySettings.TTS = false;
+                currentY += TitleMargin;
+            }
             #endregion
+
             var reset = UIButtons.AddButton(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_RESETBTN"), 200f, 40f);
             reset.eventClicked += (c, _) => ResetSettings();
         }
