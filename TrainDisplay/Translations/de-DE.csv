@@ -35,7 +35,10 @@
 "SETTINGS_TTS_TOOLTIP","Aktivieren Sie die auf Text zur Ansprache basierende Sprachansage des Senders.",""
 "SETTINGS_TTS_DEPARTING","Format der Ansage beim Verlassen des Bahnhofs",""
 "SETTINGS_TTS_ARRIVING","Format der Ansage bei Ankunft am Bahnhof",""
-"SETTINGS_TTS_FORMATTOOLTIP","{0} - Stationsname, {1} - Endhaltestellenname, {2} - Linienname",""
+"SETTINGS_TTS_FORMATTOOLTIP","{0} - Station name
+{1} - Terminal Name
+{2} - Line Name
+{3} - Line Code (requires TLM mod)",""
 "SETTINGS_TTS_NOTAVAILABLE","Sorry, this feature is only available for Windows.",""
 "WARNTITLE","Warnung!",""
 "WARNDETAIL","Die Zuganzeige wurde angehalten:{1}{0}",""
