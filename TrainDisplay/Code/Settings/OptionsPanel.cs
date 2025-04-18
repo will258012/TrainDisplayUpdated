@@ -81,7 +81,7 @@ namespace TrainDisplay.Settings
             var stationSuffix = UITextFields.AddPlainTextfield(scrollPanel, Translations.Translate("SETTINGS_STATION_SUFFIX"));
             stationSuffix.parent.tooltip = Translations.Translate("SETTINGS_STATION_SUFFIX_TOOLTIP");
             stationSuffix.parent.relativePosition = new Vector2(LeftMargin, currentY);
-            stationSuffix.size = new Vector2(600f, 30f);
+            stationSuffix.size = new Vector2(650f, 30f);
             stationSuffix.textScale = 1.2f;
             stationSuffix.text = TrainDisplaySettings.StationSuffix;
             stationSuffix.eventTextChanged += (_, text)
@@ -93,7 +93,7 @@ namespace TrainDisplay.Settings
             var stationSuffixWhiteList = UITextFields.AddPlainTextfield(scrollPanel, Translations.Translate("SETTINGS_STATION_SUFFIX_WHITELIST"));
             stationSuffixWhiteList.parent.tooltip = Translations.Translate("SETTINGS_STATION_SUFFIX_WHITELISTTOOLTIP");
             stationSuffixWhiteList.parent.relativePosition = new Vector2(LeftMargin, currentY);
-            stationSuffixWhiteList.size = new Vector2(600f, 30f);
+            stationSuffixWhiteList.size = new Vector2(650f, 30f);
             stationSuffixWhiteList.textScale = 1.2f;
             stationSuffixWhiteList.text = TrainDisplaySettings.StationSuffixWhiteList;
             stationSuffixWhiteList.eventTextChanged += (_, text)
@@ -162,7 +162,7 @@ namespace TrainDisplay.Settings
                 enableTTS.eventCheckChanged += (_, isChecked) => TrainDisplaySettings.TTS = isChecked;
                 currentY += enableTTS.height + Margin;
 
-                var voicesDropDown = UIDropDowns.AddPlainDropDown(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_TTS_VOICECHOICE"), TTSHelper.Instance.VoiceNames, TTSHelper.Instance.VoiceIndex);
+                var voicesDropDown = UIDropDowns.AddPlainDropDown(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_TTS_VOICECHOICE"), TTSHelper.Instance.VoiceNames, TTSHelper.Instance.VoiceIndex,500f);
                 voicesDropDown.eventSelectedIndexChanged += (control, index) => TTSHelper.Instance.VoiceIndex = index;
                 voicesDropDown.parent.relativePosition = new Vector2(LeftMargin, currentY);
                 currentY += voicesDropDown.parent.height + Margin;
@@ -170,7 +170,7 @@ namespace TrainDisplay.Settings
                 var TTSDeparting = UITextFields.AddPlainTextfield(scrollPanel, Translations.Translate("SETTINGS_TTS_DEPARTING"));
                 TTSDeparting.parent.relativePosition = new Vector2(LeftMargin, currentY);
                 TTSDeparting.tooltip = Translations.Translate("SETTINGS_TTS_FORMATTOOLTIP");
-                TTSDeparting.size = new Vector2(600f, 30f);
+                TTSDeparting.size = new Vector2(650f, 30f);
                 TTSDeparting.textScale = 1.2f;
                 TTSDeparting.text = TrainDisplaySettings.TTSDeparting;
                 TTSDeparting.eventTextChanged += (_, text) => TrainDisplaySettings.TTSDeparting = text;
@@ -179,7 +179,7 @@ namespace TrainDisplay.Settings
                 var TTSArriving = UITextFields.AddPlainTextfield(scrollPanel, Translations.Translate("SETTINGS_TTS_ARRIVING"));
                 TTSArriving.parent.relativePosition = new Vector2(LeftMargin, currentY);
                 TTSArriving.tooltip = Translations.Translate("SETTINGS_TTS_FORMATTOOLTIP");
-                TTSArriving.size = new Vector2(600f, 30f);
+                TTSArriving.size = new Vector2(650f, 30f);
                 TTSArriving.textScale = 1.2f;
                 TTSArriving.text = TrainDisplaySettings.TTSArriving;
                 TTSArriving.eventTextChanged += (_, text) => TrainDisplaySettings.TTSArriving = text;

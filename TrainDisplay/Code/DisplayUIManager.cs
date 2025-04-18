@@ -3,6 +3,7 @@ using AlgernonCommons;
 using AlgernonCommons.Notifications;
 using AlgernonCommons.Translation;
 using ColossalFramework;
+using FPSCamera.FPSCamera.Utils;
 using System.Collections.Generic;
 using TrainDisplay.Settings;
 using TrainDisplay.UI;
@@ -147,7 +148,7 @@ namespace TrainDisplay
                         for (int i = 0; i < stopsNumber; i++)
                         {
                             ushort stationId = line.GetStop(i);
-                            string stationName = StationUtils.RemoveStationSuffix(FPSCamera.FPSCamera.Utils.StationUtils.GetStationName(stationId, lineId));
+                            string stationName = StationSuffixUtils.RemoveStationSuffix(TransportUtils.GetStationName(stationId, lineId));
                             stationIDList[i] = stationId;
                             stationNameList[i] = stationName;
 
@@ -283,7 +284,8 @@ namespace TrainDisplay
         {
             var firstVehicle = GetVehicle(GetFirstVehicleId());
             ushort nextStopId = firstVehicle.m_targetBuilding;
-            string nextStopName = StationUtils.RemoveStationSuffix(FPSCamera.FPSCamera.Utils.StationUtils.GetStationName(nextStopId, firstVehicle.m_transportLine));
+            ushort lineId = firstVehicle.m_transportLine;
+            string nextStopName = StationSuffixUtils.RemoveStationSuffix(TransportUtils.GetStationName(nextStopId, firstVehicle.m_transportLine));
 
             DisplayUI.Instance.IsStopping = firstVehicle.m_flags.IsFlagSet(Vehicle.Flags.Stopped);
 
@@ -296,7 +298,11 @@ namespace TrainDisplay
                 DisplayUI.Instance.prevStation_ID = DisplayUI.Instance.nextStation_ID;
                 DisplayUI.Instance.nextStation_Name = nextStopName;
                 DisplayUI.Instance.nextStation_ID = nextStopId;
-                TTSHelper.Instance.Speak(string.Format(TrainDisplaySettings.TTSArriving, DisplayUI.Instance.prevStation_Name, DisplayUI.Instance.ForDisplayedText, lineName));
+                TTSHelper.Instance.Speak(string.Format(TrainDisplaySettings.TTSArriving,
+                                                       DisplayUI.Instance.prevStation_Name,
+                                                       DisplayUI.Instance.ForDisplayedText,
+                                                       lineName,
+                                                        TransportUtils.GetLineCodeInTLM(lineId)));
                 if (prevPos == routeEnd)
                 {
                     RouteUpdate();
@@ -304,7 +310,11 @@ namespace TrainDisplay
             }
             else if (!DisplayUI.Instance.IsStopping && !hasSpokenDepart)
             {
-                TTSHelper.Instance.Speak(string.Format(TrainDisplaySettings.TTSDeparting, DisplayUI.Instance.nextStation_Name, DisplayUI.Instance.ForDisplayedText, lineName));
+                TTSHelper.Instance.Speak(string.Format(TrainDisplaySettings.TTSDeparting,
+                                                       DisplayUI.Instance.nextStation_Name,
+                                                       DisplayUI.Instance.ForDisplayedText,
+                                                       lineName,
+                                                       TransportUtils.GetLineCodeInTLM(lineId)));
                 hasSpokenDepart = true;
             }
 

@@ -4,7 +4,7 @@ using TrainDisplay.Settings;
 
 namespace TrainDisplay.Utils
 {
-    public class StationUtils
+    public class StationSuffixUtils
     {
         private static string[] StationSuffix => TrainDisplaySettings.StationSuffix
             .Split(new[] { @""",""" }, StringSplitOptions.None)
