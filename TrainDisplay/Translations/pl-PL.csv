@@ -35,7 +35,10 @@
 "SETTINGS_TTS_TOOLTIP","Enable text-to-speech based station annunciation voice.",""
 "SETTINGS_TTS_DEPARTING","Annunciation format when departing from station",""
 "SETTINGS_TTS_ARRIVING","Annunciation format when arriving at station",""
-"SETTINGS_TTS_FORMATTOOLTIP","{0} - Station name, {1} - Terminal Name, {2} - Line Name",""
+"SETTINGS_TTS_FORMATTOOLTIP","{0} - Station name
+{1} - Terminal Name
+{2} - Line Name
+{3} - Line Code (requires TLM mod)",""
 "SETTINGS_TTS_NOTAVAILABLE","Sorry, this feature is only available for Windows.",""
 "WARNTITLE","Uwaga!",""
 "WARNDETAIL","Train Display przestał wyświetlać: {1}{0}",""
