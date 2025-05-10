@@ -71,5 +71,5 @@
 		<Delete Files="$(DeployDir)\CitiesHarmony.API.dll" />
 	    <Copy SourceFiles="@(TranslationsCore)" DestinationFolder="$(DeployDir)/Translations/Core" SkipUnchangedFiles="true" />
     </Target>
-  <Import Project="..\AlgernonCommons\AlgernonCommonsShared.projitems" Label="Shared" />
+  <Import Project="..\..\FPSCamera-Continued\AlgernonCommons\AlgernonCommonsShared.projitems" Label="Shared" />
 </Project>

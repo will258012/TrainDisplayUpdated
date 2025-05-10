@@ -1,6 +1,6 @@
 # Cities: Skylines
 # Train Display - Updated
-<img src="banner.jpg" width="750px"/>
+<img src="images/banner.jpg" width="750px"/>
 
 > This mod is an updated version for [Train Display Mod](https://steamcommunity.com/sharedfiles/filedetails/?id=2380878816) by Asmape.
 
