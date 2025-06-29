@@ -2,7 +2,6 @@
 "WHATSNEW_L1","이 메시지는 모드가 업데이트 되었음을 알려드리기 위한 것입니다.",""
 "WHATSNEW_L2","자세한 변경 사항은 Steam 워크샵이나 GitHub를 참조하세요.",""
 "WHATSNEW_L3","당신의 사용과 지원에 감사합니다!",""
-"ERROR","이런! 뭔가 문제가 발생했습니다:",""
 "MOD_DESCRIPTION","일본풍 기차 화면",""
 "NEXT","다음역","Next {0}. ({0} is the station name)"
 "NOW_STOPPING_AT","이번역","Now stopping at {0}. ({0} is the station name)"
@@ -35,10 +34,10 @@
 "SETTINGS_TTS_TOOLTIP","TTS 기반 역 안내 음성을 활성화합니다.",""
 "SETTINGS_TTS_DEPARTING","역을 출발할 시 안내방송 형식",""
 "SETTINGS_TTS_ARRIVING","이번 역의 안내방송",""
-"SETTINGS_TTS_FORMATTOOLTIP","{0} - Station name
-{1} - Terminal Name
-{2} - Line Name
-{3} - Line Code (requires TLM mod)",""
+"SETTINGS_TTS_FORMATTOOLTIP","{0} - 역 이름
+{1} - 터미널 이름
+{2} - 노선 이름
+{3} - 노선 코드 (TLM 모드 필요)",""
 "SETTINGS_TTS_NOTAVAILABLE","죄송합니다. 이 기능은 Windows에서만 사용할 수 있습니다.",""
 "WARNTITLE","경고!",""
 "WARNDETAIL","Train Display의 표시가 중지되었습니다 ：{1}{0}",""
