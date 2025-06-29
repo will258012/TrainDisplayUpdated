@@ -1,6 +1,8 @@
-﻿using AlgernonCommons;
+﻿extern alias FPSCamera;
+using AlgernonCommons;
 using AlgernonCommons.Notifications;
 using AlgernonCommons.Translation;
+using FPSCamera.FPSCamera.UI;
 using ICities;
 using TrainDisplay.Settings;
 using TrainDisplay.UI;
@@ -23,7 +25,7 @@ namespace TrainDisplay
                 MessagesAreKeys = true,
                 Messages = new string[]
                 {
-                   "WHATSNEW_L1",
+                    "WHATSNEW_L1",
                     "WHATSNEW_L2",
                     "WHATSNEW_L3"
                 }
@@ -32,6 +34,7 @@ namespace TrainDisplay
         public override void OnEnabled()
         {
             base.OnEnabled();
+            Logging.EventExceptionOccured += (message) => ErrorNotification.ShowNotification(Name, 3233229958, message);
             FPSCameraAPI.Helper.CheckFPSCamera();
         }
     }

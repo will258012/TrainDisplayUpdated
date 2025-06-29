@@ -1,6 +1,5 @@
 ﻿extern alias FPSCamera;
 using AlgernonCommons;
-using AlgernonCommons.Notifications;
 using AlgernonCommons.Translation;
 using ColossalFramework;
 using FPSCamera.FPSCamera.Utils;
@@ -74,12 +73,6 @@ namespace TrainDisplay
             }
             catch (System.Exception e)
             {
-
-                var notification = NotificationBase.ShowNotification<ListNotification>();
-                notification.AddParas(Translations.Translate("ERROR"));
-                notification.AddSpacer();
-                notification.AddParas(e.ToString());
-
                 Logging.LogException(e, "Train Display is disabled due to some issues");
                 enabled = DisplayUI.Instance.enabled = hasShownWarning = false;
             }

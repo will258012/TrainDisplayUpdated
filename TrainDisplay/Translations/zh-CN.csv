@@ -2,7 +2,6 @@
 "WHATSNEW_L1","此消息只是为了让您知晓模组已经更新。",""
 "WHATSNEW_L2","请访问创意工坊或 GitHub 以获取详细更新日志。",""
 "WHATSNEW_L3","感谢您的使用及支持！",""
-"ERROR","抱歉，似乎出现了一些问题：",""
 "MOD_DESCRIPTION","日式列车显示屏",""
 "NEXT","下一站","Next {0}. ({0} is the station name)"
 "NOW_STOPPING_AT","现在停靠","Now stopping at {0}. ({0} is the station name)"
@@ -33,8 +32,8 @@
 "SETTINGS_TTS","启用TTS",""
 "SETTINGS_TTS_VOICECHOICE","选择语音",""
 "SETTINGS_TTS_TOOLTIP","启用基于文字转语音的报站语音。",""
-"SETTINGS_TTS_DEPARTING","出站时报站格式",""
-"SETTINGS_TTS_ARRIVING","到站时报站格式",""
+"SETTINGS_TTS_DEPARTING","出站报站格式",""
+"SETTINGS_TTS_ARRIVING","到站报站格式",""
 "SETTINGS_TTS_FORMATTOOLTIP","{0} - 站点名称
 {1} - 终点站名称
 {2} - 线路名称
