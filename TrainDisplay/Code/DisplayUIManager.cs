@@ -70,8 +70,12 @@ namespace TrainDisplay
                             if (vehicleId == default)
                             {
                                 if (DisplayUI.Instance.enabled)
+                                {
                                     // Disable the UI.  
-                                    OnDisable();
+                                    DisplayUI.Instance.enabled = false;
+                                    FollowId = default;
+                                    TTSHelper.Instance.Stop();
+                                }
                             }
                             else
                             {
