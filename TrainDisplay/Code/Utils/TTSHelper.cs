@@ -7,14 +7,16 @@ namespace TrainDisplay.Utils
 {
     public class TTSHelper
     {
-        public static TTSHelper Instance = new TTSHelper();
+        public static TTSHelper Instance { get; } = new();
         public int VoiceIndex { get; set; } = default;
         public string VoiceName
         {
-            get => _voiceName;
-            set => SetVoiceFromName(value);
+            get => Environment.OSVersion.Platform == PlatformID.Win32NT ? GetFriendlyName(CurrentVoice) : string.Empty;
+            set
+            {
+                if (Environment.OSVersion.Platform == PlatformID.Win32NT) SetVoiceFromName(value);
+            }
         }
-        private string _voiceName => GetFriendlyName(CurrentVoice);
         private SpObjectToken CurrentVoice => Voices[VoiceIndex];
         public void Speak(string text)
         {
@@ -36,14 +38,8 @@ namespace TrainDisplay.Utils
         }
         private void InnerSpeak(string text)
         {
-            foreach (var i in Voices)
-            {
-                i.GetId(out var id);
-                Logging.Message(id);
-            }
-
             var voice = new SpVoice();
-            voice.SetRate(0);
+            voice.SetRate(TrainDisplaySettings.TTSRate);
             voice.SetVolume(100);
             voice.SetPriority(SPVPRIORITY.SPVPRI_NORMAL);
             if (CurrentVoice != null)
@@ -96,7 +92,7 @@ namespace TrainDisplay.Utils
         {
             token.GetId(out string tokenId);
             string registryPath = tokenId.Replace(@"HKEY_LOCAL_MACHINE\", string.Empty);
-            using (RegistryKey key = Registry.LocalMachine.OpenSubKey(registryPath))
+            using (var key = Registry.LocalMachine.OpenSubKey(registryPath))
             {
                 if (key != null)
                 {
