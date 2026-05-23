@@ -20,6 +20,8 @@
 "SETTINGS_STATION_SUFFIX_WHITELIST","Daftar putih akhiran nama stasiun",""
 "SETTINGS_STATION_SUFFIX_WHITELISTTOOLTIP","Akhiran ini tidak akan dihapus dari nama stasiun, meski pun ada dalam daftar akhiran yang akan dihapus.",""
 "SETTINGS_DISPLAY_VEHICLE_TYPE","Tampilkan Jenis Kendaraan",""
+"SETTINGS_TOGGLEKEY","Toggle disblay",""
+"SETTINGS_TOGGLEKEY_TOOLTIP","This key will ignore the ""{0}"" settings. ",""
 "SETTINGS_IS_TRAIN","Kereta",""
 "SETTINGS_IS_METRO","Metro",""
 "SETTINGS_IS_MONORAIL","Monorel",""
@@ -34,10 +36,12 @@
 "SETTINGS_TTS_TOOLTIP","Nyalakan suara pengumuman dengan text-to-speech.",""
 "SETTINGS_TTS_DEPARTING","Format pengumuman ketika berangkat",""
 "SETTINGS_TTS_ARRIVING","Format pengumuman ketika tiba di pemberhentian",""
-"SETTINGS_TTS_FORMATTOOLTIP","{0} - Nama stasiun
-{1} - Nama stasiun terminus
-{2} - Nama jalur
-{3} - Kode jalur (memerlukan mod TLM)",""
+"SETTINGS_TTS_RATE","Speech rate",""
+"SETTINGS_TTS_FORMATTOOLTIP","{0} - Station name
+{1} - Terminal Name
+{2} - Line Name
+{3} - Line Code (requires TLM mod)
+{4} - Vehicle Type Name",""
 "SETTINGS_TTS_NOTAVAILABLE","Maaf, fitur ini hanya tersedia di Windows.",""
 "WARNTITLE","Peringatan!",""
 "WARNDETAIL","Train Display berhenti menampilkan ：{1}{0}",""
