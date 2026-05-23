@@ -33,7 +33,7 @@ namespace TrainDisplay.Utils
             {
                 return innerValue == lc.innerValue && Max == lc.Max;
             }
-            return false;
+            return base.Equals(obj);
         }
         public override int GetHashCode()
         {

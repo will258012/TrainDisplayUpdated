@@ -8,6 +8,7 @@
       ..\..\..\..\..\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\;
     </AssemblySearchPaths>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	<LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <COMReference Include="SpeechLib">

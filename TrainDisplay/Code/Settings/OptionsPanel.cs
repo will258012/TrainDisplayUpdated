@@ -1,4 +1,5 @@
 ﻿using AlgernonCommons;
+using AlgernonCommons.Keybinding;
 using AlgernonCommons.Translation;
 using AlgernonCommons.UI;
 using ColossalFramework.UI;
@@ -56,18 +57,24 @@ namespace TrainDisplay.Settings
             displayWidth.eventValueChanged += (_, value) => DisplayUI.Width = (int)value;
             currentY += displayWidth.height + SliderMargin;
 
-            string[] displayLineDirItems = {
-            Translations.Translate("SETTINGS_DISPLAY_ROWDIR_L2R"),
-            Translations.Translate("SETTINGS_DISPLAY_ROWDIR_R2L")
-            };
-            var displayRowDir = UIDropDowns.AddPlainDropDown(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_DISPLAY_ROWDIR"), displayLineDirItems, (int)TrainDisplaySettings.DisplayRowDirection);
-            displayRowDir.eventSelectedIndexChanged += (_, index) => TrainDisplaySettings.DisplayRowDirection = (TrainDisplaySettings.DisplayRowDirections)index;
-            displayRowDir.parent.relativePosition = new Vector2(LeftMargin, currentY);
-            currentY += displayRowDir.parent.height + LeftMargin;
+            if (DisplayUI.IsCJK())
+            {
+                string[] displayLineDirItems = [
+                Translations.Translate("SETTINGS_DISPLAY_ROWDIR_L2R"),
+                Translations.Translate("SETTINGS_DISPLAY_ROWDIR_R2L")
+                ];
 
-            var stationNameAngle = UISliders.AddPlainSliderWithValue(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_STATION_NAME_ANGLE"), -90f, 90f, 1f, TrainDisplaySettings.StationNameAngle, new UISliders.SliderValueFormat(valueMultiplier: 1, roundToNearest: 1f, numberFormat: "N0", suffix: "°"));
-            stationNameAngle.eventValueChanged += (_, value) => TrainDisplaySettings.StationNameAngle = value;
-            currentY += stationNameAngle.height + SliderMargin;
+                var displayRowDir = UIDropDowns.AddPlainDropDown(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_DISPLAY_ROWDIR"), displayLineDirItems, (int)TrainDisplaySettings.DisplayRowDirection);
+                displayRowDir.eventSelectedIndexChanged += (_, index) => TrainDisplaySettings.DisplayRowDirection = (TrainDisplaySettings.DisplayRowDirections)index;
+                displayRowDir.parent.relativePosition = new Vector2(LeftMargin, currentY);
+                currentY += displayRowDir.parent.height + LeftMargin;
+            }
+            else
+            {
+                var stationNameAngle = UISliders.AddPlainSliderWithValue(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_STATION_NAME_ANGLE"), -90f, 90f, 1f, TrainDisplaySettings.StationNameAngle, new UISliders.SliderValueFormat(valueMultiplier: 1, roundToNearest: 1f, numberFormat: "N0", suffix: "°"));
+                stationNameAngle.eventValueChanged += (_, value) => TrainDisplaySettings.StationNameAngle = value;
+                currentY += stationNameAngle.height + SliderMargin;
+            }
 
             var maxItem = UISliders.AddPlainSliderWithIntegerValue(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_MAXSTATIONNUM"), 2, 10, 1, DisplayUI.MaxStationNum);
             maxItem.eventValueChanged += (_, value) => DisplayUI.MaxStationNum = (int)value;
@@ -101,6 +108,11 @@ namespace TrainDisplay.Settings
                                                                     .Replace("”", "\"")
                                                                     .Replace("，", ",");
             currentY += stationSuffixWhiteList.parent.height + Margin;
+
+            var toggleKey = OptionsKeymapping.AddKeymapping(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_TOGGLEKEY"), TrainDisplaySettings.ToggleKey);
+            toggleKey.Panel.tooltip = string.Format(Translations.Translate("SETTINGS_TOGGLEKEY_TOOLTIP"), Translations.Translate("SETTINGS_DISPLAY_VEHICLE_TYPE"));
+            currentY += toggleKey.Panel.height + Margin;
+
             #endregion
             #region Vehicle Types
             UISpacers.AddTitleSpacer(scrollPanel, LeftMargin, currentY, headerWidth, Translations.Translate("SETTINGS_DISPLAY_VEHICLE_TYPE"));
@@ -162,7 +174,7 @@ namespace TrainDisplay.Settings
                 enableTTS.eventCheckChanged += (_, isChecked) => TrainDisplaySettings.TTS = isChecked;
                 currentY += enableTTS.height + Margin;
 
-                var voicesDropDown = UIDropDowns.AddPlainDropDown(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_TTS_VOICECHOICE"), TTSHelper.Instance.VoiceNames, TTSHelper.Instance.VoiceIndex,500f);
+                var voicesDropDown = UIDropDowns.AddPlainDropDown(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_TTS_VOICECHOICE"), TTSHelper.Instance.VoiceNames, TTSHelper.Instance.VoiceIndex, 500f);
                 voicesDropDown.eventSelectedIndexChanged += (control, index) => TTSHelper.Instance.VoiceIndex = index;
                 voicesDropDown.parent.relativePosition = new Vector2(LeftMargin, currentY);
                 currentY += voicesDropDown.parent.height + Margin;
@@ -184,6 +196,10 @@ namespace TrainDisplay.Settings
                 TTSArriving.text = TrainDisplaySettings.TTSArriving;
                 TTSArriving.eventTextChanged += (_, text) => TrainDisplaySettings.TTSArriving = text;
                 currentY += TTSArriving.parent.height + Margin;
+
+                var TTSRate = UISliders.AddPlainSliderWithIntegerValue(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_TTS_RATE"), -10, 10, 1, TrainDisplaySettings.TTSRate);
+                TTSRate.eventValueChanged += (_, value) => TrainDisplaySettings.TTSRate = (int)value;
+                currentY += TTSRate.height + SliderMargin;
             }
             else
             {

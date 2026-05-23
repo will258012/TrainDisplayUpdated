@@ -1,4 +1,5 @@
 ﻿using AlgernonCommons;
+using AlgernonCommons.Keybinding;
 using AlgernonCommons.Notifications;
 using AlgernonCommons.Translation;
 using AlgernonCommons.XML;
@@ -37,11 +38,13 @@ namespace TrainDisplay.Settings
             StationSuffixWhiteList =
                 @"""Train Station"",""Railway Station"",""Bus Station"",""Subway Station"",""Metro Station"",""Transit Station"",""地铁站"",""火车站"",""汽车站"",""轻轨站"",""高铁站"",""总站""";
             IsTextShrinked = IsTrain = IsMetro = IsMonorail = IsTram = IsBus = IsTrolleybus = IsFerry = IsBlimp = IsCopter = true;
+            ToggleKey = new Keybinding(KeyCode.T, true, true, false);
 
             TTS = false;
             TTSHelper.Instance.VoiceIndex = default;
             TTSDeparting = "This train is bound for: {1}. Next station: {0}";
             TTSArriving = "We are now arriving at: {0}";
+            TTSRate = 0;
         }
         #region Display
         [XmlElement("DisplayPos")]
@@ -82,6 +85,12 @@ namespace TrainDisplay.Settings
         [XmlIgnore]
         internal static string StationSuffixWhiteList =
             @"""Train Station"",""Railway Station"",""Bus Station"",""Subway Station"",""Metro Station"",""Transit Station"",""地铁站"",""火车站"",""汽车站"",""轻轨站"",""高铁站"",""总站""";
+
+        [XmlElement(nameof(ToggleKey))]
+        public Keybinding XMLToggleKey { get => ToggleKey; set => ToggleKey = value; }
+        [XmlIgnore]
+        internal static Keybinding ToggleKey = new Keybinding(KeyCode.T, true, true, false);
+
         #endregion
         #region Vehicle Types
         [XmlElement("IsTrain")]
@@ -144,6 +153,11 @@ namespace TrainDisplay.Settings
         public string XMLTTSArriving { get => TTSArriving; set => TTSArriving = value; }
         [XmlIgnore]
         internal static string TTSArriving = "We are now arriving at: {0}";
+
+        [XmlElement(nameof(TTSRate))]
+        public int XMLTTSRate { get => TTSRate; set => TTSRate = value; }
+        [XmlIgnore]
+        internal static int TTSRate = 0;
         #endregion
     }
 }
