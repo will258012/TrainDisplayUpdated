@@ -20,8 +20,8 @@
 "SETTINGS_STATION_SUFFIX_WHITELIST","站名後綴保留白名單",""
 "SETTINGS_STATION_SUFFIX_WHITELISTTOOLTIP","即使這些後綴在要移除的站名後綴中，也不會從站名中刪除。",""
 "SETTINGS_DISPLAY_VEHICLE_TYPE","顯示車輛類型",""
-"SETTINGS_TOGGLEKEY","Toggle disblay",""
-"SETTINGS_TOGGLEKEY_TOOLTIP","This key will ignore the ""{0}"" settings. ",""
+"SETTINGS_TOGGLEKEY","切換顯示",""
+"SETTINGS_TOGGLEKEY_TOOLTIP","此鍵位將忽略「{0}」設定。 ",""
 "SETTINGS_IS_TRAIN","火車",""
 "SETTINGS_IS_METRO","地鐵",""
 "SETTINGS_IS_MONORAIL","單軌列車",""
@@ -36,12 +36,12 @@
 "SETTINGS_TTS_TOOLTIP","啟用基於文字轉語音的報站語音。",""
 "SETTINGS_TTS_DEPARTING","出站播報格式",""
 "SETTINGS_TTS_ARRIVING","到站播報格式",""
-"SETTINGS_TTS_RATE","Speech rate",""
-"SETTINGS_TTS_FORMATTOOLTIP","{0} - Station name
-{1} - Terminal Name
-{2} - Line Name
-{3} - Line Code (requires TLM mod)
-{4} - Vehicle Type Name",""
+"SETTINGS_TTS_RATE","語速",""
+"SETTINGS_TTS_FORMATTOOLTIP","{0} - 車站名稱
+{1} - 終點站名稱
+{2} - 線路名稱
+{3} - 線路代碼 (需要 TLM 模組)
+{4} - 車輛類型名稱",""
 "SETTINGS_TTS_NOTAVAILABLE","抱歉，此功能僅適用於 Windows。",""
 "WARNTITLE","警告！",""
 "WARNDETAIL","Train Display 已停止顯示：{1}{0}",""
