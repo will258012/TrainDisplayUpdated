@@ -15,13 +15,13 @@
 "SETTINGS_STATION_NAME_ANGLE","Stationsname gedrehter Winkel (wirksam in nicht-K)",""
 "SETTINGS_MAXSTATIONNUM","Maximale Anzahl von Displaystationen",""
 "SETTINGS_TEXT_SHRINKED","Text der nächsten Station verkleinern, wenn er lang ist",""
-"SETTINGS_STATION_SUFFIX","Station suffixes to remove",""
+"SETTINGS_STATION_SUFFIX","Zu entfernende Stationssuffixe",""
 "SETTINGS_STATION_SUFFIX_TOOLTIP","Wenn der Stationsname mit diesen Suffixen endet, werden sie aus der Anzeige entfernt",""
-"SETTINGS_STATION_SUFFIX_WHITELIST","Whitelist of station name suffixes",""
+"SETTINGS_STATION_SUFFIX_WHITELIST","Whitelist der Stationsnamenssuffixe",""
 "SETTINGS_STATION_SUFFIX_WHITELISTTOOLTIP","Diese werden nicht aus den Stationsnamen entfernt, auch wenn sie in der Liste der zu entfernenden Suffixe aufgeführt sind.",""
 "SETTINGS_DISPLAY_VEHICLE_TYPE","Fahrzeugtypen anzeigen",""
-"SETTINGS_TOGGLEKEY","Toggle disblay",""
-"SETTINGS_TOGGLEKEY_TOOLTIP","This key will ignore the ""{0}"" settings. ",""
+"SETTINGS_TOGGLEKEY","Anzeige umschalten",""
+"SETTINGS_TOGGLEKEY_TOOLTIP","Diese Taste ignoriert die ""{0}""-Einstellungen.",""
 "SETTINGS_IS_TRAIN","Zug",""
 "SETTINGS_IS_METRO","U-Bahn",""
 "SETTINGS_IS_MONORAIL","Einschienenbahn",""
@@ -36,12 +36,12 @@
 "SETTINGS_TTS_TOOLTIP","Aktivieren Sie die auf Text zur Ansprache basierende Sprachansage des Senders.",""
 "SETTINGS_TTS_DEPARTING","Format der Ansage beim Verlassen des Bahnhofs",""
 "SETTINGS_TTS_ARRIVING","Format der Ansage bei Ankunft am Bahnhof",""
-"SETTINGS_TTS_RATE","Speech rate",""
-"SETTINGS_TTS_FORMATTOOLTIP","{0} - Station name
-{1} - Terminal Name
-{2} - Line Name
-{3} - Line Code (requires TLM mod)
-{4} - Vehicle Type Name",""
+"SETTINGS_TTS_RATE","Sprechgeschwindigkeit",""
+"SETTINGS_TTS_FORMATTOOLTIP","{0} - Stationsname
+{1} - Endstationname
+{2} - Linienname
+{3} - Liniencode (erfordert TLM-Mod)
+{4} - Fahrzeugtypname",""
 "SETTINGS_TTS_NOTAVAILABLE","Leider ist diese Funktion nur für Windows verfügbar.",""
 "WARNTITLE","Warnung!",""
 "WARNDETAIL","Die Zuganzeige wurde angehalten:{1}{0}",""
