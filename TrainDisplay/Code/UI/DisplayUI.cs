@@ -16,6 +16,7 @@ namespace TrainDisplay.UI
         private void OnEnable()
         {
             Logging.Message("DisplayUI is enabled");
+            DisplayUIManager.Instance.enabled = true;
             ClampToScreen();
             UpdateLayout();
         }
@@ -42,6 +43,8 @@ namespace TrainDisplay.UI
         public string PrevStationName { get; set; } = string.Empty;
         public ushort PrevStationID { get; set; }
         public string ForDisplayedText { get; private set; }
+
+        private string prevForDisplayedText;
         public static bool IsCJK()
         {
             string displayLanguage = Translations.CurrentLanguage;
@@ -122,6 +125,24 @@ namespace TrainDisplay.UI
         private bool isDragging;
         private Vector2 dragOffset;
 
+        //Scrolling text
+        private const float BaseScrollSpeed = 80f;
+        private const float ScrollPauseTime = 1.5f;
+
+
+        private float next_scrollPauseTimer;
+        private float next_scrollOffset;
+        private float next_scrollSpeed;
+        private float next_textWidth;
+        private float next_textAreaWidth => bodyNextTextRect.width - 25f;
+        private bool next_isScrollNeeded => next_textWidth > next_textAreaWidth;
+
+        private float for_scrollPauseTimer;
+        private float for_scrollOffset;
+        private float for_scrollSpeed;
+        private float for_textWidth;
+        private float for_textAreaWidth => IsCJK() ? CJK_bodyForTextRect.width : NonCJK_bodyForTextRect.width;
+        private bool for_isScrollNeeded => for_textWidth > for_textAreaWidth;
         void Awake()
         {
             Instance = this;
@@ -296,7 +317,7 @@ namespace TrainDisplay.UI
                                                 .ToVerticalString();
             }
 
-            itemNumber = Math.Min(RouteStationsName.Length, MaxStationNum);
+            itemNumber = Math.Min(RouteStationsID.Length, MaxStationNum);
             UpdateStationInfoPosition();
         }
 
@@ -309,7 +330,7 @@ namespace TrainDisplay.UI
             NonCJK_stationNameRects = new Rect[itemNumber];
             stationCirclesRects = new Rect[itemNumber];
             stationNameCenter = new Vector2[itemNumber];
-            stationNamePositions = PositionUtils.PositionsJustifyCenter(arrowLineLength, arrowLineLength / MaxStationNum, itemNumber);
+            stationNamePositions = PositionUtils.PositionsJustifyCenter(arrowLineLength, arrowLineLength / itemNumber, itemNumber);
             StationNameAngleOffset = new Vector2();
 
             for (int i = 0; i < itemNumber; i++)
@@ -364,8 +385,83 @@ namespace TrainDisplay.UI
             this.warningText = warningText;
             Logging.Error($"Displaying Stopped: {warningText}");
         }
+
+        private void Update()
+        {
+            if (!isShowingWarning) HandleDragEvents();
+
+            if (next_isScrollNeeded)
+            {
+                if (next_scrollPauseTimer > 0f)
+                {
+                    next_scrollPauseTimer -= Time.deltaTime;
+                }
+                else
+                {
+                    next_scrollOffset += next_scrollSpeed * Time.deltaTime;
+
+                    float totalWidth = next_textWidth + 40f;
+                    if (next_scrollOffset >= totalWidth)
+                    {
+                        next_scrollOffset = 0f;
+                        next_scrollPauseTimer = ScrollPauseTime;
+                    }
+                }
+            }
+            else
+            {
+                next_scrollOffset = 0f;
+                next_scrollPauseTimer = ScrollPauseTime;
+            }
+
+            if (for_isScrollNeeded)
+            {
+                if (for_scrollPauseTimer > 0f)
+                {
+                    for_scrollPauseTimer -= Time.deltaTime;
+                }
+                else
+                {
+                    for_scrollOffset += for_scrollSpeed * Time.deltaTime;
+
+                    float totalWidth = for_textWidth + 40f;
+                    if (for_scrollOffset >= totalWidth)
+                    {
+                        for_scrollOffset = 0f;
+                        for_scrollPauseTimer = ScrollPauseTime;
+                    }
+                }
+            }
+            else
+            {
+                for_scrollOffset = 0f;
+                for_scrollPauseTimer = ScrollPauseTime;
+            }
+
+            if (prevForDisplayedText != ForDisplayedText)
+            {
+                UpdateForDisplayedTextScroll();
+            }
+        }
+
+        internal void UpdateNextStationNameScroll()
+        {
+            next_textWidth = IsStopping ? nextStyle.CalcSize(new GUIContent(PrevStationName)).x : nextStyle.CalcSize(new GUIContent(NextStationName)).x;
+            next_scrollOffset = 0f;
+            next_scrollPauseTimer = ScrollPauseTime;
+            next_scrollSpeed = BaseScrollSpeed + Mathf.Min((IsStopping ? PrevStationName.Length : NextStationName.Length) * 2f, 50f);
+        }
+        private void UpdateForDisplayedTextScroll()
+        {
+            prevForDisplayedText = ForDisplayedText;
+            for_textWidth = forStyle.CalcSize(new GUIContent(ForDisplayedText)).x;
+            for_scrollOffset = 0f;
+            for_scrollPauseTimer = ScrollPauseTime;
+            for_scrollSpeed = BaseScrollSpeed + Mathf.Min(ForDisplayedText.Length * 2f, 30f);
+        }
         private void OnGUI()
         {
+            if (!isShowingWarning && Event.current.type != EventType.Repaint) return;
             // Header
             GUI.backgroundColor = new Color(0.16f, 0.16f, 0.16f);
             GUI.Box(headerRect, "", boxStyle);
@@ -384,18 +480,16 @@ namespace TrainDisplay.UI
 
                 if (GUI.Button(warningButtonHideRect, Translations.Translate("HIDE")))
                 {
-                    enabled = false;
+                    DisplayUIManager.Instance.OverrideStatus = false;
                 }
                 return;
             }
-            else HandleDragEvents();
 
             GUI.backgroundColor = LineColor;
             GUI.Box(bodyLineRect, "", boxStyle);
 
             if (IsCircular)
             {
-                //int index = Array.FindIndex(RouteStationsName, (str) => str == prevText);
                 int index = Array.IndexOf(RouteStationsID, PrevStationID);
                 index = ((index / 3) + 1) * 3;
                 if (index > RouteStationsName.Length - 3)
@@ -408,56 +502,62 @@ namespace TrainDisplay.UI
             {
                 ForDisplayedText = RouteStationsName[RouteStationsName.Length - 1];
             }
-            string finalForDisplayedText = ForDisplayedText;
-            if (TrainDisplaySettings.IsTextShrinked)
-            {
-                finalForDisplayedText = ForDisplayedText.Sub();
-                float scale = Math.Min(1f, 8.0f / finalForDisplayedText.Length);
-                Vector2 pivot = IsForTextPositionOnTop(IsCircular)
-                    ? new Vector2(NonCJK_bodyForTextRect.center.x, NonCJK_bodyForTextRect.center.y)
-                    : new Vector2(CJK_bodyForTextRect.center.x, CJK_bodyForTextRect.center.y);
-                GUIUtility.ScaleAroundPivot(new Vector2(scale, scale), pivot);
-            }
+
+            var forRect = IsForTextPositionOnTop(IsCircular) ? NonCJK_bodyForTextRect : CJK_bodyForTextRect;
+
 
             if (IsForTextPositionOnTop(IsCircular))
-            {
-                GUI.Label(NonCJK_bodyForTextRect, finalForDisplayedText, forStyle);
-                GUI.matrix = Matrix4x4.identity;
-
                 GUI.Label(NonCJK_bodyForSuffixTextRect,
                           IsCircular ? Translations.Translate("FOR_CIRCULAR") : Translations.Translate("FOR"),
                           NonCJK_forSuffixStyle);
-            }
             else
-            {
-                GUI.Label(CJK_bodyForTextRect, finalForDisplayedText, forStyle);
-                GUI.matrix = Matrix4x4.identity;
-
                 GUI.Label(CJK_bodyForSuffixTextRect,
                           IsCircular ? Translations.Translate("FOR_CIRCULAR") : Translations.Translate("FOR"),
                           CJK_forSuffixStyle);
-            }
 
-            GUI.Label(bodyNextHeadTextRect, IsStopping ? Translations.Translate("NOW_STOPPING_AT") : Translations.Translate("NEXT"), nextHeadStyle);
+            GUI.BeginGroup(forRect);
+            {
+                if (for_isScrollNeeded)
+                {
+                    float drawX = -for_scrollOffset;
+                    GUI.Label(new Rect(drawX, 0, for_textWidth, forRect.height), ForDisplayedText, forStyle);
+                    float copyX = drawX + for_textWidth + 30f;
+                    GUI.Label(new Rect(copyX, 0, for_textWidth, forRect.height), ForDisplayedText, forStyle);
+                }
+                else
+                {
+                    forStyle.alignment = TextAnchor.MiddleCenter;
+                    GUI.Label(new Rect(0, 0, forRect.width, forRect.height), ForDisplayedText, forStyle);
+                    forStyle.alignment = TextAnchor.MiddleCenter;
+                }
+            }
+            GUI.EndGroup();
 
             // Next station
+            GUI.Label(bodyNextHeadTextRect, IsStopping ? Translations.Translate("NOW_STOPPING_AT") : Translations.Translate("NEXT"), nextHeadStyle);
             string nextDisplayedText = IsStopping ? PrevStationName : NextStationName;
-            if (TrainDisplaySettings.IsTextShrinked)
-            {
-                nextDisplayedText = nextDisplayedText.Sub();
-                var scale = 1f;
-                var content = new GUIContent(nextDisplayedText);
-                float textWidth = nextStyle.CalcSize(content).x;
-                float availableWidth = bodyNextTextRect.width - 20f;
-                if (textWidth > availableWidth)
-                    scale = availableWidth / textWidth;
-                scale = Math.Max(scale, 0.5f);
-                GUIUtility.ScaleAroundPivot(new Vector2(scale, scale), bodyNextTextPivot);
-            }
-            GUI.Label(bodyNextTextRect, nextDisplayedText, nextStyle);
-            GUI.matrix = Matrix4x4.identity;
 
-            // ボディ
+            GUI.BeginGroup(bodyNextTextRect);
+            {
+                if (next_isScrollNeeded)
+                {
+                    float drawX = -next_scrollOffset;
+                    GUI.Label(new Rect(drawX, 0, next_textWidth, bodyNextTextRect.height), nextDisplayedText, nextStyle);
+
+                    float copyX = drawX + next_textWidth + 40f;
+                    GUI.Label(new Rect(copyX, 0, next_textWidth, bodyNextTextRect.height), nextDisplayedText, nextStyle);
+                }
+                else
+                {
+                    nextStyle.alignment = TextAnchor.MiddleCenter;
+                    GUI.Label(new Rect(0, 0, bodyNextTextRect.width, bodyNextTextRect.height), nextDisplayedText, nextStyle);
+                    nextStyle.alignment = TextAnchor.MiddleCenter;
+                }
+            }
+            GUI.EndGroup();
+
+
+            // Body
             GUI.backgroundColor = Color.white;
             GUI.Box(bodyRect, "", boxStyle);
 
@@ -487,7 +587,7 @@ namespace TrainDisplay.UI
 
                 if (IsCJK())
                 {
-                    GUI.Label(CJK_stationNameRects[i], vertical_RouteStationsName[i], CJK_stationNameStyle);
+                    GUI.Label(CJK_stationNameRects[i], vertical_RouteStationsName[routeIndex], CJK_stationNameStyle);
                 }
                 else
                 {

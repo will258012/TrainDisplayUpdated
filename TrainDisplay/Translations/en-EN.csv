@@ -14,7 +14,7 @@ SETTINGS_DISPLAY_ROWDIR_L2R,From left to right
 SETTINGS_DISPLAY_ROWDIR_R2L,From right to left
 "SETTINGS_STATION_NAME_ANGLE","Station name rotated angle (Effective in non-CJK)"
 SETTINGS_MAXSTATIONNUM,Maximum number of display stations
-"SETTINGS_TEXT_SHRINKED","Shrink next station text when it is long",""
+"SETTINGS_TEXT_SHRINKED","Shrink station text when it is long",""
 "SETTINGS_STATION_SUFFIX","Station suffixes to remove",""
 "SETTINGS_STATION_SUFFIX_TOOLTIP","If the station name end with these suffixes, they will be removed from the display"
 SETTINGS_STATION_SUFFIX_WHITELIST,Whitelist of station name suffixes

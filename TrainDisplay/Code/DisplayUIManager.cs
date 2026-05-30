@@ -306,6 +306,7 @@ namespace TrainDisplay
                                                        lineName,
                                                         TransportUtils.GetLineCodeInTLM(lineId),
                                                         categoryName));
+                DisplayUI.Instance.UpdateNextStationNameScroll();
                 if (prevPos == routeEnd)
                 {
                     RouteUpdate();
@@ -321,6 +322,7 @@ namespace TrainDisplay
                                                        categoryName
                                                        ));
                 hasSpokenDepart = true;
+                DisplayUI.Instance.UpdateNextStationNameScroll();
             }
 
         }

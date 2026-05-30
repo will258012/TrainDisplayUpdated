@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using TrainDisplay.Settings;
+using TrainDisplay.UI;
 
 namespace TrainDisplay.Utils
 {
@@ -113,12 +114,12 @@ namespace TrainDisplay.Utils
         }
         public static string Sub(this string str)
         {
-            if (string.IsNullOrEmpty(str) || str.Length <= 10)
+            int maxLength = DisplayUI.IsCJK() ? 16 : 30;
+            if (string.IsNullOrEmpty(str) || str.Length <= maxLength)
                 return str;
 
-            int front = 5;
-            int back = 4;
-            return str.Substring(0, front) + "…" + str.Substring(str.Length - back);
+            int half = (maxLength - 1) / 2;
+            return str.Substring(0, half) + "…" + str.Substring(str.Length - half);
         }
 
         private static string ToFullWidth(string str)
