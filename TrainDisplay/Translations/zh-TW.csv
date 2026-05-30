@@ -14,7 +14,7 @@
 "SETTINGS_DISPLAY_ROWDIR_R2L","從右至左",""
 "SETTINGS_STATION_NAME_ANGLE","站名旋轉角度（非中日韓語言下生效）",""
 "SETTINGS_MAXSTATIONNUM","顯示站點的最大數量",""
-"SETTINGS_TEXT_SHRINKED","當下一站文字過長時將其縮小",""
+"SETTINGS_TEXT_SHRINKED","當站名文字過長時將其縮小",""
 "SETTINGS_STATION_SUFFIX","要移除的站名後綴",""
 "SETTINGS_STATION_SUFFIX_TOOLTIP","若車站名帶有這些後綴，將會在顯示時移除",""
 "SETTINGS_STATION_SUFFIX_WHITELIST","站名後綴保留白名單",""

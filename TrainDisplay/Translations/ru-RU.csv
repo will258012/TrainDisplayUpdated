@@ -14,7 +14,7 @@
 "SETTINGS_DISPLAY_ROWDIR_R2L","Справа налево",""
 "SETTINGS_STATION_NAME_ANGLE","Угол поворота названия станции (действует в не-CJK)",""
 "SETTINGS_MAXSTATIONNUM","Максимальное количество отображаемых станций",""
-"SETTINGS_TEXT_SHRINKED","Сокращать текст следующей станции, если он длинный",""
+"SETTINGS_TEXT_SHRINKED","Сокращать текст станции, если он длинный",""
 "SETTINGS_STATION_SUFFIX","Суффиксы названий станций для удаления",""
 "SETTINGS_STATION_SUFFIX_TOOLTIP","Если название станции заканчивается на эти суффиксы, они будут удалены из отображения",""
 "SETTINGS_STATION_SUFFIX_WHITELIST","Белый список суффиксов названий станций",""

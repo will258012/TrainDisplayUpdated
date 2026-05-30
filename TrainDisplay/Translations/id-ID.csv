@@ -14,7 +14,7 @@
 "SETTINGS_DISPLAY_ROWDIR_R2L","Dari kanan ke kiri",""
 "SETTINGS_STATION_NAME_ANGLE","Miringkan nama stasiun (efektif di non-CJK)",""
 "SETTINGS_MAXSTATIONNUM","Maksimal jumlah stasiun yang ditampilkan",""
-"SETTINGS_TEXT_SHRINKED","Himpitkan teks stasiun selanjutnya apabila terlalu panjang",""
+"SETTINGS_TEXT_SHRINKED","Himpitkan teks stasiun apabila terlalu panjang",""
 "SETTINGS_STATION_SUFFIX","Akhiran nama stasiun untuk dihapus",""
 "SETTINGS_STATION_SUFFIX_TOOLTIP","Apabila nama stasiun berakhir dengan akhiran ini, akhiran tersebut akan dihilangkan dari tampilan",""
 "SETTINGS_STATION_SUFFIX_WHITELIST","Daftar putih akhiran nama stasiun",""

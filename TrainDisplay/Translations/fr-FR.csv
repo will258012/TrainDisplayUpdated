@@ -14,7 +14,7 @@
 "SETTINGS_DISPLAY_ROWDIR_R2L","De droite à gauche",""
 "SETTINGS_STATION_NAME_ANGLE","Angle de rotation du nom de la gare (Valable pour les langues non CJK)",""
 "SETTINGS_MAXSTATIONNUM","Nombre maximal de stations affichées",""
-"SETTINGS_TEXT_SHRINKED","Réduire le texte de la prochaine station s'il est long",""
+"SETTINGS_TEXT_SHRINKED","Réduire le texte de la station s'il est long",""
 "SETTINGS_STATION_SUFFIX","Suffixes de station à supprimer",""
 "SETTINGS_STATION_SUFFIX_TOOLTIP","Si le nom de la station se termine par ces suffixes, ils seront supprimés de l'affichage",""
 "SETTINGS_STATION_SUFFIX_WHITELIST","Liste blanche des suffixes de nom de station",""

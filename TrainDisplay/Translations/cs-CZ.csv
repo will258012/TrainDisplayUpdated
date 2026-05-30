@@ -14,7 +14,7 @@
 "SETTINGS_DISPLAY_ROWDIR_R2L","Zprava doleva",""
 "SETTINGS_STATION_NAME_ANGLE","Úhel otočení názvu stanice (platí pro non-CJK)",""
 "SETTINGS_MAXSTATIONNUM","Maximální počet zobrazovaných stanic",""
-"SETTINGS_TEXT_SHRINKED","Zmenšit text příští stanice, pokud je dlouhý",""
+"SETTINGS_TEXT_SHRINKED","Zmenšit text stanice, pokud je dlouhý",""
 "SETTINGS_STATION_SUFFIX","Přípony stanic k odstranění",""
 "SETTINGS_STATION_SUFFIX_TOOLTIP","Pokud název stanice končí těmito příponami, budou z displeje odstraněny",""
 "SETTINGS_STATION_SUFFIX_WHITELIST","Bílá listina přípon názvů stanic",""

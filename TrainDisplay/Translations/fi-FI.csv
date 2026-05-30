@@ -14,7 +14,7 @@
 "SETTINGS_DISPLAY_ROWDIR_R2L","Oikealta vasemmalle",""
 "SETTINGS_STATION_NAME_ANGLE","Aseman nimen kiertokulma (Voimassa ei-CJK-kielissä)",""
 "SETTINGS_MAXSTATIONNUM","Näytettävien asemien enimmäismäärä",""
-"SETTINGS_TEXT_SHRINKED","Pienennä seuraavan aseman tekstiä, jos se on pitkä",""
+"SETTINGS_TEXT_SHRINKED","Pienennä aseman tekstiä, jos se on pitkä",""
 "SETTINGS_STATION_SUFFIX","Poistettavat aseman pääteet",""
 "SETTINGS_STATION_SUFFIX_TOOLTIP","Jos aseman nimi päättyy johonkin näistä päätteistä, ne poistetaan näytöstä",""
 "SETTINGS_STATION_SUFFIX_WHITELIST","Aseman nimien sallittujen päätteiden luettelo",""

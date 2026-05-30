@@ -14,7 +14,7 @@
 "SETTINGS_DISPLAY_ROWDIR_R2L","오른쪽에서 왼쪽으로",""
 "SETTINGS_STATION_NAME_ANGLE","역명 회전 각도(비CJK에서 유효)",""
 "SETTINGS_MAXSTATIONNUM","최대 화면 정거장 수",""
-"SETTINGS_TEXT_SHRINKED","다음 역명이 길면 줄임 말로 표시",""
+"SETTINGS_TEXT_SHRINKED","역명이 길면 텍스트를 줄임",""
 "SETTINGS_STATION_SUFFIX","제거할 접미사",""
 "SETTINGS_STATION_SUFFIX_TOOLTIP","이름이 하단의 글자로 끝날 경우 디스플레이 표시에서 제외됩니다.",""
 "SETTINGS_STATION_SUFFIX_WHITELIST","제거하지 않을 접미사",""

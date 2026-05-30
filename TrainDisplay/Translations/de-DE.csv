@@ -14,7 +14,7 @@
 "SETTINGS_DISPLAY_ROWDIR_R2L","Von rechts nach links",""
 "SETTINGS_STATION_NAME_ANGLE","Stationsname gedrehter Winkel (wirksam in nicht-K)",""
 "SETTINGS_MAXSTATIONNUM","Maximale Anzahl von Displaystationen",""
-"SETTINGS_TEXT_SHRINKED","Text der nächsten Station verkleinern, wenn er lang ist",""
+"SETTINGS_TEXT_SHRINKED","Stationstext verkleinern, wenn er lang ist",""
 "SETTINGS_STATION_SUFFIX","Zu entfernende Stationssuffixe",""
 "SETTINGS_STATION_SUFFIX_TOOLTIP","Wenn der Stationsname mit diesen Suffixen endet, werden sie aus der Anzeige entfernt",""
 "SETTINGS_STATION_SUFFIX_WHITELIST","Whitelist der Stationsnamenssuffixe",""

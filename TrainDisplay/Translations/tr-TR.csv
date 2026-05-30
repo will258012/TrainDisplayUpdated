@@ -14,7 +14,7 @@
 "SETTINGS_DISPLAY_ROWDIR_R2L","Sağdan sola",""
 "SETTINGS_STATION_NAME_ANGLE","İstasyon adı döndürme açısı (CJK olmayan dillerde geçerlidir)",""
 "SETTINGS_MAXSTATIONNUM","Maksimum görüntülenen istasyon sayısı",""
-"SETTINGS_TEXT_SHRINKED","Bir sonraki istasyon metni uzunsa küçült",""
+"SETTINGS_TEXT_SHRINKED","İstasyon metni uzunsa küçült",""
 "SETTINGS_STATION_SUFFIX","Kaldırılacak istasyon sonekleri",""
 "SETTINGS_STATION_SUFFIX_TOOLTIP","İstasyon adı bu soneklerle bitiyorsa, görüntüden kaldırılacaktır.",""
 "SETTINGS_STATION_SUFFIX_WHITELIST","İstasyon adı sonekleri beyaz listesi",""

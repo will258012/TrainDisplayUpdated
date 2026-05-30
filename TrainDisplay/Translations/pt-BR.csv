@@ -14,7 +14,7 @@
 "SETTINGS_DISPLAY_ROWDIR_R2L","Da direita para a esquerda",""
 "SETTINGS_STATION_NAME_ANGLE","Ângulo de rotação do nome da estação (efetivo em não-CJK)",""
 "SETTINGS_MAXSTATIONNUM","Número máximo de estações do display",""
-"SETTINGS_TEXT_SHRINKED","Reduzir o texto da próxima estação quando for longo",""
+"SETTINGS_TEXT_SHRINKED","Reduzir o texto da estação quando for longo",""
 "SETTINGS_STATION_SUFFIX","Sufixos de estação para remover",""
 "SETTINGS_STATION_SUFFIX_TOOLTIP","Se o nome da estação terminar com esses sufixos, eles serão removidos da exibição.",""
 "SETTINGS_STATION_SUFFIX_WHITELIST","Lista de permissão de sufixos de nome de estação",""
