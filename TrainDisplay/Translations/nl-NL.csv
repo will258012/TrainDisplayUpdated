@@ -14,7 +14,7 @@
 "SETTINGS_DISPLAY_ROWDIR_R2L","Van rechts naar links",""
 "SETTINGS_STATION_NAME_ANGLE","Hoek van stationsnaamrotatie (effectief in niet-CJK)",""
 "SETTINGS_MAXSTATIONNUM","Maximaal aantal weergavestations",""
-"SETTINGS_TEXT_SHRINKED","Verklein tekst van volgend station als deze lang is",""
+"SETTINGS_TEXT_SHRINKED","Shrink station text when it is long",""
 "SETTINGS_STATION_SUFFIX","Achtervoegsels van stations om te verwijderen",""
 "SETTINGS_STATION_SUFFIX_TOOLTIP","Als de stationnaam eindigt met deze achtervoegsels, worden ze verwijderd uit de weergave",""
 "SETTINGS_STATION_SUFFIX_WHITELIST","Whitelist van stationnaam-achtervoegsels",""
