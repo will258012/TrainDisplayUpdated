@@ -14,7 +14,7 @@
 "SETTINGS_DISPLAY_ROWDIR_R2L","Od prawej do lewej",""
 "SETTINGS_STATION_NAME_ANGLE","Kąt obrotu nazwy stacji (nie działa w CJK)",""
 "SETTINGS_MAXSTATIONNUM","Maksymalna liczba wyświetlanych stacji",""
-"SETTINGS_TEXT_SHRINKED","Shrink station text when it is long",""
+"SETTINGS_TEXT_SHRINKED","Skróć tekst stacji, gdy jest długi",""
 "SETTINGS_STATION_SUFFIX","Przyrostki stacji do usunięcia",""
 "SETTINGS_STATION_SUFFIX_TOOLTIP","Jeśli nazwa stacji kończy się tymi przyrostkami, zostaną one usunięte z wyświetlania",""
 "SETTINGS_STATION_SUFFIX_WHITELIST","Biała lista przyrostków nazw stacji",""
