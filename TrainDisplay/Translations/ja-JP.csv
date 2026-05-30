@@ -14,7 +14,7 @@
 "SETTINGS_DISPLAY_ROWDIR_R2L","右から左へ",""
 "SETTINGS_STATION_NAME_ANGLE","駅名回転角度（非CJK言語で有効）",""
 "SETTINGS_MAXSTATIONNUM","表示駅の最大数",""
-"SETTINGS_TEXT_SHRINKED","次の駅の表示で長い駅名のとき横幅を縮める",""
+"SETTINGS_TEXT_SHRINKED","Shrink station text when it is long",""
 "SETTINGS_STATION_SUFFIX","削除する駅名の接尾辞",""
 "SETTINGS_STATION_SUFFIX_TOOLTIP","駅名がこれらの接尾辞で終わる場合、表示から削除されます。",""
 "SETTINGS_STATION_SUFFIX_WHITELIST","駅名サフィックスのホワイトリスト",""
