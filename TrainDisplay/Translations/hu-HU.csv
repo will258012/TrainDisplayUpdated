@@ -14,7 +14,7 @@
 "SETTINGS_DISPLAY_ROWDIR_R2L","Jobbról balra",""
 "SETTINGS_STATION_NAME_ANGLE","Állomásnév elforgatási szöge (nem CJK nyelveken érvényes)",""
 "SETTINGS_MAXSTATIONNUM","Kijelzett állomások maximális száma",""
-"SETTINGS_TEXT_SHRINKED","Csökkentse a következő állomás szövegét, ha hosszú",""
+"SETTINGS_TEXT_SHRINKED","Shrink station text when it is long",""
 "SETTINGS_STATION_SUFFIX","Eltávolítandó állomás utótagok",""
 "SETTINGS_STATION_SUFFIX_TOOLTIP","Ha az állomásnév ezekkel az utótagokkal végződik, eltávolításra kerülnek a megjelenítésből",""
 "SETTINGS_STATION_SUFFIX_WHITELIST","Állomásnév utótagok fehérlistája",""
