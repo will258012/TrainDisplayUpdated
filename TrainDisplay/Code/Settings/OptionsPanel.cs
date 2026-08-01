@@ -4,8 +4,8 @@ using AlgernonCommons.Translation;
 using AlgernonCommons.UI;
 using ColossalFramework.UI;
 using System;
+using TrainDisplay.TTS;
 using TrainDisplay.UI;
-using TrainDisplay.Utils;
 using UnityEngine;
 
 namespace TrainDisplay.Settings
@@ -166,7 +166,7 @@ namespace TrainDisplay.Settings
             #region TTS
             UISpacers.AddTitleSpacer(scrollPanel, LeftMargin, currentY, headerWidth, "TTS");
             currentY += TitleMargin;
-            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            if (TTSHelper.Instance.IsAvailable)
             {
                 var enableTTS = UICheckBoxes.AddPlainCheckBox(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_TTS"));
                 enableTTS.tooltip = Translations.Translate("SETTINGS_TTS_TOOLTIP");
@@ -203,7 +203,7 @@ namespace TrainDisplay.Settings
             }
             else
             {
-                var TTSNotAvailable = UISpacers.AddTitle(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_TTS_NOTAVAILABLE"));
+                UISpacers.AddTitle(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_TTS_NOTAVAILABLE"));
                 TrainDisplaySettings.TTS = false;
                 currentY += TitleMargin;
             }
