@@ -6,8 +6,8 @@ using AlgernonCommons.XML;
 using ColossalFramework.IO;
 using System.IO;
 using System.Xml.Serialization;
+using TrainDisplay.TTS;
 using TrainDisplay.UI;
-using TrainDisplay.Utils;
 using UnityEngine;
 
 namespace TrainDisplay.Settings
@@ -30,6 +30,7 @@ namespace TrainDisplay.Settings
             WhatsNew.LastNotifiedVersionString = "0.0";
 
             DisplayUI.Width = 512f;
+            DisplayOpacity = 1f;
             DisplayRowDirection = DisplayRowDirections.L2R;
             StationNameAngle = -90f;
             DisplayUI.Position = new Vector2(0f, Screen.height - DisplayUI.Height);
@@ -52,6 +53,12 @@ namespace TrainDisplay.Settings
 
         [XmlElement("DisplayWidth")]
         public float XMLDisplayWidth { get => DisplayUI.Width; set => DisplayUI.Width = value; }
+
+        [XmlElement(nameof(DisplayOpacity))]
+        public float XMLDisplayOpacity { get => DisplayOpacity; set => DisplayOpacity = Mathf.Clamp(value, 0.1f, 1f); }
+        [XmlIgnore]
+        internal static float DisplayOpacity = 1f;
+
         public enum DisplayRowDirections
         {
             L2R,

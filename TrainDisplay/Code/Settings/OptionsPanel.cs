@@ -3,7 +3,6 @@ using AlgernonCommons.Keybinding;
 using AlgernonCommons.Translation;
 using AlgernonCommons.UI;
 using ColossalFramework.UI;
-using System;
 using TrainDisplay.TTS;
 using TrainDisplay.UI;
 using UnityEngine;
@@ -56,6 +55,10 @@ namespace TrainDisplay.Settings
             var displayWidth = UISliders.AddPlainSliderWithIntegerValue(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_DISPLAY_WIDTH"), 128f, 1024f, 1f, DisplayUI.Width);
             displayWidth.eventValueChanged += (_, value) => DisplayUI.Width = (int)value;
             currentY += displayWidth.height + SliderMargin;
+
+            var displayOpacity = UISliders.AddPlainSliderWithPercentage(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_DISPLAY_OPACITY"), 0.1f, 1f, 0.01f, TrainDisplaySettings.DisplayOpacity);
+            displayOpacity.eventValueChanged += (_, value) => TrainDisplaySettings.DisplayOpacity = value;
+            currentY += displayOpacity.height + SliderMargin;
 
             if (DisplayUI.IsCJK())
             {
@@ -203,9 +206,9 @@ namespace TrainDisplay.Settings
             }
             else
             {
-                UISpacers.AddTitle(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_TTS_NOTAVAILABLE"));
+                var TTSNotAvailable = UILabels.AddLabel(scrollPanel, LeftMargin, currentY, Translations.Translate("SETTINGS_TTS_NOTAVAILABLE"), width: OptionsPanelManager<OptionsPanel>.PanelWidth - TitleMargin);
                 TrainDisplaySettings.TTS = false;
-                currentY += TitleMargin;
+                currentY += TTSNotAvailable.height + LeftMargin;
             }
             #endregion
 

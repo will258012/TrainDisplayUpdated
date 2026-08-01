@@ -115,6 +115,7 @@ namespace TrainDisplay.UI
         private Rect[] NonCJK_stationNameRects;
         private Rect[] stationCirclesRects;
         private int[] stationNamePositions;
+        private float stationNameColumnWidth;
         private int itemNumber = 0;
 
         private Vector2 StationNameAngleOffset;
@@ -212,12 +213,14 @@ namespace TrainDisplay.UI
             CJK_stationNameStyle.normal.textColor = Color.black;
             CJK_stationNameStyle.alignment = TextAnchor.LowerCenter;
             CJK_stationNameStyle.font = UIFonts.Regular.baseFont;
+            CJK_stationNameStyle.clipping = TextClipping.Clip;
 
             NonCJK_stationNameStyle.fontSize = (int)(20f * Ratio);
             NonCJK_stationNameStyle.normal.textColor = Color.black;
             NonCJK_stationNameStyle.alignment = TextAnchor.MiddleLeft;
             NonCJK_stationNameStyle.font = UIFonts.Regular.baseFont;
             NonCJK_stationNameStyle.wordWrap = true;
+            NonCJK_stationNameStyle.clipping = TextClipping.Clip;
 
             arrowLineTexture = new Texture2D(arrowLineLength, arrowHeight);
 
@@ -330,7 +333,8 @@ namespace TrainDisplay.UI
             NonCJK_stationNameRects = new Rect[itemNumber];
             stationCirclesRects = new Rect[itemNumber];
             stationNameCenter = new Vector2[itemNumber];
-            stationNamePositions = PositionUtils.PositionsJustifyCenter(arrowLineLength, arrowLineLength / itemNumber, itemNumber);
+            stationNameColumnWidth = arrowLineLength / (float)itemNumber;
+            stationNamePositions = PositionUtils.PositionsJustifyCenter(arrowLineLength, (int)stationNameColumnWidth, itemNumber);
             StationNameAngleOffset = new Vector2();
 
             for (int i = 0; i < itemNumber; i++)
@@ -338,11 +342,11 @@ namespace TrainDisplay.UI
                 CJK_stationNameRects[i] = new Rect(
                     Position.x + (26f * Ratio) + stationNamePositions[i],
                     Position.y + (106f * Ratio),
-                    arrowLineLength / 6f,
+                    stationNameColumnWidth,
                     104f * Ratio
                 );
                 stationCirclesRects[i] = new Rect(
-                    Position.x + (26f * Ratio) + stationNamePositions[i] + ((arrowLineLength / 6f / 2f) - (13f * Ratio)),
+                    Position.x + (26f * Ratio) + stationNamePositions[i] + ((stationNameColumnWidth / 2f) - (13f * Ratio)),
                     Position.y + ((220f + 2f) * Ratio),
                     26f * Ratio,
                     26f * Ratio
@@ -462,6 +466,8 @@ namespace TrainDisplay.UI
         private void OnGUI()
         {
             if (!isShowingWarning && Event.current.type != EventType.Repaint) return;
+            var originalGUIColor = GUI.color;
+            GUI.color = new Color(originalGUIColor.r, originalGUIColor.g, originalGUIColor.b, originalGUIColor.a * TrainDisplaySettings.DisplayOpacity);
             // Header
             GUI.backgroundColor = new Color(0.16f, 0.16f, 0.16f);
             GUI.Box(headerRect, "", boxStyle);
@@ -482,6 +488,7 @@ namespace TrainDisplay.UI
                 {
                     DisplayUIManager.Instance.OverrideStatus = false;
                 }
+                GUI.color = originalGUIColor;
                 return;
             }
 
@@ -623,7 +630,7 @@ namespace TrainDisplay.UI
             GUI.backgroundColor = Color.white;
             GUI.Box(
                 new Rect(
-                    Position.x + (26f * Ratio) + stationNamePositions[nowItemIndex] + ((arrowLineLength / 6f / 2f) - (arrowLength / 2f)) + (IsStopping ? 0f : (circleDiff / 2f)),
+                    Position.x + (26f * Ratio) + stationNamePositions[nowItemIndex] + ((stationNameColumnWidth / 2f) - (arrowLength / 2f)) + (IsStopping ? 0f : (circleDiff / 2f)),
                     Position.y + (220f * Ratio),
                     arrowLength,
                     arrowHeight
@@ -631,6 +638,7 @@ namespace TrainDisplay.UI
                 "",
                 arrowStyle
             );
+            GUI.color = originalGUIColor;
         }
         private void HandleDragEvents()
         {
