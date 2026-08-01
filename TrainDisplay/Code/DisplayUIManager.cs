@@ -5,6 +5,7 @@ using ColossalFramework;
 using FPSCamera.FPSCamera.Utils;
 using System.Collections.Generic;
 using TrainDisplay.Settings;
+using TrainDisplay.TTS;
 using TrainDisplay.UI;
 using TrainDisplay.Utils;
 using UnityEngine;
@@ -75,6 +76,7 @@ namespace TrainDisplay
                                     DisplayUI.Instance.enabled = false;
                                     FollowId = default;
                                     TTSHelper.Instance.Stop();
+                                    return;
                                 }
                             }
                             else
