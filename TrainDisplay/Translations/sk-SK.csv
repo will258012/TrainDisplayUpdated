@@ -9,6 +9,7 @@
 "FOR_CIRCULAR","Smer","For {0}. ({0} is the station name)"
 "SETTINGS_GROUPNAME_DISPLAY","Možnosti týkajúce sa displeja",""
 "SETTINGS_DISPLAY_WIDTH","Šírka displeja",""
+"SETTINGS_DISPLAY_OPACITY","Priehľadnosť displeja",""
 "SETTINGS_DISPLAY_ROWDIR","Zobraziť smer riadkov (platné v CJK)",""
 "SETTINGS_DISPLAY_ROWDIR_L2R","Zľava doprava",""
 "SETTINGS_DISPLAY_ROWDIR_R2L","Sprava doľava",""
@@ -33,6 +34,7 @@
 "SETTINGS_IS_COPTER","Vrtuľník",""
 "SETTINGS_TTS","Povoliť TTS",""
 "SETTINGS_TTS_VOICECHOICE","Vybrať hlas",""
+"SETTINGS_TTS_SYSTEM_DEFAULT","Predvolené nastavenie systému",""
 "SETTINGS_TTS_TOOLTIP","Povoliť hlasové hlásenie staníc založené na prevode textu na reč.",""
 "SETTINGS_TTS_DEPARTING","Formát hlásenia pri odchode zo stanice",""
 "SETTINGS_TTS_ARRIVING","Formát hlásenia pri príchode na stanicu",""
@@ -42,7 +44,7 @@
 {2} - Názov linky
 {3} - Kód linky (vyžaduje TLM mod)
 {4} - Názov typu vozidla",""
-"SETTINGS_TTS_NOTAVAILABLE","Prepáčte, táto funkcia je dostupná len pre Windows.",""
+"SETTINGS_TTS_NOTAVAILABLE","Ľutujeme, táto funkcia nie je na vašej platforme k dispozícii.",""
 "WARNTITLE","Varovanie!",""
 "WARNDETAIL","Zobrazenie vlaku prestalo zobrazovať：{1}{0}",""
 "WARNTEXT","Nepodarilo sa zistiť počiatočnú a koncovú stanicu",""
