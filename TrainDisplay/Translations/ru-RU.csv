@@ -9,6 +9,7 @@
 "FOR_CIRCULAR","На","For {0}. ({0} is the station name)"
 "SETTINGS_GROUPNAME_DISPLAY","Настройки отображения",""
 "SETTINGS_DISPLAY_WIDTH","Ширина дисплея",""
+"SETTINGS_DISPLAY_OPACITY","Прозрачность дисплея",""
 "SETTINGS_DISPLAY_ROWDIR","Направление строк отображения (действует для CJK)",""
 "SETTINGS_DISPLAY_ROWDIR_L2R","Слева направо",""
 "SETTINGS_DISPLAY_ROWDIR_R2L","Справа налево",""
@@ -33,6 +34,7 @@
 "SETTINGS_IS_COPTER","Вертолёт",""
 "SETTINGS_TTS","Включить TTS",""
 "SETTINGS_TTS_VOICECHOICE","Выбрать голос",""
+"SETTINGS_TTS_SYSTEM_DEFAULT","Системный голос",""
 "SETTINGS_TTS_TOOLTIP","Включить голос объявления станции на основе текста в речь.",""
 "SETTINGS_TTS_DEPARTING","Формат объявления при отправлении со станции",""
 "SETTINGS_TTS_ARRIVING","Формат объявления при прибытии на станцию",""
@@ -42,7 +44,7 @@
 {2} - Название линии
 {3} - Код линии (требуется мод TLM)
 {4} - Название типа транспортного средства",""
-"SETTINGS_TTS_NOTAVAILABLE","Извините, эта функция доступна только для Windows.",""
+"SETTINGS_TTS_NOTAVAILABLE","Извините, эта функция недоступна на вашей платформе.",""
 "WARNTITLE","Предупреждение!",""
 "WARNDETAIL","Дисплей поезда перестал отображать: {1}{0}",""
 "WARNTEXT","Не удалось определить начальную и конечную станции",""

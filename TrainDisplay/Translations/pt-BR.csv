@@ -9,6 +9,7 @@
 "FOR_CIRCULAR","Para","For {0}. ({0} is the station name)"
 "SETTINGS_GROUPNAME_DISPLAY","Opções relacionadas à exibição",""
 "SETTINGS_DISPLAY_WIDTH","Largura do display",""
+"SETTINGS_DISPLAY_OPACITY","Opacidade do painel",""
 "SETTINGS_DISPLAY_ROWDIR","Direção da linha de exibição (válida em idiomas CJK)",""
 "SETTINGS_DISPLAY_ROWDIR_L2R","Da esquerda para a direita",""
 "SETTINGS_DISPLAY_ROWDIR_R2L","Da direita para a esquerda",""
@@ -33,6 +34,7 @@
 "SETTINGS_IS_COPTER","Helicóptero",""
 "SETTINGS_TTS","Habilitar TTS",""
 "SETTINGS_TTS_VOICECHOICE","Selecionar voz",""
+"SETTINGS_TTS_SYSTEM_DEFAULT","Padrão do sistema",""
 "SETTINGS_TTS_TOOLTIP","Habilitar voz de anúncio de estação baseada em texto-para-fala.",""
 "SETTINGS_TTS_DEPARTING","Formato de anúncio ao sair da estação",""
 "SETTINGS_TTS_ARRIVING","Formato de anúncio ao chegar na estação",""
@@ -42,7 +44,7 @@
 {2} - Nome da linha
 {3} - Código da linha (requer mod TLM)
 {4} - Nome do tipo de veículo",""
-"SETTINGS_TTS_NOTAVAILABLE","Desculpe, este recurso está disponível apenas para Windows.",""
+"SETTINGS_TTS_NOTAVAILABLE","Desculpe, este recurso não está disponível na sua plataforma.",""
 "WARNTITLE","Aviso!",""
 "WARNDETAIL","O Display de Trem parou de exibir：{1}{0}",""
 "WARNTEXT","Falha ao detectar as estações inicial e terminal",""

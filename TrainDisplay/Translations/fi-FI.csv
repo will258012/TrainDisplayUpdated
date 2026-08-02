@@ -9,6 +9,7 @@
 "FOR_CIRCULAR","Kohti","For {0}. ({0} is the station name)"
 "SETTINGS_GROUPNAME_DISPLAY","Näyttöön liittyvät asetukset",""
 "SETTINGS_DISPLAY_WIDTH","Näytön leveys",""
+"SETTINGS_DISPLAY_OPACITY","Näytön läpinäkyvyys",""
 "SETTINGS_DISPLAY_ROWDIR","Näytä rivin suunta (Voimassa CJK-kielissä)",""
 "SETTINGS_DISPLAY_ROWDIR_L2R","Vasemmalta oikealle",""
 "SETTINGS_DISPLAY_ROWDIR_R2L","Oikealta vasemmalle",""
@@ -33,6 +34,7 @@
 "SETTINGS_IS_COPTER","Helikopteri",""
 "SETTINGS_TTS","Ota TTS käyttöön",""
 "SETTINGS_TTS_VOICECHOICE","Valitse ääni",""
+"SETTINGS_TTS_SYSTEM_DEFAULT","Järjestelmän oletus",""
 "SETTINGS_TTS_TOOLTIP","Ota käyttöön tekstistä puheeksi -pohjainen asemakuulutusääni.",""
 "SETTINGS_TTS_DEPARTING","Ilmoitusmuoto asemalta lähtiessä",""
 "SETTINGS_TTS_ARRIVING","Kuulutusmuoto saavuttaessa asemalle",""
@@ -42,7 +44,7 @@
 {2} - Linjan nimi
 {3} - Linjakoodi (vaatii TLM-modi)
 {4} - Ajoneuvotyyppi",""
-"SETTINGS_TTS_NOTAVAILABLE","Valitettavasti tämä ominaisuus on saatavilla vain Windowsille.",""
+"SETTINGS_TTS_NOTAVAILABLE","Pahoittelut, tämä ominaisuus ei ole käytettävissä alustallasi.",""
 "WARNTITLE","Varoitus!",""
 "WARNDETAIL","Junanäyttö on lakannut näyttämästä：{1}{0}",""
 "WARNTEXT","Alku- ja pääteasemien tunnistaminen epäonnistui",""

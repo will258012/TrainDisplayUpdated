@@ -9,6 +9,7 @@
 "FOR_CIRCULAR","До","For {0}. ({0} is the station name)"
 "SETTINGS_GROUPNAME_DISPLAY","Параметри відображення",""
 "SETTINGS_DISPLAY_WIDTH","Ширина дисплея",""
+"SETTINGS_DISPLAY_OPACITY","Прозорість дисплея",""
 "SETTINGS_DISPLAY_ROWDIR","Напрямок рядка відображення (діє в CJK)",""
 "SETTINGS_DISPLAY_ROWDIR_L2R","Зліва направо",""
 "SETTINGS_DISPLAY_ROWDIR_R2L","Справа наліво",""
@@ -33,6 +34,7 @@
 "SETTINGS_IS_COPTER","Гелікоптер",""
 "SETTINGS_TTS","Увімкнути TTS",""
 "SETTINGS_TTS_VOICECHOICE","Вибрати голос",""
+"SETTINGS_TTS_SYSTEM_DEFAULT","Системний голос",""
 "SETTINGS_TTS_TOOLTIP","Увімкнути голосове оголошення станцій на основі тексту в мовлення.",""
 "SETTINGS_TTS_DEPARTING","Формат оголошення при відправленні зі станції",""
 "SETTINGS_TTS_ARRIVING","Формат оголошення при прибутті на станцію",""
@@ -42,7 +44,7 @@
 {2} - Назва лінії
 {3} - Код лінії (потрібен мод TLM)
 {4} - Назва типу транспортного засобу",""
-"SETTINGS_TTS_NOTAVAILABLE","Вибачте, ця функція доступна лише для Windows.",""
+"SETTINGS_TTS_NOTAVAILABLE","Вибачте, ця функція недоступна на вашій платформі.",""
 "WARNTITLE","Увага!",""
 "WARNDETAIL","Train Display перестав працювати: {1}{0}",""
 "WARNTEXT","Не вдалося визначити початкову та кінцеву станції",""

@@ -9,6 +9,7 @@
 "FOR_CIRCULAR","方向","For {0}. ({0} is the station name)"
 "SETTINGS_GROUPNAME_DISPLAY","显示屏相关设置",""
 "SETTINGS_DISPLAY_WIDTH","显示宽度",""
+"SETTINGS_DISPLAY_OPACITY","显示透明度",""
 "SETTINGS_DISPLAY_ROWDIR","显示列方向 (仅在中日韩语言下生效)",""
 "SETTINGS_DISPLAY_ROWDIR_L2R","从左到右",""
 "SETTINGS_DISPLAY_ROWDIR_R2L","从右到左",""
@@ -33,6 +34,7 @@
 "SETTINGS_IS_COPTER","直升机",""
 "SETTINGS_TTS","启用TTS",""
 "SETTINGS_TTS_VOICECHOICE","选择语音",""
+"SETTINGS_TTS_SYSTEM_DEFAULT","系统默认",""
 "SETTINGS_TTS_TOOLTIP","启用基于文字转语音的报站语音。",""
 "SETTINGS_TTS_DEPARTING","出站报站格式",""
 "SETTINGS_TTS_ARRIVING","到站报站格式",""
@@ -42,7 +44,7 @@
 {2} - 线路名称
 {3} - 线路代码（需要TLM模组）
 {4} - 车辆类型名称",""
-"SETTINGS_TTS_NOTAVAILABLE","很抱歉，此功能仅在Windows上可用。",""
+"SETTINGS_TTS_NOTAVAILABLE","很抱歉，此功能在你的平台上不可用。",""
 "WARNTITLE","警告",""
 "WARNDETAIL","Train Display 已停止显示：{1}{0}",""
 "WARNTEXT","检测起始站和终点站失败",""

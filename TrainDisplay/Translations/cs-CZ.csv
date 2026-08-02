@@ -9,6 +9,7 @@
 "FOR_CIRCULAR","Směr","For {0}. ({0} is the station name)"
 "SETTINGS_GROUPNAME_DISPLAY","Možnosti související s displejem",""
 "SETTINGS_DISPLAY_WIDTH","Šířka displeje",""
+"SETTINGS_DISPLAY_OPACITY","Průhlednost displeje",""
 "SETTINGS_DISPLAY_ROWDIR","Zobrazit směr řádků (platí pro CJK)",""
 "SETTINGS_DISPLAY_ROWDIR_L2R","Zleva doprava",""
 "SETTINGS_DISPLAY_ROWDIR_R2L","Zprava doleva",""
@@ -33,6 +34,7 @@
 "SETTINGS_IS_COPTER","Vrtulník",""
 "SETTINGS_TTS","Povolit TTS",""
 "SETTINGS_TTS_VOICECHOICE","Vybrat hlas",""
+"SETTINGS_TTS_SYSTEM_DEFAULT","Výchozí nastavení systému",""
 "SETTINGS_TTS_TOOLTIP","Povolit hlasové hlášení stanic založené na převodu textu na řeč.",""
 "SETTINGS_TTS_DEPARTING","Formát hlášení při odjezdu ze stanice",""
 "SETTINGS_TTS_ARRIVING","Formát hlášení při příjezdu na stanici",""
@@ -42,7 +44,7 @@
 {2} - Název linky
 {3} - Kód linky (vyžaduje TLM mod)
 {4} - Název typu vozidla",""
-"SETTINGS_TTS_NOTAVAILABLE","Omlouváme se, tato funkce je dostupná pouze pro Windows.",""
+"SETTINGS_TTS_NOTAVAILABLE","Litujeme, tato funkce není na vaší platformě k dispozici.",""
 "WARNTITLE","Varování!",""
 "WARNDETAIL","Displej vlaku přestal zobrazovat: {1}{0}",""
 "WARNTEXT","Nepodařilo se zjistit počáteční a koncovou stanici",""

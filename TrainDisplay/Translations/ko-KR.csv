@@ -9,6 +9,7 @@
 "FOR_CIRCULAR","방면","For {0}. ({0} is the station name)"
 "SETTINGS_GROUPNAME_DISPLAY","관련된 옵션 표시",""
 "SETTINGS_DISPLAY_WIDTH","화면 크기",""
+"SETTINGS_DISPLAY_OPACITY","디스플레이 투명도",""
 "SETTINGS_DISPLAY_ROWDIR","행 방향 표시(CJK에서 유효)",""
 "SETTINGS_DISPLAY_ROWDIR_L2R","왼쪽에서 오른쪽으로",""
 "SETTINGS_DISPLAY_ROWDIR_R2L","오른쪽에서 왼쪽으로",""
@@ -33,6 +34,7 @@
 "SETTINGS_IS_COPTER","헬리콥터",""
 "SETTINGS_TTS","TTS 활성화",""
 "SETTINGS_TTS_VOICECHOICE","음성 선택",""
+"SETTINGS_TTS_SYSTEM_DEFAULT","시스템 기본값",""
 "SETTINGS_TTS_TOOLTIP","TTS 기반 역 안내 음성을 활성화합니다.",""
 "SETTINGS_TTS_DEPARTING","역을 출발할 시 안내방송 형식",""
 "SETTINGS_TTS_ARRIVING","이번 역의 안내방송",""
@@ -42,7 +44,7 @@
 {2} - 노선 이름
 {3} - 노선 코드 (TLM 모드 필요)
 {4} - 차량 유형 이름",""
-"SETTINGS_TTS_NOTAVAILABLE","죄송합니다. 이 기능은 Windows에서만 사용할 수 있습니다.",""
+"SETTINGS_TTS_NOTAVAILABLE","죄송하지만, 이 기능은 사용 중인 플랫폼에서 이용할 수 없습니다.",""
 "WARNTITLE","경고!",""
 "WARNDETAIL","Train Display의 표시가 중지되었습니다 ：{1}{0}",""
 "WARNTEXT","시착역과 종착역을 감지하지 못하였습니다",""

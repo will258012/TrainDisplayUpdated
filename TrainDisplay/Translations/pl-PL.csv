@@ -9,6 +9,7 @@
 "FOR_CIRCULAR","Kierunek","For {0}. ({0} is the station name)"
 "SETTINGS_GROUPNAME_DISPLAY","Opcje związane z wyświetlaniem",""
 "SETTINGS_DISPLAY_WIDTH","Szerokość wyświetlania",""
+"SETTINGS_DISPLAY_OPACITY","Przezroczystość wyświetlacza",""
 "SETTINGS_DISPLAY_ROWDIR","Wyświetl kierunek wierszy (działa w CJK)",""
 "SETTINGS_DISPLAY_ROWDIR_L2R","Od lewej do prawej",""
 "SETTINGS_DISPLAY_ROWDIR_R2L","Od prawej do lewej",""
@@ -33,6 +34,7 @@
 "SETTINGS_IS_COPTER","Helikopter",""
 "SETTINGS_TTS","Włącz TTS",""
 "SETTINGS_TTS_VOICECHOICE","Wybierz głos",""
+"SETTINGS_TTS_SYSTEM_DEFAULT","Domyślne ustawienie systemowe",""
 "SETTINGS_TTS_TOOLTIP","Włącz głos zapowiedzi stacji oparty na syntezie mowy.",""
 "SETTINGS_TTS_DEPARTING","Format zapowiedzi przy odjeździe ze stacji",""
 "SETTINGS_TTS_ARRIVING","Format zapowiedzi podczas przyjazdu na stację",""
@@ -42,7 +44,7 @@
 {2} - Nazwa linii
 {3} - Kod linii (wymaga modu TLM)
 {4} - Nazwa typu pojazdu",""
-"SETTINGS_TTS_NOTAVAILABLE","Przepraszamy, ta funkcja jest dostępna tylko dla systemu Windows.",""
+"SETTINGS_TTS_NOTAVAILABLE","Przepraszamy, ta funkcja nie jest dostępna na Twojej platformie.",""
 "WARNTITLE","Uwaga!",""
 "WARNDETAIL","Train Display przestał wyświetlać: {1}{0}",""
 "WARNTEXT","Nie udało się wykryć stacji początkowej i końcowej",""

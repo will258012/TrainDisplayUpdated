@@ -9,6 +9,7 @@
 "FOR_CIRCULAR","Richtung","For {0}. ({0} is the station name)"
 "SETTINGS_GROUPNAME_DISPLAY","Anzeigeoptionen",""
 "SETTINGS_DISPLAY_WIDTH","Anzeige-Breite",""
+"SETTINGS_DISPLAY_OPACITY","Anzeigetransparenz",""
 "SETTINGS_DISPLAY_ROWDIR","Anzeige der Zeilenrichtung (wirksam in CJK)",""
 "SETTINGS_DISPLAY_ROWDIR_L2R","Von links nach rechts",""
 "SETTINGS_DISPLAY_ROWDIR_R2L","Von rechts nach links",""
@@ -33,6 +34,7 @@
 "SETTINGS_IS_COPTER","Helikopter",""
 "SETTINGS_TTS","TTS aktivieren",""
 "SETTINGS_TTS_VOICECHOICE","Stimme auswählen",""
+"SETTINGS_TTS_SYSTEM_DEFAULT","Systemstandard",""
 "SETTINGS_TTS_TOOLTIP","Aktivieren Sie die auf Text zur Ansprache basierende Sprachansage des Senders.",""
 "SETTINGS_TTS_DEPARTING","Format der Ansage beim Verlassen des Bahnhofs",""
 "SETTINGS_TTS_ARRIVING","Format der Ansage bei Ankunft am Bahnhof",""
@@ -42,7 +44,7 @@
 {2} - Linienname
 {3} - Liniencode (erfordert TLM-Mod)
 {4} - Fahrzeugtypname",""
-"SETTINGS_TTS_NOTAVAILABLE","Leider ist diese Funktion nur für Windows verfügbar.",""
+"SETTINGS_TTS_NOTAVAILABLE","Entschuldigung, diese Funktion ist auf Ihrer Plattform nicht verfügbar.",""
 "WARNTITLE","Warnung!",""
 "WARNDETAIL","Die Zuganzeige wurde angehalten:{1}{0}",""
 "WARNTEXT","Start- und Endstation konnten nicht erkannt werden",""
