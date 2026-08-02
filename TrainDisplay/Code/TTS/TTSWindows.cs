@@ -5,6 +5,7 @@ using System;
 using TrainDisplay.Settings;
 
 namespace TrainDisplay.TTS;
+
 internal sealed class TTSWindows : ITTSProvider
 {
     private const int Async = 1;

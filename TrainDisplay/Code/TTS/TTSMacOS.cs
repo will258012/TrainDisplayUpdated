@@ -26,13 +26,13 @@ internal sealed class TTSMacOS : ITTSProvider
         {
             if (!File.Exists(SayPath))
             {
-                throw new FileNotFoundException("The macOS text-to-speech command was not found", SayPath);
+                throw new FileNotFoundException("The command was not found", SayPath);
             }
 
             installedVoices = EnumerateVoices();
             if (installedVoices.Length == 0)
             {
-                throw new InvalidOperationException("No macOS text-to-speech voices were found");
+                throw new InvalidOperationException("No voices were found");
             }
 
             IsAvailable = true;
