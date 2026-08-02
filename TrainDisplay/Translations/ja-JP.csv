@@ -9,6 +9,7 @@
 "FOR_CIRCULAR","方面","For {0}. ({0} is the station name)"
 "SETTINGS_GROUPNAME_DISPLAY","表示関連オプション",""
 "SETTINGS_DISPLAY_WIDTH","画面横幅",""
+"SETTINGS_DISPLAY_OPACITY","表示の透明度",""
 "SETTINGS_DISPLAY_ROWDIR","表示行の方向（CJK言語で有効）",""
 "SETTINGS_DISPLAY_ROWDIR_L2R","左から右へ",""
 "SETTINGS_DISPLAY_ROWDIR_R2L","右から左へ",""
@@ -33,6 +34,7 @@
 "SETTINGS_IS_COPTER","ヘリコプター",""
 "SETTINGS_TTS","TTSを有効にする",""
 "SETTINGS_TTS_VOICECHOICE","音声を選択",""
+"SETTINGS_TTS_SYSTEM_DEFAULT","システムデフォルト",""
 "SETTINGS_TTS_TOOLTIP","テキスト読み上げによる駅案内音声を有効にします。",""
 "SETTINGS_TTS_DEPARTING","駅出発時の案内フォーマット",""
 "SETTINGS_TTS_ARRIVING","駅到着時の案内フォーマット",""
@@ -42,7 +44,7 @@
 {2} - 路線名
 {3} - 路線コード (TLM modが必要)
 {4} - 車両タイプ名",""
-"SETTINGS_TTS_NOTAVAILABLE","申し訳ありませんが、この機能はWindowsでのみ利用可能です。",""
+"SETTINGS_TTS_NOTAVAILABLE","申し訳ありませんが、この機能はお使いのプラットフォームでは利用できません。",""
 "WARNTITLE","警告！",""
 "WARNDETAIL","Train Display の表示が停止しました：{1}{0}",""
 "WARNTEXT","始発駅と終着駅の検出に失敗しました",""
