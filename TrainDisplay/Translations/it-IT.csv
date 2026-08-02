@@ -9,6 +9,7 @@
 "FOR_CIRCULAR","Per","For {0}. ({0} is the station name)"
 "SETTINGS_GROUPNAME_DISPLAY","Opzioni relative al display",""
 "SETTINGS_DISPLAY_WIDTH","Larghezza display",""
+"SETTINGS_DISPLAY_OPACITY","Opacità del display",""
 "SETTINGS_DISPLAY_ROWDIR","Mostra direzione delle righe (Efficace in CJK)",""
 "SETTINGS_DISPLAY_ROWDIR_L2R","Da sinistra a destra",""
 "SETTINGS_DISPLAY_ROWDIR_R2L","Da destra a sinistra",""
@@ -33,6 +34,7 @@
 "SETTINGS_IS_COPTER","Elicottero",""
 "SETTINGS_TTS","Abilita TTS",""
 "SETTINGS_TTS_VOICECHOICE","Seleziona voce",""
+"SETTINGS_TTS_SYSTEM_DEFAULT","Predefinita di sistema",""
 "SETTINGS_TTS_TOOLTIP","Abilita la voce di annuncio in stazione basata su sintesi vocale.",""
 "SETTINGS_TTS_DEPARTING","Formato annuncio quando si parte dalla stazione",""
 "SETTINGS_TTS_ARRIVING","Formato annuncio all'arrivo in stazione",""
@@ -42,7 +44,7 @@
 {2} - Nome linea
 {3} - Codice linea (richiede mod TLM)
 {4} - Nome tipo veicolo",""
-"SETTINGS_TTS_NOTAVAILABLE","Spiacenti, questa funzionalità è disponibile solo per Windows.",""
+"SETTINGS_TTS_NOTAVAILABLE","Ci dispiace, questa funzionalità non è disponibile sulla tua piattaforma.",""
 "WARNTITLE","Attenzione!",""
 "WARNDETAIL","Il display del treno ha smesso di visualizzare：{1}{0}",""
 "WARNTEXT","Impossibile rilevare le stazioni di partenza e capolinea",""
