@@ -9,6 +9,7 @@
 "FOR_CIRCULAR","Irány:","For {0}. ({0} is the station name)"
 "SETTINGS_GROUPNAME_DISPLAY","Kijelzővel kapcsolatos beállítások",""
 "SETTINGS_DISPLAY_WIDTH","Kijelző szélessége",""
+"SETTINGS_DISPLAY_OPACITY","Kijelző átlátszósága",""
 "SETTINGS_DISPLAY_ROWDIR","Sorok irányának megjelenítése (CJK nyelvekben érvényes)",""
 "SETTINGS_DISPLAY_ROWDIR_L2R","Balról jobbra",""
 "SETTINGS_DISPLAY_ROWDIR_R2L","Jobbról balra",""
@@ -33,6 +34,7 @@
 "SETTINGS_IS_COPTER","Helikopter",""
 "SETTINGS_TTS","TTS engedélyezése",""
 "SETTINGS_TTS_VOICECHOICE","Hang kiválasztása",""
+"SETTINGS_TTS_SYSTEM_DEFAULT","Rendszer alapértelmezése",""
 "SETTINGS_TTS_TOOLTIP","Szövegfelolvasáson alapuló állomásbejelentési hang engedélyezése.",""
 "SETTINGS_TTS_DEPARTING","Bejelentés formátuma állomásról induláskor",""
 "SETTINGS_TTS_ARRIVING","Bejelentés formátuma állomásra érkezéskor",""
@@ -42,7 +44,7 @@
 {2} - Vonal neve
 {3} - Vonal kód (TLM mod szükséges)
 {4} - Jármű típusának neve",""
-"SETTINGS_TTS_NOTAVAILABLE","Sajnáljuk, ez a funkció csak Windows rendszeren érhető el.",""
+"SETTINGS_TTS_NOTAVAILABLE","Sajnáljuk, ez a funkció nem érhető el az Ön platformján.",""
 "WARNTITLE","Figyelmeztetés!",""
 "WARNDETAIL","A vonatkijelző leállt：{1}{0}",""
 "WARNTEXT","Nem sikerült észlelni a kezdő- és végállomásokat",""
