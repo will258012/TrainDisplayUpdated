@@ -9,6 +9,7 @@
 "FOR_CIRCULAR","İçin","For {0}. ({0} is the station name)"
 "SETTINGS_GROUPNAME_DISPLAY","Görüntü İlgili Seçenekler",""
 "SETTINGS_DISPLAY_WIDTH","Ekran genişliği",""
+"SETTINGS_DISPLAY_OPACITY","Ekran saydamlığı",""
 "SETTINGS_DISPLAY_ROWDIR","Görüntü satır yönü (CJK'de geçerli)",""
 "SETTINGS_DISPLAY_ROWDIR_L2R","Soldan sağa",""
 "SETTINGS_DISPLAY_ROWDIR_R2L","Sağdan sola",""
@@ -33,6 +34,7 @@
 "SETTINGS_IS_COPTER","Helikopter",""
 "SETTINGS_TTS","TTS'yi Etkinleştir",""
 "SETTINGS_TTS_VOICECHOICE","Ses seçin",""
+"SETTINGS_TTS_SYSTEM_DEFAULT","Sistem varsayılanı",""
 "SETTINGS_TTS_TOOLTIP","Metin tabanlı konuşma ile istasyon anons sesini etkinleştir.",""
 "SETTINGS_TTS_DEPARTING","İstasyondan ayrılışta anons formatı",""
 "SETTINGS_TTS_ARRIVING","İstasyona varışta anons formatı",""
@@ -42,7 +44,7 @@
 {2} - Hat adı
 {3} - Hat kodu (TLM modu gerektirir)
 {4} - Araç türü adı",""
-"SETTINGS_TTS_NOTAVAILABLE","Üzgünüz, bu özellik yalnızca Windows için kullanılabilir.",""
+"SETTINGS_TTS_NOTAVAILABLE","Üzgünüz, bu özellik platformunuzda kullanılamıyor.",""
 "WARNTITLE","Uyarı!",""
 "WARNDETAIL","Tren Ekranı görüntülemeyi durdurdu: {1}{0}",""
 "WARNTEXT","Başlangıç ve terminal istasyonları algılanamadı",""
