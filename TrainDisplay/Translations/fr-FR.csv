@@ -9,6 +9,7 @@
 "FOR_CIRCULAR","Direction","For {0}. ({0} is the station name)"
 "SETTINGS_GROUPNAME_DISPLAY","Options d'affichage",""
 "SETTINGS_DISPLAY_WIDTH","Largeur d'affichage",""
+"SETTINGS_DISPLAY_OPACITY","Opacité de l’affichage",""
 "SETTINGS_DISPLAY_ROWDIR","Direction des lignes d'affichage (Valable pour les langues CJK)",""
 "SETTINGS_DISPLAY_ROWDIR_L2R","De gauche à droite",""
 "SETTINGS_DISPLAY_ROWDIR_R2L","De droite à gauche",""
@@ -33,6 +34,7 @@
 "SETTINGS_IS_COPTER","Hélicoptère",""
 "SETTINGS_TTS","Activer la TTS",""
 "SETTINGS_TTS_VOICECHOICE","Sélectionner la voix",""
+"SETTINGS_TTS_SYSTEM_DEFAULT","Valeur système par défaut",""
 "SETTINGS_TTS_TOOLTIP","Activer la voix d'annonce en gare basée sur la synthèse vocale.",""
 "SETTINGS_TTS_DEPARTING","Format d'annonce au départ de la station",""
 "SETTINGS_TTS_ARRIVING","Format d'annonce à l'arrivée en station",""
@@ -42,7 +44,7 @@
 {2} - Nom de la ligne
 {3} - Code de ligne (nécessite le mod TLM)
 {4} - Nom du type de véhicule",""
-"SETTINGS_TTS_NOTAVAILABLE","Désolé, cette fonctionnalité est uniquement disponible sous Windows.",""
+"SETTINGS_TTS_NOTAVAILABLE","Nous sommes désolés, cette fonctionnalité n’est pas disponible sur votre plateforme.",""
 "WARNTITLE","Attention !",""
 "WARNDETAIL","L'affichage du train a cessé de s'afficher : {1}{0}",""
 "WARNTEXT","Échec de la détection des gares de départ et d'arrivée",""
