@@ -9,6 +9,7 @@
 "FOR_CIRCULAR","Naar","For {0}. ({0} is the station name)"
 "SETTINGS_GROUPNAME_DISPLAY","Weergave gerelateerde opties",""
 "SETTINGS_DISPLAY_WIDTH","Weergavebreedte",""
+"SETTINGS_DISPLAY_OPACITY","Transparantie van het display",""
 "SETTINGS_DISPLAY_ROWDIR","Rijrichting weergeven (effectief in CJK)",""
 "SETTINGS_DISPLAY_ROWDIR_L2R","Van links naar rechts",""
 "SETTINGS_DISPLAY_ROWDIR_R2L","Van rechts naar links",""
@@ -33,6 +34,7 @@
 "SETTINGS_IS_COPTER","Helikopter",""
 "SETTINGS_TTS","TTS inschakelen",""
 "SETTINGS_TTS_VOICECHOICE","Selecteer stem",""
+"SETTINGS_TTS_SYSTEM_DEFAULT","Systeemstandaard",""
 "SETTINGS_TTS_TOOLTIP","Schakel spraakgestuurde stationaankondiging via tekst-naar-spraak in.",""
 "SETTINGS_TTS_DEPARTING","Aankondigingsformaat bij vertrek van station",""
 "SETTINGS_TTS_ARRIVING","Aankondigingsformaat bij aankomst op station",""
@@ -42,7 +44,7 @@
 {2} - Lijnnaam
 {3} - Lijncode (vereist TLM mod)
 {4} - Voertuigtype-naam",""
-"SETTINGS_TTS_NOTAVAILABLE","Sorry, deze functie is alleen beschikbaar voor Windows.",""
+"SETTINGS_TTS_NOTAVAILABLE","Sorry, deze functie is niet beschikbaar op jouw platform.",""
 "WARNTITLE","Waarschuwing!",""
 "WARNDETAIL","Train Display is gestopt met weergeven: {1}{0}",""
 "WARNTEXT","Kan de start- en eindstations niet detecteren",""
