@@ -9,6 +9,7 @@
 "FOR_CIRCULAR","Terminus","For {0}. ({0} is the station name)"
 "SETTINGS_GROUPNAME_DISPLAY","Opsi tampilan",""
 "SETTINGS_DISPLAY_WIDTH","Lebar tampilan",""
+"SETTINGS_DISPLAY_OPACITY","Opasitas tampilan",""
 "SETTINGS_DISPLAY_ROWDIR","Arah baris tampilan (efektif di CJK)",""
 "SETTINGS_DISPLAY_ROWDIR_L2R","Dari kiri ke kanan",""
 "SETTINGS_DISPLAY_ROWDIR_R2L","Dari kanan ke kiri",""
@@ -33,6 +34,7 @@
 "SETTINGS_IS_COPTER","Helikopter",""
 "SETTINGS_TTS","Nyalakan TTS",""
 "SETTINGS_TTS_VOICECHOICE","Pilih Suara",""
+"SETTINGS_TTS_SYSTEM_DEFAULT","Default sistem",""
 "SETTINGS_TTS_TOOLTIP","Nyalakan suara pengumuman dengan text-to-speech.",""
 "SETTINGS_TTS_DEPARTING","Format pengumuman ketika berangkat",""
 "SETTINGS_TTS_ARRIVING","Format pengumuman ketika tiba di pemberhentian",""
@@ -42,7 +44,7 @@
 {2} - Nama jalur
 {3} - Kode jalur (memerlukan mod TLM)
 {4} - Nama Tipe Kendaraan",""
-"SETTINGS_TTS_NOTAVAILABLE","Maaf, fitur ini hanya tersedia di Windows.",""
+"SETTINGS_TTS_NOTAVAILABLE","Maaf, fitur ini tidak tersedia di platform Anda.",""
 "WARNTITLE","Peringatan!",""
 "WARNDETAIL","Train Display berhenti menampilkan ：{1}{0}",""
 "WARNTEXT","Gagal mendeteksi stasiun terminus",""
