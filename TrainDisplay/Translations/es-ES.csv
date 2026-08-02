@@ -9,6 +9,7 @@
 "FOR_CIRCULAR","Hacia","For {0}. ({0} is the station name)"
 "SETTINGS_GROUPNAME_DISPLAY","Opciones relacionadas con la pantalla",""
 "SETTINGS_DISPLAY_WIDTH","Ancho de pantalla",""
+"SETTINGS_DISPLAY_OPACITY","Opacidad de la pantalla",""
 "SETTINGS_DISPLAY_ROWDIR","Dirección de la fila de pantalla (Efectivo en CJK)",""
 "SETTINGS_DISPLAY_ROWDIR_L2R","De izquierda a derecha",""
 "SETTINGS_DISPLAY_ROWDIR_R2L","De derecha a izquierda",""
@@ -33,6 +34,7 @@
 "SETTINGS_IS_COPTER","Helicóptero",""
 "SETTINGS_TTS","Habilitar TTS",""
 "SETTINGS_TTS_VOICECHOICE","Seleccionar voz",""
+"SETTINGS_TTS_SYSTEM_DEFAULT","Predeterminado del sistema",""
 "SETTINGS_TTS_TOOLTIP","Habilitar la voz de anuncio de estación basada en texto a voz.",""
 "SETTINGS_TTS_DEPARTING","Formato de anuncio al salir de la estación",""
 "SETTINGS_TTS_ARRIVING","Formato de anuncio al llegar a la estación",""
@@ -42,7 +44,7 @@
 {2} - Nombre de la línea
 {3} - Código de línea (requiere el mod TLM)
 {4} - Nombre del tipo de vehículo",""
-"SETTINGS_TTS_NOTAVAILABLE","Lo siento, esta función solo está disponible para Windows.",""
+"SETTINGS_TTS_NOTAVAILABLE","Lo sentimos, esta función no está disponible en tu plataforma.",""
 "WARNTITLE","¡Advertencia!",""
 "WARNDETAIL","Pantalla de tren ha dejado de mostrar：{1}{0}",""
 "WARNTEXT","Error al detectar las estaciones de inicio y terminal",""
